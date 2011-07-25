@@ -59,7 +59,7 @@ public class Shumoku implements Model {
   private boolean enableBoids = true;
   public float[] distances = new float[GLRenderer.MAX_IWASHI_COUNT + 1];
   private Random rand = null;
-  public static final float GL_SHUMOKU_SCALE = 3f;
+  public static final float GL_SHUMOKU_SCALE = 4f;
   private float size = 10f * scale * GL_SHUMOKU_SCALE;
   private int shumokuCount;
   /*
@@ -151,7 +151,7 @@ public class Shumoku implements Model {
   /*=========================================================================*/
   /* スピード                                                                */
   /*=========================================================================*/
-  public static final float DEFAULT_SPEED = 0.03456f;
+  public static final float DEFAULT_SPEED = 0.03456f * 3f;
   private float speed = DEFAULT_SPEED * 0.5f;
   private float speed_unit = DEFAULT_SPEED / 5f * 0.5f;
   private float speed_max = DEFAULT_SPEED * 3f * 0.5f;
@@ -238,7 +238,7 @@ public class Shumoku implements Model {
   private void animate() {
     long current = System.currentTimeMillis() + this.seed;
     float nf = (float)((current / 100) % 10000);
-    float s = (float)Math.sin((double)nf / 6f);
+    float s = (float)Math.sin((double)nf/2f);
     if (getTurnDirection() == TURN_DIRECTION.TURN_LEFT) {
       s += -0.2f;
     }
@@ -246,7 +246,7 @@ public class Shumoku implements Model {
       s += 0.2f;
     }
     s *= scale;
-    angleForAnimation = 3.0625f * (float)Math.cos((double)nf / 6f) * -1f;
+    angleForAnimation = 3.0625f * (float)Math.cos((double)nf/2f) * -1f;
 
     /* **DONT EDIT FOLLOWING LINE** */
     /* Generate by perl script */
@@ -3453,7 +3453,7 @@ public class Shumoku implements Model {
     synchronized (this) {
       setTurnDirection(TURN_DIRECTION.STRAIGHT);
       think();
-      //move();
+      move();
       animate();
     }
   }

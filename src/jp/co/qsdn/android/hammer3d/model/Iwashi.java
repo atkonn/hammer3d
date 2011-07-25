@@ -397,8 +397,8 @@ public class Iwashi implements Model {
       }
       this.distances[ii] = dist;
       if (ii == species.length - 1) {
-        // Jinbei
-        if (Jinbei.crossTestSep(getX(), getY(), getZ())) {
+        // Shumoku
+        if (Shumoku.crossTestSep(getX(), getY(), getZ())) {
           // ジンベイザメ優先
           targetDistanceS = 0f;
           targetS = ii;
@@ -417,7 +417,7 @@ public class Iwashi implements Model {
       }
 
       if (ii == species.length - 1) {
-        if (Jinbei.crossTestAl1(getX(),getY(),getZ())) {
+        if (Shumoku.crossTestAl1(getX(),getY(),getZ())) {
           {
             /* alignmentの位置にいれば、それだけでカウント */
             this.alignmentCount+= 20;
@@ -483,7 +483,7 @@ public class Iwashi implements Model {
       }
 
       if (ii == species.length - 1) {
-        if (Jinbei.crossTestAl2(getX(),getY(),getZ())) {
+        if (Shumoku.crossTestAl2(getX(),getY(),getZ())) {
           {
             /* alignmentの位置にいれば、それだけでカウント */
             // ジンベイザメは20匹分
@@ -551,8 +551,8 @@ public class Iwashi implements Model {
 
 
       if (ii == species.length - 1) {
-        if (Jinbei.crossTestCoh(getX(),getY(),getZ())) {
-          if (Jinbei.crossTestSch(getX(),getY(),getZ())) {
+        if (Shumoku.crossTestCoh(getX(),getY(),getZ())) {
+          if (Shumoku.crossTestSch(getX(),getY(),getZ())) {
             // ジンベイザメは20匹分
             this.schoolCount += 20;
             schoolCenter[0] += (species[ii].getX() * 20);

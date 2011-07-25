@@ -1,6 +1,6 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/jinbei_speed_setting_dialog"
+  android:id="@+id/shumoku_speed_setting_dialog"
   android:orientation="vertical"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent"

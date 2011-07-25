@@ -24,13 +24,13 @@
       android:defaultValue="true"
     />
   </PreferenceCategory>
-  <PreferenceCategory android:title="@string/title_preference_jinbei">
+  <PreferenceCategory android:title="@string/title_preference_shumoku">
     <jp.co.qsdn.android.hammer3d.setting.JinbeiSpeedDialog
-      android:title="@string/title_preference_jinbei_speed"
-      android:summary="@string/summary_preference_jinbei_speed"
-      android:dialogTitle="@string/dialog_title_jinbei_speed"
-      android:dialogMessage="@string/dialog_message_jinbei_speed"
-      android:dialogLayout="@layout/jinbei_speed_dialog"
+      android:title="@string/title_preference_shumoku_speed"
+      android:summary="@string/summary_preference_shumoku_speed"
+      android:dialogTitle="@string/dialog_title_shumoku_speed"
+      android:dialogMessage="@string/dialog_message_shumoku_speed"
+      android:dialogLayout="@layout/shumoku_speed_dialog"
     />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/title_preference_other">

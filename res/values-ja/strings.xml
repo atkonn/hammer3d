@@ -60,22 +60,7 @@ Boidsアルゴリズムを使った鰯の群れをシミュレートする3Dラ�
 ※頂点データ・テクスチャをメモリ上に読み込むため、メモリを大量消費します。\n
 \n
 ★変更履歴:\n
-jinbei3d (1.0.2) stable; urgency=low\n
-\n
-  * Changed default language.\n
-    - japanese to english\n
-\n
- -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Thu, 21 Jul 2011 23:22:46 +0900\n
-\n
-jinbei3d (1.0.1) stable; urgency=low\n
-\n
-  * Deleted PERMISSION\n
-    - android.permission.ACCESS_COARSE_LOCATION\n
-    - android.permission.ACCESS_FINE_LOCATION\n
-\n
- -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Thu, 21 Jul 2011 10:14:27 +0900\n
-\n
-jinbei3d (1.0.0) stable; urgency=low\n
+shumoku3d (1.0.0) stable; urgency=low\n
 \n
   * Initial release.\n
 \n
@@ -88,7 +73,7 @@ jinbei3d (1.0.0) stable; urgency=low\n
 ★ライセンス:\n
   * ソースコードはApache Software License 2.0に基づいて公開しています。\n
 \t詳細は
-https://github.com/atkonn/jinbei3d
+https://github.com/atkonn/shumoku3d
 を参照してください。\n
 \n
 </string>
@@ -104,14 +89,14 @@ https://github.com/atkonn/jinbei3d
   <string name="to_default_button">初期値に戻す</string>
 
 <!-- ここからJINBEI -->
-  <string name="title_preference_jinbei">シュモクザメ設定</string>
+  <string name="title_preference_shumoku">シュモクザメ設定</string>
 
-  <string name="key_preference_jinbei_speed">jinbei_speed</string>
-  <string name="title_preference_jinbei_speed">シュモクザメのスピード</string>
-  <string name="summary_preference_jinbei_speed">シュモクザメの基本となる移動速度を指定します</string>
-  <string name="dialog_title_jinbei_speed" >シュモクザメのスピード</string>
-  <string name="dialog_message_jinbei_speed" >シュモクザメの泳ぐ移動速度を選択してください。</string>
-  <string name="dialog_jinbei_speed_label">シュモクザメのスピード：</string>
+  <string name="key_preference_shumoku_speed">shumoku_speed</string>
+  <string name="title_preference_shumoku_speed">シュモクザメのスピード</string>
+  <string name="summary_preference_shumoku_speed">シュモクザメの基本となる移動速度を指定します</string>
+  <string name="dialog_title_shumoku_speed" >シュモクザメのスピード</string>
+  <string name="dialog_message_shumoku_speed" >シュモクザメの泳ぐ移動速度を選択してください。</string>
+  <string name="dialog_shumoku_speed_label">シュモクザメのスピード：</string>
 
   <string name="title_preference_other">その他設定</string>
 

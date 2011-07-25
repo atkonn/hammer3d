@@ -49,8 +49,8 @@ public class Prefs {
   public static final String KEY_CAMERA_DISTANCE = "camera_distance";
   public static final int DEFAULT_CAMERA_DISTANCE = 10;
 
-  public static final String KEY_JINBEI_SPEED = "jinbei_speed";
-  public static final int DEFAULT_JINBEI_SPEED = 50;
+  public static final String KEY_SHUMOKU_SPEED = "shumoku_speed";
+  public static final int DEFAULT_SHUMOKU_SPEED = 50;
 
   public static Prefs getInstance(Context context) {
     if (mPrefs == null) {
@@ -163,25 +163,25 @@ Log.d(TAG, ret + " = getCameraMode()");
 
 
 
-  public void setJinbeiSpeed(int speed) {
+  public void setShumokuSpeed(int speed) {
     SharedPreferences sharedPreferences = mContext.getSharedPreferences(PACKAGE_NAME,Context.MODE_PRIVATE);  
     sharedPreferences
       .edit()
-      .putString(KEY_JINBEI_SPEED, "" + speed)
+      .putString(KEY_SHUMOKU_SPEED, "" + speed)
       .commit();  
   }
-  public int getJinbeiSpeed() {
+  public int getShumokuSpeed() {
     SharedPreferences sharedPreferences = mContext.getSharedPreferences(PACKAGE_NAME, Context.MODE_PRIVATE);  
-    String ret = sharedPreferences.getString(KEY_JINBEI_SPEED, "" + DEFAULT_JINBEI_SPEED);
-    int jinbeiSpeed = DEFAULT_JINBEI_SPEED;
+    String ret = sharedPreferences.getString(KEY_SHUMOKU_SPEED, "" + DEFAULT_SHUMOKU_SPEED);
+    int shumokuSpeed = DEFAULT_SHUMOKU_SPEED;
     if (ret != null) {
       try {
-        jinbeiSpeed = Integer.parseInt(ret);
+        shumokuSpeed = Integer.parseInt(ret);
       }
       catch (NumberFormatException ex) {
         Log.e(TAG, ex.toString());
       }
     }
-    return jinbeiSpeed;
+    return shumokuSpeed;
   }
 }

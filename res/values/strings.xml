@@ -61,7 +61,7 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 ChangeLog:\n
-jinbei3d (1.0.0) stable; urgency=low\n
+shumoku3d (1.0.0) stable; urgency=low\n
 \n
   * Initial release.\n
 \n
@@ -89,14 +89,14 @@ License:\n
 
 
 <!-- JINBEI -->
-  <string name="title_preference_jinbei">Settings of Hammerhead shark</string>
+  <string name="title_preference_shumoku">Settings of Hammerhead shark</string>
 
-  <string name="key_preference_jinbei_speed">jinbei_speed</string>
-  <string name="title_preference_jinbei_speed">Speed of Hammerhead shark</string>
-  <string name="summary_preference_jinbei_speed">The passing speed that is basic of Hammerhead shark is specified.</string>
-  <string name="dialog_title_jinbei_speed" >Speed of Hammerhead shark</string>
-  <string name="dialog_message_jinbei_speed" >Please select the passing speed where hammerhead skark swims.</string>
-  <string name="dialog_jinbei_speed_label">Speed of Hammerhead shark:</string>
+  <string name="key_preference_shumoku_speed">shumoku_speed</string>
+  <string name="title_preference_shumoku_speed">Speed of Hammerhead shark</string>
+  <string name="summary_preference_shumoku_speed">The passing speed that is basic of Hammerhead shark is specified.</string>
+  <string name="dialog_title_shumoku_speed" >Speed of Hammerhead shark</string>
+  <string name="dialog_message_shumoku_speed" >Please select the passing speed where hammerhead skark swims.</string>
+  <string name="dialog_shumoku_speed_label">Speed of Hammerhead shark:</string>
 
   <string name="title_preference_other">Other settings</string>
 

@@ -41,7 +41,7 @@ import jp.co.qsdn.android.hammer3d.model.Background;
 import jp.co.qsdn.android.hammer3d.model.Ground;
 import jp.co.qsdn.android.hammer3d.model.Iwashi;
 import jp.co.qsdn.android.hammer3d.model.IwashiData;
-import jp.co.qsdn.android.hammer3d.model.Jinbei;
+import jp.co.qsdn.android.hammer3d.model.Shumoku;
 import jp.co.qsdn.android.hammer3d.model.Model;
 import jp.co.qsdn.android.hammer3d.model.Wave;
 import jp.co.qsdn.android.hammer3d.setting.Prefs;
@@ -55,11 +55,11 @@ public class GLRenderer {
   private final Ground ground = new Ground();
   private final Wave wave = new Wave();
   private Model[] iwashi = null;
-  private Jinbei jinbei = null;
+  private Shumoku shumoku = null;
   private int iwashi_count = 1;
   private boolean enableIwashiBoids = true;
   private float iwashi_speed = 0.03f;
-  private float jinbei_speed = 0.03f;
+  private float shumoku_speed = 0.03f;
   /* カメラの位置 */
   private float[] camera = {0f,0f,0f};
   private float[] org_camera = {0f,0f,0f};
@@ -83,26 +83,26 @@ public class GLRenderer {
   private GLRenderer(Context context) {
     iwashi_count = Prefs.getInstance(context).getIwashiCount();
     iwashi_speed = ((float)Prefs.getInstance(context).getIwashiSpeed() / 50f) * Iwashi.DEFAULT_SPEED;
-    jinbei_speed = ((float)Prefs.getInstance(context).getJinbeiSpeed() / 50f) * Jinbei.DEFAULT_SPEED;
+    shumoku_speed = ((float)Prefs.getInstance(context).getShumokuSpeed() / 50f) * Shumoku.DEFAULT_SPEED;
     enableIwashiBoids = Prefs.getInstance(context).getIwashiBoids();
     cameraDistance = (float)Prefs.getInstance(context).getCameraDistance();
     cameraMode = Prefs.getInstance(context).getCameraMode();
 
     IwashiData.init();
 
-    jinbei = new Jinbei(0);
-    jinbei.setX(0.0f);
-    jinbei.setY(0.0f);
-    jinbei.setZ(0.0f);
-    jinbei.setBaitManager(baitManager);
-    jinbei.setSpeed(iwashi_speed);
+    shumoku = new Shumoku(0);
+    shumoku.setX(0.0f);
+    shumoku.setY(0.0f);
+    shumoku.setZ(0.0f);
+    shumoku.setBaitManager(baitManager);
+    shumoku.setSpeed(iwashi_speed);
     
 
     iwashi = new Model[MAX_IWASHI_COUNT + 1];
     for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
       iwashi[ii] = new Iwashi(ii);
     }
-    iwashi[MAX_IWASHI_COUNT] = jinbei;
+    iwashi[MAX_IWASHI_COUNT] = shumoku;
     for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
       ((Iwashi)iwashi[ii]).setEnableBoids(enableIwashiBoids);
       ((Iwashi)iwashi[ii]).setSpecies(iwashi);
@@ -161,7 +161,7 @@ if (false) {
     Ground.loadTexture(gl10, context, R.drawable.sand);
     Wave.loadTexture(gl10, context, R.drawable.wave);
     Iwashi.loadTexture(gl10, context, R.drawable.iwashi);
-    Jinbei.loadTexture(gl10, context, R.drawable.jinbei);
+    Shumoku.loadTexture(gl10, context, R.drawable.shumoku);
 
 
     org_camera[0] = camera[0] = 0f;
@@ -364,7 +364,7 @@ if (false) {
     }
     int _iwashi_count = Prefs.getInstance(context).getIwashiCount();
     float _iwashi_speed = ((float)Prefs.getInstance(context).getIwashiSpeed() / 50f) * Iwashi.DEFAULT_SPEED;
-    float _jinbei_speed = ((float)Prefs.getInstance(context).getJinbeiSpeed() / 50f) * Jinbei.DEFAULT_SPEED;
+    float _shumoku_speed = ((float)Prefs.getInstance(context).getShumokuSpeed() / 50f) * Shumoku.DEFAULT_SPEED;
     boolean _iwashi_boids = Prefs.getInstance(context).getIwashiBoids();
     int _camera_mode = Prefs.getInstance(context).getCameraMode();
     float _camera_distance = (float)Prefs.getInstance(context).getCameraDistance();
@@ -402,10 +402,10 @@ if (false){
         enableIwashiBoids = _iwashi_boids;
       }
     }
-    if (_jinbei_speed != jinbei_speed) {
+    if (_shumoku_speed != shumoku_speed) {
       synchronized (this) {
-        jinbei.setSpeed(_jinbei_speed);
-        jinbei_speed = _jinbei_speed;
+        shumoku.setSpeed(_shumoku_speed);
+        shumoku_speed = _shumoku_speed;
       }
     }
     if (_camera_mode != cameraMode) {
@@ -608,16 +608,16 @@ if (false){
     }
     else if (cameraMode == R.id.radio2) {
       /* ジンベイザメモード */
-      float c_x = jinbei.getX();
-      float c_y = jinbei.getY();
-      float c_z = jinbei.getZ();
+      float c_x = shumoku.getX();
+      float c_y = shumoku.getY();
+      float c_z = shumoku.getZ();
       CoordUtil.lookAt(gl10,
-                    c_x - jinbei.getDirectionX(),
-                    c_y - jinbei.getDirectionY(),
-                    c_z - jinbei.getDirectionZ(),
-                    c_x + jinbei.getDirectionX(),
-                    c_y + jinbei.getDirectionY(),
-                    c_z + jinbei.getDirectionZ(),
+                    c_x - shumoku.getDirectionX(),
+                    c_y - shumoku.getDirectionY(),
+                    c_z - shumoku.getDirectionZ(),
+                    c_x + shumoku.getDirectionX(),
+                    c_y + shumoku.getDirectionY(),
+                    c_z + shumoku.getDirectionZ(),
                     0,1,0);
     }
     else {
@@ -640,7 +640,7 @@ if (false){
 //    gl10.glDisable(GL10.GL_STENCIL_TEST);
     gl10.glDisable(GL10.GL_DEPTH_TEST);
 
-    jinbei.calc();
+    shumoku.calc();
     synchronized (this) {
       for (int ii=0; ii<iwashi_count; ii++) {
         iwashi[ii].calc();
@@ -707,7 +707,7 @@ if (false){
     }
     if (cameraMode != R.id.radio2) {
       // ジンベイザメ視点モードのときは、自分は描画しない
-      jinbei.draw(gl10);
+      shumoku.draw(gl10);
     }
     gl10.glDisable(GL10.GL_DEPTH_TEST);
     gl10.glPopMatrix(); 

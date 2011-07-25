@@ -37,18 +37,18 @@ import android.widget.TextView;
 import jp.co.qsdn.android.hammer3d.R;
 
 
-public class JinbeiSpeedDialog 
+public class ShumokuSpeedDialog 
   extends DialogPreference {
   private static final boolean _debug = false;
-  private static final String TAG = JinbeiSpeedDialog.class.getName();
+  private static final String TAG = ShumokuSpeedDialog.class.getName();
   private static SeekBar seekBar = null;
   private static final int MIN = 20;
 
-  public JinbeiSpeedDialog(Context context, AttributeSet attrs) {
+  public ShumokuSpeedDialog(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public JinbeiSpeedDialog(Context context, AttributeSet attrs, int defStyle) {
+  public ShumokuSpeedDialog(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
   }
 
@@ -57,11 +57,11 @@ public class JinbeiSpeedDialog
     View view = super.onCreateDialogView();
     if (view != null) {
       seekBar = (SeekBar)view.findViewById(R.id.seek);
-      seekBar.setProgress(Prefs.getInstance(getContext()).getJinbeiSpeed() - MIN);
+      seekBar.setProgress(Prefs.getInstance(getContext()).getShumokuSpeed() - MIN);
       final TextView nowSpeedView = (TextView)view.findViewById(R.id.dialog_now_speed);
 
       Resources res = view.getResources();
-      final String label = res.getString(R.string.dialog_jinbei_speed_label);
+      final String label = res.getString(R.string.dialog_shumoku_speed_label);
 
       nowSpeedView.setText(label + (seekBar.getProgress() + MIN));
       seekBar.setOnSeekBarChangeListener(
@@ -84,7 +84,7 @@ public class JinbeiSpeedDialog
       button.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          __seekBar.setProgress(Prefs.DEFAULT_JINBEI_SPEED - MIN);
+          __seekBar.setProgress(Prefs.DEFAULT_SHUMOKU_SPEED - MIN);
           nowSpeedView.setText(label + (__seekBar.getProgress() + MIN));
         }
       });
@@ -98,7 +98,7 @@ public class JinbeiSpeedDialog
     if (positiveResult) {
       if (seekBar != null) {
         if (_debug) Log.d(TAG, "スピード:[" + (seekBar.getProgress() + MIN) + "]");
-        Prefs.getInstance(getContext()).setJinbeiSpeed((seekBar.getProgress() + MIN));
+        Prefs.getInstance(getContext()).setShumokuSpeed((seekBar.getProgress() + MIN));
         seekBar = null;
       }
     }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="title">Whale shark and sardines</string>
-  <string name="app_name">Whale shark and sardines</string>
-  <string name="service_name">Whale shark and sardines</string>
+  <string name="title">Hammerhead shark and sardines</string>
+  <string name="app_name">Hammerhead shark and sardines</string>
+  <string name="service_name">Hammerhead shark and sardines</string>
   <string name="description">3D live wallpaper that used BOIDS algorithm</string>
   <string name="author">QSDN,Inc.</string>
-  <string name="version">version 1.0.2</string>
+  <string name="version">version 1.0.0</string>
   <string name="copyright">Copyright (c) 2011 QSDN,Inc. All rights reserved.</string>
 
   <string name="setting_title">Settings</string>
@@ -41,18 +41,19 @@
 
   <string name="about_description">Explanation:\n
 This is 3D live Wallpaper simulating a school of sardines which used BOIDS algorithm.\n
+with Hammerhead shark.
 \n
 Features:\n
 1) This simulates "a school of sardines".\n
 2) You can increase the number of sardine to 100 of them.\n
 3) You can change the speed that the sardine swims.\n
-4) You can change the speed that the whale shark swims.\n
+4) You can change the speed that the hammerhead shark swims.\n
 5) Sardine comes there when you touched screen.\n
 6) You can enable "a school of sardine" function.\n
 You can disable "a school of sardine" function.\n
 7) You can change distance from a viewpoint to the center of the aquarium.\n
-8) There is a viewpoint mode of a sardine or a viewpoint mode of a whale shark. \n
-You seem to have become a sardine or a whale shark.\n
+8) There is a viewpoint mode of a sardine or a viewpoint mode of a hammerhead shark. \n
+You seem to have become a sardine or a hammerhead shark.\n
 \n
 Requirement:\n
 1) After Android2.1.\n
@@ -60,21 +61,6 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 ChangeLog:\n
-jinbei3d (1.0.2) stable; urgency=low\n
-\n
-  * Changed default language.\n
-    - japanese to english\n
-\n
- -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Thu, 21 Jul 2011 23:22:46 +0900\n
-\n
-jinbei3d (1.0.1) stable; urgency=low\n
-\n
-  * Deleted PERMISSION\n
-    - android.permission.ACCESS_COARSE_LOCATION\n
-    - android.permission.ACCESS_FINE_LOCATION\n
-\n
- -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Thu, 21 Jul 2011 10:14:27 +0900\n
-\n
 jinbei3d (1.0.0) stable; urgency=low\n
 \n
   * Initial release.\n
@@ -87,7 +73,7 @@ Copyright:\n
 \n
 License:\n
   * Apache Software License 2.0.\n
-\t- see https://github.com/atkonn/jinbei3d\n
+\t- see https://github.com/atkonn/hammer3d\n
 \n
 </string>
   <string name="key_preference_camera_mode">camera_mode</string>
@@ -103,22 +89,22 @@ License:\n
 
 
 <!-- JINBEI -->
-  <string name="title_preference_jinbei">Settings of Whale shark</string>
+  <string name="title_preference_jinbei">Settings of Hammerhead shark</string>
 
   <string name="key_preference_jinbei_speed">jinbei_speed</string>
-  <string name="title_preference_jinbei_speed">Speed of Whale shark</string>
-  <string name="summary_preference_jinbei_speed">The passing speed that is basic of Whale shark is specified.</string>
-  <string name="dialog_title_jinbei_speed" >Speed of Whale shark</string>
-  <string name="dialog_message_jinbei_speed" >Please select the passing speed where whale skark swims.</string>
-  <string name="dialog_jinbei_speed_label">Speed of Whale shark:</string>
+  <string name="title_preference_jinbei_speed">Speed of Hammerhead shark</string>
+  <string name="summary_preference_jinbei_speed">The passing speed that is basic of Hammerhead shark is specified.</string>
+  <string name="dialog_title_jinbei_speed" >Speed of Hammerhead shark</string>
+  <string name="dialog_message_jinbei_speed" >Please select the passing speed where hammerhead skark swims.</string>
+  <string name="dialog_jinbei_speed_label">Speed of Hammerhead shark:</string>
 
   <string name="title_preference_other">Other settings</string>
 
   <string name="camera_mode1">Sardine View Mode</string>
-  <string name="camera_mode2">Whale shark View Mode</string>
+  <string name="camera_mode2">Hammerhead shark View Mode</string>
   <string name="camera_mode3">None</string>
 
-  <string name="summary_preference_change_camera_mode">You can set the view from the perspective of the sardine and a whale shark.</string>
+  <string name="summary_preference_change_camera_mode">You can set the view from the perspective of the sardine and a hammerhead shark.</string>
   <string name="dialog_title_change_camera_mode">Viewpoint setting</string>
   <string name="dialog_message_change_camera_mode">Please select viewpoint.</string>
 

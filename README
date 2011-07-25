@@ -1,4 +1,5 @@
 This is 3D live Wallpaper simulating a school of sardines which used BOIDS algorithm.
+with Hammerhead-shark.
 
 Features:
 1) This simulates "a school of sardines".
@@ -23,4 +24,5 @@ Copyright:
 
 License:
   * Apache Software License 2.0.
-    - see https://github.com/atkonn/iwashi3d/tree/jinbei3d
+    - see https://github.com/atkonn/hammer3d
+or https://girorious.org/hammer3d

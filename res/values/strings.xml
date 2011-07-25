@@ -109,4 +109,12 @@ License:\n
   <string name="dialog_message_change_camera_mode">Please select viewpoint.</string>
 
   <string name="ads_title">Ads</string>
+
+<!-- SHUMOKU -->
+  <string name="key_preference_shumoku_count">shumoku_count</string>
+  <string name="title_preference_shumoku_count">Number of Hammerhead shark</string>
+  <string name="summary_preference_shumoku_count">The number of Hammerhead shark that display it is specified. </string>
+  <string name="dialog_title_shumoku_count" >How many Hammerhead shark?</string>
+  <string name="dialog_message_shumoku_count" >Please select the number of hammerhead shark that display it. </string>
+  <string name="dialog_shumoku_count_label">Number of hammerhead shark:</string>
 </resources>

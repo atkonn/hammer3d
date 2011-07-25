@@ -25,6 +25,13 @@
     />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/title_preference_shumoku">
+    <jp.co.qsdn.android.hammer3d.setting.ShumokuCountDialog
+      android:title="@string/title_preference_shumoku_count"
+      android:summary="@string/summary_preference_shumoku_count"
+      android:dialogTitle="@string/dialog_title_shumoku_count"
+      android:dialogMessage="@string/dialog_message_shumoku_count"
+      android:dialogLayout="@layout/shumoku_count_dialog"
+    />
     <jp.co.qsdn.android.hammer3d.setting.ShumokuSpeedDialog
       android:title="@string/title_preference_shumoku_speed"
       android:summary="@string/summary_preference_shumoku_speed"

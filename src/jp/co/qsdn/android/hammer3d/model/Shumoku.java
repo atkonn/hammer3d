@@ -62,6 +62,7 @@ public class Shumoku implements Model {
   public static final float GL_SHUMOKU_SCALE = 4f;
   private float size = 10f * scale * GL_SHUMOKU_SCALE;
   private int shumokuCount;
+  private static final float MAX_X_ANGLE = 3f;
   /*
    * 仲間、同種
    */
@@ -186,8 +187,10 @@ public class Shumoku implements Model {
     position[1] = 0f;
     position[2] = this.rand.nextFloat() * 4f - 2f;
 
-    // 初期方向セット
-    x_angle = 0f;
+    /*=======================================================================*/
+    /* Sets the initial direction of hammerhead shark                        */
+    /*=======================================================================*/
+    x_angle = rand.nextFloat() * (MAX_X_ANGLE * 2f) - MAX_X_ANGLE;
     y_angle = rand.nextFloat() * 360f;
     coordUtil.setMatrixRotateZ(x_angle);
     synchronized (mScratch4f_1) {
@@ -3502,6 +3505,7 @@ public class Shumoku implements Model {
     gl10.glRotatef(angleForAnimation, 0.0f, 1.0f, 0.0f);
 
     gl10.glRotatef(y_angle, 0.0f, 1.0f, 0.0f);
+    gl10.glRotatef(5f * -1f, 0.0f, 0.0f, 1.0f);
     gl10.glRotatef(x_angle * -1f, 0.0f, 0.0f, 1.0f);
 
     // boundingboxを計算
@@ -3597,17 +3601,15 @@ public class Shumoku implements Model {
 
 
   public void turn() {
-    // 方向転換
-    // 45 >= x >= -45
-    // 360 >= y >= 0
-    // 一回の方向転換のMAX
-    // 45 >= x >= -45
-    // 45 >= y >= -45
+    /*
+     * x_angle is up or down.
+     * y_angle is right or left.
+     */
     float old_angle_x = x_angle;
     float old_angle_y = y_angle;
     x_angle = old_angle_x;
     y_angle = old_angle_y;
-    float newAngleX = this.rand.nextFloat() * 3.0f - 1.5f;
+    float newAngleX = 0f;
     float newAngleY = 0f;
     if (angleForAnimation < 0f) {
       newAngleY = this.rand.nextFloat() * -1.5f;
@@ -3616,6 +3618,21 @@ public class Shumoku implements Model {
     else {
       newAngleY = this.rand.nextFloat() * 1.5f;
       setTurnDirection(TURN_DIRECTION.TURN_LEFT);
+    }
+
+    if (this.rand.nextInt(10000) <= 1000) {
+      newAngleX = this.rand.nextFloat() * (MAX_X_ANGLE * 2f) - MAX_X_ANGLE;
+      if (newAngleX + x_angle <= MAX_X_ANGLE && newAngleX + x_angle >= -MAX_X_ANGLE) {
+        x_angle = x_angle + newAngleX;
+      }
+      else {
+        if (newAngleX + x_angle >= MAX_X_ANGLE) {
+          x_angle = (this.rand.nextFloat() * MAX_X_ANGLE);
+        }
+        else if (newAngleX + x_angle <= -MAX_X_ANGLE) {
+          x_angle = (this.rand.nextFloat() * -MAX_X_ANGLE);
+        }
+      }
     }
    
     y_angle = (float)((int)(y_angle + newAngleY) % 360);
@@ -3632,7 +3649,31 @@ public class Shumoku implements Model {
     }
   }
   public void aimTargetDegree(float angle_x, float angle_y) {
-    float newAngle = this.rand.nextFloat() * 3f;
+    float newAngle = this.rand.nextFloat() * MAX_X_ANGLE;
+    float xx = angle_x - x_angle;
+    if (xx < 0.0f) {
+      if (xx > -MAX_X_ANGLE) {
+        x_angle += xx;
+      }
+      else {
+        x_angle += -newAngle;
+      }
+    }
+    else {
+      if (xx < MAX_X_ANGLE) {
+        x_angle += xx;
+      }
+      else {
+        x_angle += newAngle;
+      }
+    }
+    if (x_angle > MAX_X_ANGLE) {
+      x_angle = MAX_X_ANGLE;
+    }
+    if (x_angle < -MAX_X_ANGLE) {
+      x_angle = -MAX_X_ANGLE;
+    }
+
 
     float yy = angle_y - y_angle;
     if (yy > 180.0f) {

@@ -52,6 +52,9 @@ public class Prefs {
   public static final String KEY_SHUMOKU_SPEED = "shumoku_speed";
   public static final int DEFAULT_SHUMOKU_SPEED = 50;
 
+  public static final String KEY_SHUMOKU_COUNT = "shumoku_count";
+  public static final int DEFAULT_SHUMOKU_COUNT = 5;
+
   public static Prefs getInstance(Context context) {
     if (mPrefs == null) {
       mPrefs = new Prefs(context);
@@ -183,5 +186,28 @@ Log.d(TAG, ret + " = getCameraMode()");
       }
     }
     return shumokuSpeed;
+  }
+
+
+  public void setShumokuCount(int count) {
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences(PACKAGE_NAME,Context.MODE_PRIVATE);  
+    sharedPreferences
+      .edit()
+      .putString(KEY_SHUMOKU_COUNT, "" + count)
+      .commit();  
+  }
+  public int getShumokuCount() {
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences(PACKAGE_NAME, Context.MODE_PRIVATE);  
+    String ret = sharedPreferences.getString(KEY_SHUMOKU_COUNT, "" + DEFAULT_SHUMOKU_COUNT);
+    int shumokuCount = DEFAULT_SHUMOKU_COUNT;
+    if (ret != null) {
+      try {
+        shumokuCount = Integer.parseInt(ret);
+      }
+      catch (NumberFormatException ex) {
+        Log.e(TAG, ex.toString());
+      }
+    }
+    return shumokuCount;
   }
 }

@@ -56,11 +56,12 @@ public class Iwashi implements Model {
   private long seed = 0;
   private BaitManager baitManager;
   private boolean enableBoids = true;
-  public float[] distances = new float[GLRenderer.MAX_IWASHI_COUNT+1];
+  public float[] distances = new float[GLRenderer.MAX_IWASHI_COUNT];
   private Random rand = null;
   public static final float GL_IWASHI_SCALE = 0.65f;
   private float size = 10f * scale * GL_IWASHI_SCALE;
   private int iwashiCount;
+  private int enemiesCount;
   private int finTick = 0;
   /*
    * 仲間、同種
@@ -75,6 +76,11 @@ public class Iwashi implements Model {
   private float[] schoolDir = {0f,0f,0f};
   private int schoolCount = 0;
   private int alignmentCount = 0;
+
+  /*
+   * Enemy
+   */
+  private Model[] enemies;
 
   private enum STATUS {
     TO_CENTER, /* 画面の真ん中へ向かい中 */
@@ -396,40 +402,28 @@ public class Iwashi implements Model {
           + Math.pow(getZ()-species[ii].getZ(), 2));
       }
       this.distances[ii] = dist;
-      if (ii == species.length - 1) {
-        // Shumoku
-        if (Shumoku.crossTestSep(getX(), getY(), getZ())) {
-          // ジンベイザメ優先
-          targetDistanceS = 0f;
+      // Iwashi
+      if (dist < separate_dist) {
+        if (targetDistanceS > dist) {
+          targetDistanceS = dist;
           targetS = ii;
-          continue;
         }
-      }
-      else {
-        // Iwashi
-        if (dist < separate_dist) {
-          if (targetDistanceS > dist) {
-            targetDistanceS = dist;
-            targetS = ii;
-          }
-          continue;
-        }
+        continue;
       }
 
-      if (ii == species.length - 1) {
-        if (Shumoku.crossTestAl1(getX(),getY(),getZ())) {
-          {
-            /* alignmentの位置にいれば、それだけでカウント */
-            this.alignmentCount+= 20;
-            this.schoolCount += 20;
-            schoolCenter[0] += (species[ii].getX() * 20);
-            schoolCenter[1] += (species[ii].getY() * 20);
-            schoolCenter[2] += (species[ii].getZ() * 20);
-            schoolDir[0] += (species[ii].getDirectionX() * 20);
-            schoolDir[1] += (species[ii].getDirectionY() * 20);
-            schoolDir[2] += (species[ii].getDirectionZ() * 20);
-          }
-          // ジンベイザメ優先
+      if (dist < alignment_dist1) {
+        {
+          /* alignmentの位置にいれば、それだけでカウント */
+          this.alignmentCount++;
+          this.schoolCount++;
+          schoolCenter[0] += species[ii].getX();
+          schoolCenter[1] += species[ii].getY();
+          schoolCenter[2] += species[ii].getZ();
+          schoolDir[0] += species[ii].getDirectionX();
+          schoolDir[1] += species[ii].getDirectionY();
+          schoolDir[2] += species[ii].getDirectionZ();
+        }
+        if (targetDistanceA1 > dist) {
           synchronized (mScratch4f_1) {
             synchronized (mScratch4f_2) {
               mScratch4f_1[0] = getDirectionX();
@@ -445,58 +439,23 @@ public class Iwashi implements Model {
               }
             }
           }
-          continue;
         }
-      }
-      else {
-        if (dist < alignment_dist1) {
-          {
-            /* alignmentの位置にいれば、それだけでカウント */
-            this.alignmentCount++;
-            this.schoolCount++;
-            schoolCenter[0] += species[ii].getX();
-            schoolCenter[1] += species[ii].getY();
-            schoolCenter[2] += species[ii].getZ();
-            schoolDir[0] += species[ii].getDirectionX();
-            schoolDir[1] += species[ii].getDirectionY();
-            schoolDir[2] += species[ii].getDirectionZ();
-          }
-          if (targetDistanceA1 > dist) {
-            synchronized (mScratch4f_1) {
-              synchronized (mScratch4f_2) {
-                mScratch4f_1[0] = getDirectionX();
-                mScratch4f_1[1] = getDirectionY();
-                mScratch4f_1[2] = getDirectionZ();
-                mScratch4f_2[0] = species[ii].getX() - getX();
-                mScratch4f_2[1] = species[ii].getY() - getY();
-                mScratch4f_2[2] = species[ii].getZ() - getZ();
-                float degree = CoordUtil.includedAngle(mScratch4f_1, mScratch4f_2, 3);
-                if (degree <= 150f && degree >= 0f) {
-                  targetDistanceA1 = dist;
-                  targetA1 = ii;
-                }
-              }
-            }
-          }
-          continue;
-        }
+        continue;
       }
 
-      if (ii == species.length - 1) {
-        if (Shumoku.crossTestAl2(getX(),getY(),getZ())) {
-          {
-            /* alignmentの位置にいれば、それだけでカウント */
-            // ジンベイザメは20匹分
-            this.alignmentCount+= 20;
-            this.schoolCount += 20;
-            schoolCenter[0] += (species[ii].getX() * 20);
-            schoolCenter[1] += (species[ii].getY() * 20);
-            schoolCenter[2] += (species[ii].getZ() * 20);
-            schoolDir[0] += (species[ii].getDirectionX() * 20);
-            schoolDir[1] += (species[ii].getDirectionY() * 20);
-            schoolDir[2] += (species[ii].getDirectionZ() * 20);
-          }
-          // ジンベイザメ優先
+      if (dist < alignment_dist2) {
+        {
+          /* alignmentの位置にいれば、それだけでカウント */
+          this.alignmentCount++;
+          this.schoolCount++;
+          schoolCenter[0] += species[ii].getX();;
+          schoolCenter[1] += species[ii].getY();;
+          schoolCenter[2] += species[ii].getZ();;
+          schoolDir[0] += species[ii].getDirectionX();
+          schoolDir[1] += species[ii].getDirectionY();
+          schoolDir[2] += species[ii].getDirectionZ();
+        }
+        if (targetDistanceA2 > dist) {
           synchronized (mScratch4f_1) {
             synchronized (mScratch4f_2) {
               mScratch4f_1[0] = getDirectionX();
@@ -512,57 +471,21 @@ public class Iwashi implements Model {
               }
             }
           }
-          continue;
         }
-      }
-      else {
-        if (dist < alignment_dist2) {
-          {
-            /* alignmentの位置にいれば、それだけでカウント */
-            this.alignmentCount++;
-            this.schoolCount++;
-            schoolCenter[0] += species[ii].getX();;
-            schoolCenter[1] += species[ii].getY();;
-            schoolCenter[2] += species[ii].getZ();;
-            schoolDir[0] += species[ii].getDirectionX();
-            schoolDir[1] += species[ii].getDirectionY();
-            schoolDir[2] += species[ii].getDirectionZ();
-          }
-          if (targetDistanceA2 > dist) {
-            synchronized (mScratch4f_1) {
-              synchronized (mScratch4f_2) {
-                mScratch4f_1[0] = getDirectionX();
-                mScratch4f_1[1] = getDirectionY();
-                mScratch4f_1[2] = getDirectionZ();
-                mScratch4f_2[0] = species[ii].getX() - getX();
-                mScratch4f_2[1] = species[ii].getY() - getY();
-                mScratch4f_2[2] = species[ii].getZ() - getZ();
-                float degree = CoordUtil.includedAngle(mScratch4f_1, mScratch4f_2, 3);
-                if (degree <= 150f && degree >= 0f) {
-                  targetDistanceA2 = dist;
-                  targetA2 = ii;
-                }
-              }
-            }
-          }
-          continue;
-        }
+        continue;
       }
 
-
-      if (ii == species.length - 1) {
-        if (Shumoku.crossTestCoh(getX(),getY(),getZ())) {
-          if (Shumoku.crossTestSch(getX(),getY(),getZ())) {
-            // ジンベイザメは20匹分
-            this.schoolCount += 20;
-            schoolCenter[0] += (species[ii].getX() * 20);
-            schoolCenter[1] += (species[ii].getY() * 20);
-            schoolCenter[2] += (species[ii].getZ() * 20);
-            schoolDir[0] += (species[ii].getDirectionX() * 20);
-            schoolDir[1] += (species[ii].getDirectionY() * 20);
-            schoolDir[2] += (species[ii].getDirectionZ() * 20);
-          }
-          // ジンベイザメ優先
+      if (dist < cohesion_dist) {
+        if (dist < school_dist) {
+          this.schoolCount++;
+          schoolCenter[0] += species[ii].getX();;
+          schoolCenter[1] += species[ii].getY();;
+          schoolCenter[2] += species[ii].getZ();;
+          schoolDir[0] += species[ii].getDirectionX();
+          schoolDir[1] += species[ii].getDirectionY();
+          schoolDir[2] += species[ii].getDirectionZ();
+        }
+        if (targetDistanceC > dist) {
           synchronized (mScratch4f_1) {
             synchronized (mScratch4f_2) {
               mScratch4f_1[0] = getDirectionX();
@@ -575,36 +498,6 @@ public class Iwashi implements Model {
               if (degree <= 150f && degree >= 0f) {
                 targetDistanceC = dist;
                 targetC = ii;
-              }
-            }
-          }
-        }
-      }
-      else {
-        if (dist < cohesion_dist) {
-          if (dist < school_dist) {
-            this.schoolCount++;
-            schoolCenter[0] += species[ii].getX();;
-            schoolCenter[1] += species[ii].getY();;
-            schoolCenter[2] += species[ii].getZ();;
-            schoolDir[0] += species[ii].getDirectionX();
-            schoolDir[1] += species[ii].getDirectionY();
-            schoolDir[2] += species[ii].getDirectionZ();
-          }
-          if (targetDistanceC > dist) {
-            synchronized (mScratch4f_1) {
-              synchronized (mScratch4f_2) {
-                mScratch4f_1[0] = getDirectionX();
-                mScratch4f_1[1] = getDirectionY();
-                mScratch4f_1[2] = getDirectionZ();
-                mScratch4f_2[0] = species[ii].getX() - getX();
-                mScratch4f_2[1] = species[ii].getY() - getY();
-                mScratch4f_2[2] = species[ii].getZ() - getZ();
-                float degree = CoordUtil.includedAngle(mScratch4f_1, mScratch4f_2, 3);
-                if (degree <= 150f && degree >= 0f) {
-                  targetDistanceC = dist;
-                  targetC = ii;
-                }
               }
             }
           }
@@ -1754,5 +1647,67 @@ public class Iwashi implements Model {
   public void setDistances(float distances, int index)
   {
       this.distances[index] = distances;
+  }
+  
+  /**
+   * Get enemies.
+   *
+   * @return enemies as ModeL[].
+   */
+  public Model[] getEnemies()
+  {
+      return enemies;
+  }
+  
+  /**
+   * Get enemies element at specified index.
+   *
+   * @param index the index.
+   * @return enemies at index as Model.
+   */
+  public Model getEnemies(int index)
+  {
+      return enemies[index];
+  }
+  
+  /**
+   * Set enemies.
+   *
+   * @param enemies the value to set.
+   */
+  public void setEnemies(Model[] enemies)
+  {
+      this.enemies = enemies;
+  }
+  
+  /**
+   * Set enemies at the specified index.
+   *
+   * @param enemies the value to set.
+   * @param index the index.
+   */
+  public void setEnemies(Model enemies, int index)
+  {
+      this.enemies[index] = enemies;
+  }
+  
+  /**
+   * Get enemiesCount.
+   *
+   * @return enemiesCount as int.
+   */
+  public int getEnemiesCount()
+  {
+      return enemiesCount;
+  }
+  
+  /**
+   * Set enemiesCount.
+   *
+   * @param enemiesCount the value to set.
+   */
+  public void setEnemiesCount(int enemiesCount)
+  {
+      this.enemiesCount = enemiesCount;
   }
 }

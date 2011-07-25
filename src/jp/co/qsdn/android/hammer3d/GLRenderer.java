@@ -50,21 +50,33 @@ import jp.co.qsdn.android.hammer3d.util.CoordUtil;
 public class GLRenderer {
   private static final boolean _debug = true;
   private static final String TAG = GLRenderer.class.getName();
+  /** IWASHI is sardine. it is japanese. */
   public static final int MAX_IWASHI_COUNT = 100;
+  /** SHUMOKU ZAME is hammerhead shark. it is japanese. */
+  public static final int MAX_SHUMOKU_COUNT = 10;
   private final Background background = new Background();
   private final Ground ground = new Ground();
   private final Wave wave = new Wave();
   private Model[] iwashi = null;
-  private Shumoku shumoku = null;
+  private Model[] shumoku = null;
   private int iwashi_count = 1;
+  private int shumoku_count = 1;
   private boolean enableIwashiBoids = true;
   private float iwashi_speed = 0.03f;
   private float shumoku_speed = 0.03f;
-  /* カメラの位置 */
+  /** Position of Camera */
   private float[] camera = {0f,0f,0f};
   private float[] org_camera = {0f,0f,0f};
-  private int cameraMode = R.id.radio3; /* radio3: 通常モード radio2: ジンベイザメモード: radio1: 鰯モード */
-  private float cameraDistance = 10f; /* 群れまでの距離 */
+  /*
+   * radio3: Normal View Mode 
+   * radio2: Hammerhead shark View Mode
+   * radio1: Sardine View Mode
+   */
+  private int cameraMode = R.id.radio3;
+  /*
+   * Distance from camera to aquarium center.
+   */
+  private float cameraDistance = 10f;
   private float zFar = 80.0f;
   private float zNear = 1.0f;
   private float perspectiveAngle = 45.0f;
@@ -72,16 +84,19 @@ public class GLRenderer {
   public long prevTick = 0L;
 
   private BaitManager baitManager = new BaitManager();
+
   private float baseAngle = 0f;
   private float[] mScratch32 = new float[32];
   private float[] mScratch4f = new float[4];
   public static GLRenderer glRenderer = null;
-  /* 群れの中心 */
+
+  /* Center of school */
   float[] schoolCenter = {0f,0f,0f};
   private CoordUtil coordUtil = new CoordUtil();
 
   private GLRenderer(Context context) {
     iwashi_count = Prefs.getInstance(context).getIwashiCount();
+    shumoku_count = Prefs.getInstance(context).getShumokuCount();
     iwashi_speed = ((float)Prefs.getInstance(context).getIwashiSpeed() / 50f) * Iwashi.DEFAULT_SPEED;
     shumoku_speed = ((float)Prefs.getInstance(context).getShumokuSpeed() / 50f) * Shumoku.DEFAULT_SPEED;
     enableIwashiBoids = Prefs.getInstance(context).getIwashiBoids();
@@ -90,21 +105,22 @@ public class GLRenderer {
 
     IwashiData.init();
 
-    shumoku = new Shumoku(0);
-    shumoku.setX(0.0f);
-    shumoku.setY(0.0f);
-    shumoku.setZ(0.0f);
-    shumoku.setBaitManager(baitManager);
-    shumoku.setSpeed(iwashi_speed);
+    shumoku = new Shumoku[MAX_SHUMOKU_COUNT];
+    for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
+      shumoku[ii] = new Shumoku(ii);
+      ((Shumoku)shumoku[ii]).setBaitManager(baitManager);
+      ((Shumoku)shumoku[ii]).setSpeed(shumoku_speed);
+    }
     
 
-    iwashi = new Model[MAX_IWASHI_COUNT + 1];
+    iwashi = new Model[MAX_IWASHI_COUNT];
     for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
       iwashi[ii] = new Iwashi(ii);
     }
-    iwashi[MAX_IWASHI_COUNT] = shumoku;
     for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
       ((Iwashi)iwashi[ii]).setEnableBoids(enableIwashiBoids);
+      ((Iwashi)iwashi[ii]).setEnemiesCount(shumoku_count);
+      ((Iwashi)iwashi[ii]).setEnemies(shumoku);
       ((Iwashi)iwashi[ii]).setSpecies(iwashi);
       ((Iwashi)iwashi[ii]).setSpeed(iwashi_speed);
       ((Iwashi)iwashi[ii]).setIwashiCount(iwashi_count);
@@ -364,6 +380,7 @@ if (false) {
     }
     int _iwashi_count = Prefs.getInstance(context).getIwashiCount();
     float _iwashi_speed = ((float)Prefs.getInstance(context).getIwashiSpeed() / 50f) * Iwashi.DEFAULT_SPEED;
+    int _shumoku_count = Prefs.getInstance(context).getShumokuCount();
     float _shumoku_speed = ((float)Prefs.getInstance(context).getShumokuSpeed() / 50f) * Shumoku.DEFAULT_SPEED;
     boolean _iwashi_boids = Prefs.getInstance(context).getIwashiBoids();
     int _camera_mode = Prefs.getInstance(context).getCameraMode();
@@ -386,6 +403,14 @@ if (false){
         }
       }
     }
+    if (_shumoku_count != shumoku_count) {
+      synchronized (this) {
+        shumoku_count = _shumoku_count;
+        for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
+          ((Iwashi)iwashi[ii]).setEnemiesCount(shumoku_count);
+        }
+      }
+    }
     if (_iwashi_speed != iwashi_speed) {
       synchronized (this) {
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
@@ -404,7 +429,9 @@ if (false){
     }
     if (_shumoku_speed != shumoku_speed) {
       synchronized (this) {
-        shumoku.setSpeed(_shumoku_speed);
+        for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
+          ((Shumoku)shumoku[ii]).setSpeed(_shumoku_speed);
+        }
         shumoku_speed = _shumoku_speed;
       }
     }
@@ -608,16 +635,16 @@ if (false){
     }
     else if (cameraMode == R.id.radio2) {
       /* ジンベイザメモード */
-      float c_x = shumoku.getX();
-      float c_y = shumoku.getY();
-      float c_z = shumoku.getZ();
+      float c_x = shumoku[0].getX();
+      float c_y = shumoku[0].getY();
+      float c_z = shumoku[0].getZ();
       CoordUtil.lookAt(gl10,
-                    c_x - shumoku.getDirectionX(),
-                    c_y - shumoku.getDirectionY(),
-                    c_z - shumoku.getDirectionZ(),
-                    c_x + shumoku.getDirectionX(),
-                    c_y + shumoku.getDirectionY(),
-                    c_z + shumoku.getDirectionZ(),
+                    c_x - shumoku[0].getDirectionX(),
+                    c_y - shumoku[0].getDirectionY(),
+                    c_z - shumoku[0].getDirectionZ(),
+                    c_x + shumoku[0].getDirectionX(),
+                    c_y + shumoku[0].getDirectionY(),
+                    c_z + shumoku[0].getDirectionZ(),
                     0,1,0);
     }
     else {
@@ -640,8 +667,10 @@ if (false){
 //    gl10.glDisable(GL10.GL_STENCIL_TEST);
     gl10.glDisable(GL10.GL_DEPTH_TEST);
 
-    shumoku.calc();
     synchronized (this) {
+      for (int ii=0; ii<shumoku_count; ii++) {
+        shumoku[ii].calc();
+      }
       for (int ii=0; ii<iwashi_count; ii++) {
         iwashi[ii].calc();
       }
@@ -705,9 +734,15 @@ if (false){
         }
       }
     }
-    if (cameraMode != R.id.radio2) {
-      // ジンベイザメ視点モードのときは、自分は描画しない
-      shumoku.draw(gl10);
+    synchronized (this) {
+      for (int ii=0; ii<shumoku_count; ii++) {
+        if (ii != 0) {
+          shumoku[ii].draw(gl10);
+        }
+        else if (ii == 0 && cameraMode != R.id.radio2) {
+          shumoku[ii].draw(gl10);
+        }
+      }
     }
     gl10.glDisable(GL10.GL_DEPTH_TEST);
     gl10.glPopMatrix(); 

@@ -110,6 +110,7 @@ public class GLRenderer {
       shumoku[ii] = new Shumoku(ii);
       ((Shumoku)shumoku[ii]).setBaitManager(baitManager);
       ((Shumoku)shumoku[ii]).setSpeed(shumoku_speed);
+      ((Shumoku)shumoku[ii]).setSpecies(shumoku);
     }
     
 

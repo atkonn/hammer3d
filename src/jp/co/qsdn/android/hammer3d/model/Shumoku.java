@@ -68,7 +68,7 @@ public class Shumoku implements Model {
    */
   private Model[] species;
 
-  public static final double separate_dist  = 5.0d * scale * (double)GL_SHUMOKU_SCALE;
+  public static final double separate_dist  = 10.0d * scale * (double)GL_SHUMOKU_SCALE;
   private static double[] separate_dist_xyz = { 
                                     5.404d * scale * (double)GL_SHUMOKU_SCALE, 
                                     0.734d * scale * (double)GL_SHUMOKU_SCALE, 

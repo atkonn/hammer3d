@@ -25,7 +25,7 @@
     />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/title_preference_shumoku">
-    <jp.co.qsdn.android.hammer3d.setting.JinbeiSpeedDialog
+    <jp.co.qsdn.android.hammer3d.setting.ShumokuSpeedDialog
       android:title="@string/title_preference_shumoku_speed"
       android:summary="@string/summary_preference_shumoku_speed"
       android:dialogTitle="@string/dialog_title_shumoku_speed"

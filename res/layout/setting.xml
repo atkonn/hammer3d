@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout 
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/ads_title"
+  />
+  <com.google.ads.AdView  
+    android:id="@+id/ad"  
+    android:layout_width="fill_parent"
+    android:layout_height="70dip"
+    ads:adUnitId="a14e26b16708638"  
+    ads:adSize="BANNER"  
+    ads:loadAdOnCreate="true"
+  />  
+  <ListView
+    android:id="@android:id/list"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" />
+  <LinearLayout 
+    android:layout_width="fill_parent"
+    android:background="#aaaaaa" 
+    android:gravity="center_horizontal"
+    android:paddingTop="10dip" 
+    android:layout_height="wrap_content">
+    <Button 
+      android:id="@+id/preference_button_about"
+      android:key="@string/key_about_us"
+      android:layout_width="0dip"
+      android:layout_weight="1"
+      android:text="@string/text_about_us"
+      android:layout_height="wrap_content" />
+    <Button 
+      android:id="@+id/preference_button_ok"
+      android:key="@string/key_preference_ok_button"
+      android:layout_width="0dip"
+      android:layout_weight="1"
+      android:text="@string/text_preference_ok_button"
+      android:layout_height="wrap_content" />
+  </LinearLayout>
+</LinearLayout>

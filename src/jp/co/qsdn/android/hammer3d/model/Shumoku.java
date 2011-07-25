@@ -59,7 +59,7 @@ public class Shumoku implements Model {
   private boolean enableBoids = true;
   public float[] distances = new float[GLRenderer.MAX_IWASHI_COUNT + 1];
   private Random rand = null;
-  public static final float GL_SHUMOKU_SCALE = 8f;
+  public static final float GL_SHUMOKU_SCALE = 4f;
   private float size = 10f * scale * GL_SHUMOKU_SCALE;
   private int shumokuCount;
   /*
@@ -3453,7 +3453,7 @@ public class Shumoku implements Model {
     synchronized (this) {
       setTurnDirection(TURN_DIRECTION.STRAIGHT);
       think();
-      move();
+      //move();
       animate();
     }
   }

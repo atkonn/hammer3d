@@ -111,6 +111,7 @@ public class GLRenderer {
       ((Shumoku)shumoku[ii]).setBaitManager(baitManager);
       ((Shumoku)shumoku[ii]).setSpeed(shumoku_speed);
       ((Shumoku)shumoku[ii]).setSpecies(shumoku);
+      ((Shumoku)shumoku[ii]).setEnableBoids(enableIwashiBoids);
     }
     
 
@@ -424,6 +425,9 @@ if (false){
       synchronized (this) {
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
           ((Iwashi)iwashi[ii]).setEnableBoids(_iwashi_boids);
+        }
+        for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
+          ((Shumoku)shumoku[ii]).setEnableBoids(_iwashi_boids);
         }
         enableIwashiBoids = _iwashi_boids;
       }

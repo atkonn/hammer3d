@@ -132,7 +132,7 @@ public class Shumoku implements Model {
   private float[] mScratch4f = new float[4];
   private float[] mScratch4f_1 = new float[4];
   private float[] mScratch4f_2 = new float[4];
-  private Shumoku[] mScratch4Shumoku = new Shumoku[4];
+  private Model[] mScratch3Shumoku = new Shumoku[4];
 
 
   /*=========================================================================*/
@@ -3554,9 +3554,13 @@ public class Shumoku implements Model {
    * Returns the closest hammerhead shark.
    * (Spearate Only.)
    */
-  public Model getTarget() {
+  public Model[] getTarget() {
     float targetDistanceS = 10000f;
+    float targetDistanceA = 10000f;
+    float targetDistanceC = 10000f;
     int targetS = 9999;
+    int targetA = 9999;
+    int targetC = 9999;
     for (int ii=0; species != null && ii<species.length; ii++) {
       float dist = 0f;
       if (ii != species.length - 1 && shumokuCount <= ii) {
@@ -3582,11 +3586,67 @@ public class Shumoku implements Model {
         }
         continue;
       }
+
+      if (dist < alignment_dist2) {
+        if (targetDistanceA > dist) {
+          synchronized (mScratch4f_1) {
+            synchronized (mScratch4f_2) {
+              mScratch4f_1[0] = getDirectionX();
+              mScratch4f_1[1] = getDirectionY();
+              mScratch4f_1[2] = getDirectionZ();
+              mScratch4f_2[0] = species[ii].getX() - getX();
+              mScratch4f_2[1] = species[ii].getY() - getY();
+              mScratch4f_2[2] = species[ii].getZ() - getZ();
+              float degree = CoordUtil.includedAngle(mScratch4f_1, mScratch4f_2, 3);
+              if (degree <= 150f && degree >= 0f) {
+                targetDistanceA = dist;
+                targetA = ii;
+              }
+            }
+          }
+        }
+        continue;
+      }
+
+      if (dist < cohesion_dist) {
+        if (targetDistanceC > dist) {
+          synchronized (mScratch4f_1) {
+            synchronized (mScratch4f_2) {
+              mScratch4f_1[0] = getDirectionX();
+              mScratch4f_1[1] = getDirectionY();
+              mScratch4f_1[2] = getDirectionZ();
+              mScratch4f_2[0] = species[ii].getX() - getX();
+              mScratch4f_2[1] = species[ii].getY() - getY();
+              mScratch4f_2[2] = species[ii].getZ() - getZ();
+              float degree = CoordUtil.includedAngle(mScratch4f_1, mScratch4f_2, 3);
+              if (degree <= 150f && degree >= 0f) {
+                targetDistanceC = dist;
+                targetC = ii;
+              }
+            }
+          }
+        }
+      }
     }
     if (targetS != 9999) {
-      return species[targetS];
+      mScratch3Shumoku[0] = species[targetS];
     }
-    return null;
+    else {
+      mScratch3Shumoku[0] = null;
+    }
+    if (targetA != 9999) {
+      mScratch3Shumoku[1] = species[targetA];
+    }
+    else {
+      mScratch3Shumoku[1] = null;
+    }
+    if (targetC != 9999) {
+      mScratch3Shumoku[2] = species[targetC];
+    }
+    else {
+      mScratch3Shumoku[2] = null;
+    }
+    return mScratch3Shumoku;
   }
 
   /**
@@ -3630,11 +3690,34 @@ public class Shumoku implements Model {
     }
 
     /* Separate -------------------------------------------------------------*/
-    Model target = getTarget();
-    if (target != null) {
-      if (doSeparation(target)) {
-        update_speed();
-        return;
+    if (getEnableBoids()) {
+      Model[] target = getTarget();
+      if (target[0] != null) {
+        if (doSeparation(target[0])) {
+          update_speed();
+          target[0] = null;
+          target[1] = null;
+          target[2] = null;
+          return;
+        }
+      }
+      if (target[1] != null) {
+        if (doAlignment(target[1])) {
+          update_speed();
+          target[0] = null;
+          target[1] = null;
+          target[2] = null;
+          return;
+        }
+      }
+      if (target[2] != null) {
+        if (doCohesion(target[2])) {
+          update_speed();
+          target[0] = null;
+          target[1] = null;
+          target[2] = null;
+          return;
+        }
       }
     }
 
@@ -3759,6 +3842,48 @@ public class Shumoku implements Model {
   }
 
 
+  protected boolean doAlignment(Model target) {
+    if (this.rand.nextInt(10000) <= 30000) {
+      return false;
+    }
+    /*===================================================================*/
+    /* アラインメント領域にターゲットがいる場合                          */
+    /*===================================================================*/
+    if (debug) {
+      if (shumokuNo == 0) {
+        Log.d(TAG, "doAlignment");
+      }
+    }
+    setStatus(STATUS.ALIGNMENT);
+    turnAlignment(target);
+    return true;
+  }
+
+
+  protected boolean doCohesion(Model target) {
+    /*===================================================================*/
+    /* 鰯は結構な確率でCohesionするものと思われる                        */
+    /*===================================================================*/
+    if (getStatus() == STATUS.COHESION) {
+      if (this.rand.nextInt(10000) <= 500) {
+        /*===============================================================*/
+        /* 前回COHESIONである場合今回もCOHESIONである可能性は高い        */
+        /*===============================================================*/
+        return false;
+      }
+    }
+    else {
+      if (this.rand.nextInt(10000) <= 1000) {
+        return false;
+      }
+    }
+    /*===================================================================*/
+    /* コアージョン領域にターゲットがいる場合                            */
+    /*===================================================================*/
+    setStatus(STATUS.COHESION);
+    turnCohesion(target);
+    return true;
+  }
   public void turn() {
     /*
      * x_angle is up or down.
@@ -3897,101 +4022,7 @@ public class Shumoku implements Model {
       }
     }
   }
-  public void turnSeparation(Shumoku target) {
-    if (debug) { Log.d(TAG, "start turnSeparation"); }
-    float v_x = 0f;
-    float v_y = 0f;
-    float v_z = 0f;
-    synchronized (mScratch4f_1) {
-      /*=======================================================================*/
-      /* Separationしたいターゲットの方向取得                                  */
-      /*=======================================================================*/
-      mScratch4f_1[0] = target.getDirectionX();
-      mScratch4f_1[1] = target.getDirectionY();
-      mScratch4f_1[2] = target.getDirectionZ();
-      CoordUtil.normalize3fv(mScratch4f_1);
-      synchronized (mScratch4f_2) {
-        /*=====================================================================*/
-        /* ターゲットから見て、自分の方向を算出                                */
-        /*=====================================================================*/
-        mScratch4f_2[0] = getX() - target.getX();
-        mScratch4f_2[1] = getY() - target.getY();
-        mScratch4f_2[2] = getZ() - target.getZ();
-        CoordUtil.normalize3fv(mScratch4f_2);
-        /*=====================================================================*/
-        /* ややターゲットの方向に沿いたいので、x2                              */
-        /*=====================================================================*/
-        mScratch4f_1[0] *= 2f;
-        mScratch4f_1[1] *= 2f;
-        mScratch4f_1[2] *= 2f;
-        /*=====================================================================*/
-        /* 足し込む                                                            */
-        /*=====================================================================*/
-        mScratch4f_1[0] += mScratch4f_2[0];
-        mScratch4f_1[1] += mScratch4f_2[1];
-        mScratch4f_1[2] += mScratch4f_2[2];
-      }
-      /*=====================================================================*/
-      /* 平均算出                                                            */
-      /*=====================================================================*/
-      mScratch4f_1[0] /= 3f;
-      mScratch4f_1[1] /= 3f;
-      mScratch4f_1[2] /= 3f;
-
-      v_x = mScratch4f_1[0];
-      v_y = mScratch4f_1[1];
-      v_z = mScratch4f_1[2];
-    }
-    if (debug) {
-      Log.d(TAG, "向かいたい方向"
-       + " x:[" + v_x + "]:"
-       + " y:[" + v_y + "]:"
-       + " z:[" + v_z + "]:");
-    }
-
-    /* 上下角度算出 (-1dを乗算しているのは0度の向きが違うため) */
-    float angle_x = (float)coordUtil.convertDegreeXY((double)v_x, (double)v_y);
-    /* 左右角度算出 (-1dを乗算しているのは0度の向きが違うため) */
-    float angle_y = (float)coordUtil.convertDegreeXZ((double)v_x * -1d, (double)v_z);
-    if (angle_x > 180f) {
-      angle_x = angle_x - 360f;
-    }
-    if ((angle_x < 0.0f && v_y > 0.0f) || (angle_x > 0.0f && v_y < 0.0f)) {
-      angle_x *= -1f;
-    }
-    if (debug) {
-      Log.d(TAG, "向かいたい方向のangle_y:[" + angle_y + "]");
-      Log.d(TAG, "向かいたい方向のangle_x:[" + angle_x + "]");
-    }
-
-    /* その角度へ近づける */
-    aimTargetDegree(angle_x, angle_y);
-    if (debug) {
-      Log.d(TAG, "実際に向かう方向のy_angle:[" + y_angle + "]");
-      Log.d(TAG, "実際に向かう方向のx_angle:[" + x_angle + "]");
-    }
-
-    /* direction設定 */
-    coordUtil.setMatrixRotateZ(x_angle);
-    synchronized (mScratch4f_1) {
-      synchronized (mScratch4f_2) {
-        coordUtil.affine(-1.0f,0.0f, 0.0f, mScratch4f_1);
-        coordUtil.setMatrixRotateY(y_angle);
-        coordUtil.affine(mScratch4f_1[0],mScratch4f_1[1], mScratch4f_1[2], mScratch4f_2);
-        direction[0] = mScratch4f_2[0];
-        direction[1] = mScratch4f_2[1];
-        direction[2] = mScratch4f_2[2];
-      }
-    }
-    if (debug) {
-      Log.d(TAG, "結果的に向かう方向"
-       + " x:[" + direction[0] + "]:"
-       + " y:[" + direction[1] + "]:"
-       + " z:[" + direction[2] + "]:");
-      Log.d(TAG, "end turnSeparation");
-    }
-  }
-  public void turnAlignment(Shumoku target) {
+  public void turnAlignment(Model target) {
     if (debug) {
       Log.d(TAG, "start turnAlignment");
     }
@@ -4036,7 +4067,7 @@ public class Shumoku implements Model {
       Log.d(TAG, "end turnAlignment");
     }
   }
-  public void turnCohesion(Shumoku target) {
+  public void turnCohesion(Model target) {
     if (debug) { Log.d(TAG, "start turnCohesion"); }
     float v_x = 0f;
     float v_y = 0f;

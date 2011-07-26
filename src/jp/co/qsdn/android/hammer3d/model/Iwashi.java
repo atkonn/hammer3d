@@ -286,7 +286,7 @@ public class Iwashi implements Model {
   public boolean doAlignment2(Model target) {
     return _doAlignment(target, 4000);
   }
-  public boolean _doAlignment(Model target, int per) {
+  protected boolean _doAlignment(Model target, int per) {
     if (this.alignmentCount < 3) {
       /* 3匹以上群れてなければ高確率でCohesion/Schoolへ */
       per = 9000; 

@@ -411,6 +411,9 @@ if (false){
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
           ((Iwashi)iwashi[ii]).setEnemiesCount(shumoku_count);
         }
+        for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
+          ((Shumoku)shumoku[ii]).setShumokuCount(shumoku_count);
+        }
       }
     }
     if (_iwashi_speed != iwashi_speed) {

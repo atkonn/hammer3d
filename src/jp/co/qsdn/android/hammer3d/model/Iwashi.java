@@ -63,10 +63,15 @@ public class Iwashi implements Model {
   private int iwashiCount;
   private int enemiesCount;
   private int finTick = 0;
-  /*
-   * 仲間、同種
-   */
+
+  /** same kind list.  */
   private Model[] species;
+
+  /** 
+   * separate distance.
+   * This sardine is going to be separated 
+   * if distance is nearer than the appointed value.
+   */
   private double separate_dist  = 5.0d * scale * (double)GL_IWASHI_SCALE;
   private double alignment_dist1= 15.0d * scale * (double)GL_IWASHI_SCALE;
   private double alignment_dist2= 35.0d * scale * (double)GL_IWASHI_SCALE;
@@ -89,6 +94,7 @@ public class Iwashi implements Model {
     ALIGNMENT, /* 整列中 */
     COHESION,  /* 近づく */
     TO_SCHOOL_CENTER,   /* 群れの真ん中へ */
+    ESCAPE,
     NORMAL,    /* ランダム */
   };
 
@@ -344,7 +350,7 @@ public class Iwashi implements Model {
   }
   public void update_speed() {
     sv_speed = speed;
-    if (getStatus() == STATUS.COHESION || getStatus() == STATUS.TO_SCHOOL_CENTER || getStatus() == STATUS.TO_BAIT) {
+    if (getStatus() == STATUS.COHESION || getStatus() == STATUS.TO_SCHOOL_CENTER || getStatus() == STATUS.TO_BAIT || getStatus() == STATUS.ESCAPE) {
       speed = cohesion_speed;
       return;
     }
@@ -581,7 +587,18 @@ public class Iwashi implements Model {
       }
     }
 
-    if (getStatus() == STATUS.COHESION || getStatus() == STATUS.TO_SCHOOL_CENTER || getStatus() == STATUS.TO_BAIT) {
+    /** Enemies come! */
+    for (int ii=0; ii<enemies.length; ii++) {
+      if (((Shumoku)enemies[ii]).crossTestSep(getX(), getY(), getZ())) {
+        if (doSeparation(enemies[ii])) {
+          setStatus(STATUS.ESCAPE);
+          update_speed();
+          return;
+        }
+      }
+    }
+
+    if (getStatus() == STATUS.COHESION || getStatus() == STATUS.TO_SCHOOL_CENTER || getStatus() == STATUS.TO_BAIT || getStatus() == STATUS.ESCAPE) {
       /* 元に戻す */
       speed = sv_speed;
     }

@@ -73,9 +73,9 @@ public class Shumoku implements Model {
 
   public static final double separate_dist  = 10.0d * scale * (double)GL_SHUMOKU_SCALE;
   private static double[] separate_dist_xyz = { 
-                                    5.404d * scale * (double)GL_SHUMOKU_SCALE, 
-                                    0.734d * scale * (double)GL_SHUMOKU_SCALE, 
-                                    0.347d * scale * (double)GL_SHUMOKU_SCALE,
+                                    5.404d * scale * (double)GL_SHUMOKU_SCALE * 3d,
+                                    0.734d * scale * (double)GL_SHUMOKU_SCALE * 3d, 
+                                    0.347d * scale * (double)GL_SHUMOKU_SCALE * 3d,
                                   };
   public static double[] aabb_org = {
     -separate_dist_xyz[0], -separate_dist_xyz[1], -separate_dist_xyz[2],

@@ -63,8 +63,11 @@ public class Shumoku implements Model {
   private float size = 10f * scale * GL_SHUMOKU_SCALE;
   private int shumokuCount;
   private static final float MAX_X_ANGLE = 3f;
+  private static final float GAP_WIDTH = 0.05f;
+  private static final float MAX_GAP_WIDTH = 0.25f;
+
   /*
-   * 仲間、同種
+   * The same kind list
    */
   private Model[] species;
 
@@ -133,6 +136,8 @@ public class Shumoku implements Model {
   private float[] mScratch4f_1 = new float[4];
   private float[] mScratch4f_2 = new float[4];
   private Model[] mScratch3Shumoku = new Shumoku[4];
+
+  private float animationGap = 0.0f;
 
 
   /*=========================================================================*/
@@ -245,10 +250,30 @@ public class Shumoku implements Model {
     float nf = (float)((current / 100) % 10000);
     float s = (float)Math.sin((double)nf/2f);
     if (getTurnDirection() == TURN_DIRECTION.TURN_LEFT) {
-      s += -0.2f;
+      animationGap -= GAP_WIDTH;
+      if (animationGap < -MAX_GAP_WIDTH) {
+        animationGap = -MAX_GAP_WIDTH;
+      }
     }
     else if (getTurnDirection() == TURN_DIRECTION.TURN_RIGHT) {
-      s += 0.2f;
+      animationGap += GAP_WIDTH;
+      if (animationGap > MAX_GAP_WIDTH) {
+        animationGap = MAX_GAP_WIDTH;
+      }
+    }
+    else {
+      if (animationGap > 0.0f) {
+        animationGap -= GAP_WIDTH;
+        if (animationGap < 0.0f) {
+          animationGap = 0.0f;
+        }
+      }
+      else if (animationGap < 0.0f) {
+        animationGap += GAP_WIDTH;
+        if (animationGap > 0.0f) {
+          animationGap = 0.0f;
+        }
+      }
     }
     s *= scale;
     angleForAnimation = 3.0625f * (float)Math.cos((double)nf/2f) * -1f;
@@ -264,1666 +289,6 @@ public class Shumoku implements Model {
   private void generated_animate(float s) {
     /* **DONT EDIT FOLLOWING LINE** */
     /* Generate by perl script */
-    //312 104 {-2.398415, 0.004872, -0.527298}
-    //321 107 {-2.398415, 0.004872, -0.527298}
-    //330 110 {-2.398415, 0.004872, -0.527298}
-    //339 113 {-2.398415, 0.004872, -0.527298}
-    //582 194 {-2.398415, 0.004872, -0.527298}
-    //591 197 {-2.398415, 0.004872, -0.527298}
-    //1209 403 {-2.398415, 0.004872, -0.527298}
-    //1224 408 {-2.398415, 0.004872, -0.527298}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 104;
-      mScratch128i[1] = 107;
-      mScratch128i[2] = 110;
-      mScratch128i[3] = 113;
-      mScratch128i[4] = 194;
-      mScratch128i[5] = 197;
-      mScratch128i[6] = 403;
-      mScratch128i[7] = 408;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<8; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //318 106 {-2.253708, -0.000001, -0.430189}
-    //324 108 {-2.253708, -0.000001, -0.430189}
-    //1338 446 {-2.253708, -0.000001, -0.430189}
-    //1347 449 {-2.253708, -0.000001, -0.430189}
-    //1356 452 {-2.253708, -0.000001, -0.430189}
-    //1362 454 {-2.253708, -0.000001, -0.430189}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 106;
-      mScratch128i[1] = 108;
-      mScratch128i[2] = 446;
-      mScratch128i[3] = 449;
-      mScratch128i[4] = 452;
-      mScratch128i[5] = 454;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<6; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //240 080 {-2.149198, -0.000001, -0.596988}
-    //249 083 {-2.149198, -0.000001, -0.596988}
-    //255 085 {-2.149198, -0.200672, -0.536397}
-    //258 086 {-2.149198, -0.000001, -0.596988}
-    //282 094 {-2.149198, -0.000001, -0.596988}
-    //285 095 {-2.149198, 0.200669, -0.536397}
-    //294 098 {-2.187969, -0.595235, -0.506828}
-    //303 101 {-2.187970, 0.588323, -0.506828}
-    //306 102 {-2.149198, -0.000001, -0.596988}
-    //309 103 {-2.149198, -0.200672, -0.536397}
-    //315 105 {-2.187969, -0.595235, -0.506828}
-    //327 109 {-2.187970, 0.588323, -0.506828}
-    //333 111 {-2.149198, 0.200669, -0.536397}
-    //336 112 {-2.149198, -0.000001, -0.596988}
-    //576 192 {-2.187970, 0.588323, -0.506828}
-    //579 193 {-2.149198, 0.200669, -0.536397}
-    //585 195 {-2.149198, -0.200672, -0.536397}
-    //588 196 {-2.187969, -0.595235, -0.506828}
-    //597 199 {-2.149198, 0.200669, -0.536397}
-    //600 200 {-2.187970, 0.588323, -0.506828}
-    //603 201 {-2.149198, -0.200672, -0.536397}
-    //609 203 {-2.187969, -0.595235, -0.506828}
-    //618 206 {-2.149198, 0.200669, -0.536397}
-    //624 208 {-2.149198, 0.200669, -0.536397}
-    //630 210 {-2.149198, 0.200669, -0.536397}
-    //633 211 {-2.187970, 0.588323, -0.506828}
-    //639 213 {-2.187969, -0.595235, -0.506828}
-    //642 214 {-2.149198, -0.200672, -0.536397}
-    //648 216 {-2.149198, 0.200669, -0.536397}
-    //657 219 {-2.149198, 0.200669, -0.536397}
-    //669 223 {-2.187970, 0.588323, -0.506828}
-    //675 225 {-2.187969, -0.595235, -0.506828}
-    //684 228 {-2.149198, -0.200672, -0.536397}
-    //693 231 {-2.149198, -0.200672, -0.536397}
-    //702 234 {-2.149198, -0.200672, -0.536397}
-    //1137 379 {-2.149198, -0.200672, -0.536397}
-    //1155 385 {-2.149198, -0.200672, -0.536397}
-    //1173 391 {-2.149198, 0.200669, -0.536397}
-    //1188 396 {-2.149198, 0.200669, -0.536397}
-    //1206 402 {-2.149198, -0.200672, -0.536397}
-    //1212 404 {-2.187969, -0.595235, -0.506828}
-    //1215 405 {-2.149198, -0.200672, -0.536397}
-    //1218 406 {-2.187969, -0.595235, -0.506828}
-    //1227 409 {-2.149198, 0.200669, -0.536397}
-    //1230 410 {-2.187970, 0.588323, -0.506828}
-    //1233 411 {-2.149198, 0.200669, -0.536397}
-    //1239 413 {-2.187970, 0.588323, -0.506828}
-    //1248 416 {-2.149198, -0.200672, -0.536397}
-    //1257 419 {-2.149198, -0.200672, -0.536397}
-    //1344 448 {-2.187970, 0.588323, -0.506828}
-    //1365 455 {-2.187969, -0.595235, -0.506828}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 80;
-      mScratch128i[1] = 83;
-      mScratch128i[2] = 85;
-      mScratch128i[3] = 86;
-      mScratch128i[4] = 94;
-      mScratch128i[5] = 95;
-      mScratch128i[6] = 98;
-      mScratch128i[7] = 101;
-      mScratch128i[8] = 102;
-      mScratch128i[9] = 103;
-      mScratch128i[10] = 105;
-      mScratch128i[11] = 109;
-      mScratch128i[12] = 111;
-      mScratch128i[13] = 112;
-      mScratch128i[14] = 192;
-      mScratch128i[15] = 193;
-      mScratch128i[16] = 195;
-      mScratch128i[17] = 196;
-      mScratch128i[18] = 199;
-      mScratch128i[19] = 200;
-      mScratch128i[20] = 201;
-      mScratch128i[21] = 203;
-      mScratch128i[22] = 206;
-      mScratch128i[23] = 208;
-      mScratch128i[24] = 210;
-      mScratch128i[25] = 211;
-      mScratch128i[26] = 213;
-      mScratch128i[27] = 214;
-      mScratch128i[28] = 216;
-      mScratch128i[29] = 219;
-      mScratch128i[30] = 223;
-      mScratch128i[31] = 225;
-      mScratch128i[32] = 228;
-      mScratch128i[33] = 231;
-      mScratch128i[34] = 234;
-      mScratch128i[35] = 379;
-      mScratch128i[36] = 385;
-      mScratch128i[37] = 391;
-      mScratch128i[38] = 396;
-      mScratch128i[39] = 402;
-      mScratch128i[40] = 404;
-      mScratch128i[41] = 405;
-      mScratch128i[42] = 406;
-      mScratch128i[43] = 409;
-      mScratch128i[44] = 410;
-      mScratch128i[45] = 411;
-      mScratch128i[46] = 413;
-      mScratch128i[47] = 416;
-      mScratch128i[48] = 419;
-      mScratch128i[49] = 448;
-      mScratch128i[50] = 455;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<51; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //636 212 {-2.098645, 0.985556, -0.535498}
-    //645 215 {-2.098644, -0.999381, -0.535498}
-    //654 218 {-2.098645, 0.985556, -0.535498}
-    //660 220 {-2.098645, 0.985556, -0.535498}
-    //672 224 {-2.098645, 0.985556, -0.535498}
-    //681 227 {-2.098644, -0.999381, -0.535498}
-    //687 229 {-2.098644, -0.999381, -0.535498}
-    //699 233 {-2.098644, -0.999381, -0.535498}
-    //705 235 {-2.098644, -0.999381, -0.535498}
-    //819 273 {-2.098645, 0.985556, -0.535498}
-    //837 279 {-2.098644, -0.999381, -0.535498}
-    //1221 407 {-2.098644, -0.999381, -0.535498}
-    //1236 412 {-2.098645, 0.985556, -0.535498}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 212;
-      mScratch128i[1] = 215;
-      mScratch128i[2] = 218;
-      mScratch128i[3] = 220;
-      mScratch128i[4] = 224;
-      mScratch128i[5] = 227;
-      mScratch128i[6] = 229;
-      mScratch128i[7] = 233;
-      mScratch128i[8] = 235;
-      mScratch128i[9] = 273;
-      mScratch128i[10] = 279;
-      mScratch128i[11] = 407;
-      mScratch128i[12] = 412;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<13; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //267 089 {-1.979557, -0.525535, -0.403000}
-    //273 091 {-1.979557, 0.525532, -0.403001}
-    //291 097 {-1.979557, -0.525535, -0.403000}
-    //297 099 {-1.979557, 0.525532, -0.403001}
-    //1335 445 {-1.979557, 0.525532, -0.403001}
-    //1341 447 {-1.979557, 0.525532, -0.403001}
-    //1350 450 {-1.979557, -0.525535, -0.403000}
-    //1359 453 {-1.979557, -0.525535, -0.403000}
-    //1374 458 {-1.979557, 0.525532, -0.403001}
-    //1383 461 {-1.979557, 0.525532, -0.403001}
-    //1392 464 {-1.979557, -0.525535, -0.403000}
-    //1398 466 {-1.979557, -0.525535, -0.403000}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 89;
-      mScratch128i[1] = 91;
-      mScratch128i[2] = 97;
-      mScratch128i[3] = 99;
-      mScratch128i[4] = 445;
-      mScratch128i[5] = 447;
-      mScratch128i[6] = 450;
-      mScratch128i[7] = 453;
-      mScratch128i[8] = 458;
-      mScratch128i[9] = 461;
-      mScratch128i[10] = 464;
-      mScratch128i[11] = 466;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<12; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //288 096 {-1.850062, -0.964936, -0.384178}
-    //300 100 {-1.847628, 0.952778, -0.383775}
-    //594 198 {-1.847628, 0.952778, -0.383775}
-    //606 202 {-1.850062, -0.964936, -0.384178}
-    //627 209 {-1.847628, 0.952778, -0.383775}
-    //651 217 {-1.847724, 0.895017, -0.593635}
-    //663 221 {-1.847628, 0.952778, -0.383775}
-    //666 222 {-1.847628, 0.952778, -0.383775}
-    //678 226 {-1.850062, -0.964936, -0.384178}
-    //690 230 {-1.850062, -0.964936, -0.384178}
-    //696 232 {-1.847724, -0.964399, -0.391506}
-    //708 236 {-1.847724, -0.908846, -0.593634}
-    //723 241 {-1.847628, 0.952778, -0.383775}
-    //738 246 {-1.850062, -0.964936, -0.384178}
-    //822 274 {-1.847724, 0.895017, -0.593635}
-    //825 275 {-1.847628, 0.952778, -0.383775}
-    //831 277 {-1.847628, 0.952778, -0.383775}
-    //834 278 {-1.847724, 0.895017, -0.593635}
-    //840 280 {-1.847724, -0.964399, -0.391506}
-    //843 281 {-1.847724, -0.908846, -0.593634}
-    //849 283 {-1.847724, -0.908846, -0.593634}
-    //852 284 {-1.850062, -0.964936, -0.384178}
-    //1140 380 {-1.847724, -0.908846, -0.593634}
-    //1146 382 {-1.847724, -0.908846, -0.593634}
-    //1158 386 {-1.850062, -0.964936, -0.384178}
-    //1164 388 {-1.850062, -0.964936, -0.384178}
-    //1176 392 {-1.847628, 0.952778, -0.383775}
-    //1182 394 {-1.847628, 0.952778, -0.383775}
-    //1194 398 {-1.847724, 0.895017, -0.593635}
-    //1203 401 {-1.847724, 0.895017, -0.593635}
-    //1254 418 {-1.850062, -0.964936, -0.384178}
-    //1380 460 {-1.847628, 0.952778, -0.383775}
-    //1401 467 {-1.850062, -0.964936, -0.384178}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 96;
-      mScratch128i[1] = 100;
-      mScratch128i[2] = 198;
-      mScratch128i[3] = 202;
-      mScratch128i[4] = 209;
-      mScratch128i[5] = 217;
-      mScratch128i[6] = 221;
-      mScratch128i[7] = 222;
-      mScratch128i[8] = 226;
-      mScratch128i[9] = 230;
-      mScratch128i[10] = 232;
-      mScratch128i[11] = 236;
-      mScratch128i[12] = 241;
-      mScratch128i[13] = 246;
-      mScratch128i[14] = 274;
-      mScratch128i[15] = 275;
-      mScratch128i[16] = 277;
-      mScratch128i[17] = 278;
-      mScratch128i[18] = 280;
-      mScratch128i[19] = 281;
-      mScratch128i[20] = 283;
-      mScratch128i[21] = 284;
-      mScratch128i[22] = 380;
-      mScratch128i[23] = 382;
-      mScratch128i[24] = 386;
-      mScratch128i[25] = 388;
-      mScratch128i[26] = 392;
-      mScratch128i[27] = 394;
-      mScratch128i[28] = 398;
-      mScratch128i[29] = 401;
-      mScratch128i[30] = 418;
-      mScratch128i[31] = 460;
-      mScratch128i[32] = 467;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<33; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //045 015 {-1.679328, 0.021067, -0.180765}
-    //057 019 {-1.679328, 0.021067, -0.180765}
-    //150 050 {-1.690959, 0.295123, -0.562544}
-    //159 053 {-1.690959, -0.326783, -0.498664}
-    //168 056 {-1.690959, -0.326783, -0.498664}
-    //174 058 {-1.690959, -0.336714, -0.428307}
-    //177 059 {-1.690959, -0.326783, -0.498664}
-    //183 061 {-1.690959, -0.274323, -0.291378}
-    //186 062 {-1.690959, -0.336714, -0.428307}
-    //195 065 {-1.690959, -0.274323, -0.291378}
-    //201 067 {-1.679328, 0.021067, -0.180765}
-    //204 068 {-1.690959, -0.274323, -0.291378}
-    //207 069 {-1.679328, 0.021067, -0.180765}
-    //213 071 {-1.690959, 0.274321, -0.291378}
-    //222 074 {-1.690959, 0.274321, -0.291378}
-    //228 076 {-1.690959, 0.331978, -0.481885}
-    //231 077 {-1.690959, 0.274321, -0.291378}
-    //234 078 {-1.690959, 0.295123, -0.562544}
-    //246 082 {-1.690959, -0.326783, -0.498664}
-    //252 084 {-1.690959, -0.326783, -0.498664}
-    //261 087 {-1.690959, -0.274323, -0.291378}
-    //264 088 {-1.679328, 0.021067, -0.180765}
-    //270 090 {-1.690959, 0.274321, -0.291378}
-    //276 092 {-1.679328, 0.021067, -0.180765}
-    //279 093 {-1.690959, 0.295123, -0.562544}
-    //612 204 {-1.690959, 0.331978, -0.481885}
-    //615 205 {-1.690959, 0.295123, -0.562544}
-    //621 207 {-1.690959, 0.331978, -0.481885}
-    //711 237 {-1.690959, 0.295123, -0.562544}
-    //714 238 {-1.690959, 0.331978, -0.481885}
-    //720 240 {-1.690959, 0.331978, -0.481885}
-    //729 243 {-1.690959, -0.336714, -0.428307}
-    //732 244 {-1.690959, -0.326783, -0.498664}
-    //741 247 {-1.690959, -0.336714, -0.428307}
-    //1134 378 {-1.690959, -0.326783, -0.498664}
-    //1143 381 {-1.690959, -0.326783, -0.498664}
-    //1152 384 {-1.690959, -0.326783, -0.498664}
-    //1161 387 {-1.690959, -0.326783, -0.498664}
-    //1170 390 {-1.690959, 0.331978, -0.481885}
-    //1179 393 {-1.690959, 0.331978, -0.481885}
-    //1191 397 {-1.690959, 0.295123, -0.562544}
-    //1197 399 {-1.690959, 0.295123, -0.562544}
-    //1242 414 {-1.690959, -0.326783, -0.498664}
-    //1245 415 {-1.690959, -0.336714, -0.428307}
-    //1251 417 {-1.690959, -0.336714, -0.428307}
-    //1332 444 {-1.679328, 0.021067, -0.180765}
-    //1353 451 {-1.679328, 0.021067, -0.180765}
-    //1368 456 {-1.690959, 0.274321, -0.291378}
-    //1371 457 {-1.690959, 0.331978, -0.481885}
-    //1377 459 {-1.690959, 0.331978, -0.481885}
-    //1386 462 {-1.690959, -0.336714, -0.428307}
-    //1389 463 {-1.690959, -0.274323, -0.291378}
-    //1395 465 {-1.690959, -0.336714, -0.428307}
-    //1410 470 {-1.690959, 0.331978, -0.481885}
-    //1416 472 {-1.690959, 0.295123, -0.562544}
-    //1419 473 {-1.690959, 0.331978, -0.481885}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 15;
-      mScratch128i[1] = 19;
-      mScratch128i[2] = 50;
-      mScratch128i[3] = 53;
-      mScratch128i[4] = 56;
-      mScratch128i[5] = 58;
-      mScratch128i[6] = 59;
-      mScratch128i[7] = 61;
-      mScratch128i[8] = 62;
-      mScratch128i[9] = 65;
-      mScratch128i[10] = 67;
-      mScratch128i[11] = 68;
-      mScratch128i[12] = 69;
-      mScratch128i[13] = 71;
-      mScratch128i[14] = 74;
-      mScratch128i[15] = 76;
-      mScratch128i[16] = 77;
-      mScratch128i[17] = 78;
-      mScratch128i[18] = 82;
-      mScratch128i[19] = 84;
-      mScratch128i[20] = 87;
-      mScratch128i[21] = 88;
-      mScratch128i[22] = 90;
-      mScratch128i[23] = 92;
-      mScratch128i[24] = 93;
-      mScratch128i[25] = 204;
-      mScratch128i[26] = 205;
-      mScratch128i[27] = 207;
-      mScratch128i[28] = 237;
-      mScratch128i[29] = 238;
-      mScratch128i[30] = 240;
-      mScratch128i[31] = 243;
-      mScratch128i[32] = 244;
-      mScratch128i[33] = 247;
-      mScratch128i[34] = 378;
-      mScratch128i[35] = 381;
-      mScratch128i[36] = 384;
-      mScratch128i[37] = 387;
-      mScratch128i[38] = 390;
-      mScratch128i[39] = 393;
-      mScratch128i[40] = 397;
-      mScratch128i[41] = 399;
-      mScratch128i[42] = 414;
-      mScratch128i[43] = 415;
-      mScratch128i[44] = 417;
-      mScratch128i[45] = 444;
-      mScratch128i[46] = 451;
-      mScratch128i[47] = 456;
-      mScratch128i[48] = 457;
-      mScratch128i[49] = 459;
-      mScratch128i[50] = 462;
-      mScratch128i[51] = 463;
-      mScratch128i[52] = 465;
-      mScratch128i[53] = 470;
-      mScratch128i[54] = 472;
-      mScratch128i[55] = 473;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<56; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //717 239 {-1.593937, 0.865789, -0.489035}
-    //726 242 {-1.593937, 0.865789, -0.489035}
-    //735 245 {-1.593937, -0.879618, -0.489035}
-    //744 248 {-1.593937, -0.879618, -0.489035}
-    //828 276 {-1.593937, 0.865789, -0.489035}
-    //846 282 {-1.593937, -0.879618, -0.489035}
-    //1149 383 {-1.593937, -0.879618, -0.489035}
-    //1167 389 {-1.593937, -0.879618, -0.489035}
-    //1185 395 {-1.593937, 0.865789, -0.489035}
-    //1200 400 {-1.593937, 0.865789, -0.489035}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 239;
-      mScratch128i[1] = 242;
-      mScratch128i[2] = 245;
-      mScratch128i[3] = 248;
-      mScratch128i[4] = 276;
-      mScratch128i[5] = 282;
-      mScratch128i[6] = 383;
-      mScratch128i[7] = 389;
-      mScratch128i[8] = 395;
-      mScratch128i[9] = 400;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<10; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //000 000 {-1.029930, -0.317039, -0.454048}
-    //012 004 {-1.029931, 0.317036, -0.454049}
-    //021 007 {-1.029931, 0.317036, -0.454049}
-    //027 009 {-1.029930, -0.317039, -0.454048}
-    //144 048 {-1.029931, 0.317036, -0.454049}
-    //156 052 {-1.029930, -0.317039, -0.454048}
-    //162 054 {-1.029930, -0.317039, -0.454048}
-    //747 249 {-1.029930, -0.317039, -0.454048}
-    //759 253 {-1.029931, 0.317036, -0.454049}
-    //774 258 {-1.029930, -0.317039, -0.454048}
-    //909 303 {-1.029931, 0.317036, -0.454049}
-    //1101 367 {-1.029930, -0.317039, -0.454048}
-    //1116 372 {-1.029931, 0.317036, -0.454049}
-    //1407 469 {-1.029931, 0.317036, -0.454049}
-    //1413 471 {-1.029931, 0.317036, -0.454049}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 0;
-      mScratch128i[1] = 4;
-      mScratch128i[2] = 7;
-      mScratch128i[3] = 9;
-      mScratch128i[4] = 48;
-      mScratch128i[5] = 52;
-      mScratch128i[6] = 54;
-      mScratch128i[7] = 249;
-      mScratch128i[8] = 253;
-      mScratch128i[9] = 258;
-      mScratch128i[10] = 303;
-      mScratch128i[11] = 367;
-      mScratch128i[12] = 372;
-      mScratch128i[13] = 469;
-      mScratch128i[14] = 471;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<15; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //048 016 {-0.955028, -0.288134, -0.000668}
-    //054 018 {-0.955028, 0.288131, -0.000668}
-    //192 064 {-0.955028, -0.288134, -0.000668}
-    //198 066 {-0.955028, -0.288134, -0.000668}
-    //210 070 {-0.955028, 0.288131, -0.000668}
-    //216 072 {-0.955028, 0.288131, -0.000668}
-    //1695 565 {-0.955028, 0.288131, -0.000668}
-    //1701 567 {-0.955028, 0.288131, -0.000668}
-    //1710 570 {-0.955028, 0.288131, -0.000668}
-    //1731 577 {-0.955028, -0.288134, -0.000668}
-    //1746 582 {-0.955028, -0.288134, -0.000668}
-    //1755 585 {-0.955028, -0.288134, -0.000668}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 16;
-      mScratch128i[1] = 18;
-      mScratch128i[2] = 64;
-      mScratch128i[3] = 66;
-      mScratch128i[4] = 70;
-      mScratch128i[5] = 72;
-      mScratch128i[6] = 565;
-      mScratch128i[7] = 567;
-      mScratch128i[8] = 570;
-      mScratch128i[9] = 577;
-      mScratch128i[10] = 582;
-      mScratch128i[11] = 585;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<12; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //006 002 {-0.833656, -0.410473, -0.217041}
-    //015 005 {-0.833656, 0.410471, -0.217039}
-    //036 012 {-0.833656, -0.410473, -0.217041}
-    //066 022 {-0.833656, 0.410471, -0.217039}
-    //165 055 {-0.833656, -0.410473, -0.217041}
-    //171 057 {-0.833656, -0.410473, -0.217041}
-    //180 060 {-0.833656, -0.410473, -0.217041}
-    //189 063 {-0.833656, -0.410473, -0.217041}
-    //219 073 {-0.833656, 0.410471, -0.217039}
-    //225 075 {-0.833656, 0.410471, -0.217039}
-    //1404 468 {-0.833656, 0.410471, -0.217039}
-    //1677 559 {-0.833656, 0.410471, -0.217039}
-    //1692 564 {-0.833656, 0.410471, -0.217039}
-    //1749 583 {-0.833656, -0.410473, -0.217041}
-    //1764 588 {-0.833656, -0.410473, -0.217041}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 2;
-      mScratch128i[1] = 5;
-      mScratch128i[2] = 12;
-      mScratch128i[3] = 22;
-      mScratch128i[4] = 55;
-      mScratch128i[5] = 57;
-      mScratch128i[6] = 60;
-      mScratch128i[7] = 63;
-      mScratch128i[8] = 73;
-      mScratch128i[9] = 75;
-      mScratch128i[10] = 468;
-      mScratch128i[11] = 559;
-      mScratch128i[12] = 564;
-      mScratch128i[13] = 583;
-      mScratch128i[14] = 588;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<15; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //018 006 {-0.745447, -0.000002, -0.535990}
-    //030 010 {-0.745447, -0.000002, -0.535990}
-    //147 049 {-0.745447, -0.000002, -0.535990}
-    //153 051 {-0.745447, -0.000002, -0.535990}
-    //237 079 {-0.745447, -0.000002, -0.535990}
-    //243 081 {-0.745447, -0.000002, -0.535990}
-    //1785 595 {-0.745447, -0.000002, -0.535990}
-    //1800 600 {-0.745447, -0.000002, -0.535990}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 6;
-      mScratch128i[1] = 10;
-      mScratch128i[2] = 49;
-      mScratch128i[3] = 51;
-      mScratch128i[4] = 79;
-      mScratch128i[5] = 81;
-      mScratch128i[6] = 595;
-      mScratch128i[7] = 600;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<8; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //003 001 {-0.671751, -0.401867, -0.308315}
-    //009 003 {-0.671751, 0.401866, -0.308312}
-    //039 013 {-0.671751, -0.401867, -0.308315}
-    //063 021 {-0.671751, 0.401866, -0.308312}
-    //750 250 {-0.671751, -0.401867, -0.308315}
-    //753 251 {-0.671751, -0.401867, -0.308315}
-    //756 252 {-0.671751, 0.401866, -0.308312}
-    //762 254 {-0.671751, 0.401866, -0.308312}
-    //768 256 {-0.671751, 0.401866, -0.308312}
-    //771 257 {-0.671751, 0.401866, -0.308312}
-    //777 259 {-0.671751, -0.401867, -0.308315}
-    //915 305 {-0.671751, 0.401866, -0.308312}
-    //933 311 {-0.671751, -0.401867, -0.308315}
-    //939 313 {-0.671751, 0.401866, -0.308312}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 1;
-      mScratch128i[1] = 3;
-      mScratch128i[2] = 13;
-      mScratch128i[3] = 21;
-      mScratch128i[4] = 250;
-      mScratch128i[5] = 251;
-      mScratch128i[6] = 252;
-      mScratch128i[7] = 254;
-      mScratch128i[8] = 256;
-      mScratch128i[9] = 257;
-      mScratch128i[10] = 259;
-      mScratch128i[11] = 305;
-      mScratch128i[12] = 311;
-      mScratch128i[13] = 313;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<14; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //024 008 {-0.419080, 0.341208, -0.273302}
-    //033 011 {-0.419079, -0.341209, -0.273304}
-    //042 014 {-0.419079, -0.341209, -0.273304}
-    //069 023 {-0.419080, 0.341208, -0.273302}
-    //765 255 {-0.419080, 0.341208, -0.273302}
-    //780 260 {-0.401465, -0.901074, -0.365487}
-    //912 304 {-0.401466, 0.919354, -0.365487}
-    //918 306 {-0.419079, -0.341209, -0.273304}
-    //924 308 {-0.401465, -0.901074, -0.365487}
-    //927 309 {-0.419079, -0.341209, -0.273304}
-    //930 310 {-0.401465, -0.901074, -0.365487}
-    //936 312 {-0.419080, 0.341208, -0.273302}
-    //942 314 {-0.401466, 0.919354, -0.365487}
-    //945 315 {-0.419080, 0.341208, -0.273302}
-    //948 316 {-0.401466, 0.919354, -0.365487}
-    //1098 366 {-0.419079, -0.341209, -0.273304}
-    //1104 368 {-0.401465, -0.901074, -0.365487}
-    //1107 369 {-0.419079, -0.341209, -0.273304}
-    //1110 370 {-0.401465, -0.901074, -0.365487}
-    //1119 373 {-0.419080, 0.341208, -0.273302}
-    //1122 374 {-0.401466, 0.919354, -0.365487}
-    //1125 375 {-0.419080, 0.341208, -0.273302}
-    //1131 377 {-0.401466, 0.919354, -0.365487}
-    //1674 558 {-0.419080, 0.341208, -0.273302}
-    //1683 561 {-0.419080, 0.341208, -0.273302}
-    //1767 589 {-0.419079, -0.341209, -0.273304}
-    //1773 591 {-0.419079, -0.341209, -0.273304}
-    //1782 594 {-0.419079, -0.341209, -0.273304}
-    //1791 597 {-0.419079, -0.341209, -0.273304}
-    //1803 601 {-0.419080, 0.341208, -0.273302}
-    //1809 603 {-0.419080, 0.341208, -0.273302}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 8;
-      mScratch128i[1] = 11;
-      mScratch128i[2] = 14;
-      mScratch128i[3] = 23;
-      mScratch128i[4] = 255;
-      mScratch128i[5] = 260;
-      mScratch128i[6] = 304;
-      mScratch128i[7] = 306;
-      mScratch128i[8] = 308;
-      mScratch128i[9] = 309;
-      mScratch128i[10] = 310;
-      mScratch128i[11] = 312;
-      mScratch128i[12] = 314;
-      mScratch128i[13] = 315;
-      mScratch128i[14] = 316;
-      mScratch128i[15] = 366;
-      mScratch128i[16] = 368;
-      mScratch128i[17] = 369;
-      mScratch128i[18] = 370;
-      mScratch128i[19] = 373;
-      mScratch128i[20] = 374;
-      mScratch128i[21] = 375;
-      mScratch128i[22] = 377;
-      mScratch128i[23] = 558;
-      mScratch128i[24] = 561;
-      mScratch128i[25] = 589;
-      mScratch128i[26] = 591;
-      mScratch128i[27] = 594;
-      mScratch128i[28] = 597;
-      mScratch128i[29] = 601;
-      mScratch128i[30] = 603;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<31; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //051 017 {-0.380327, 0.005539, 0.329076}
-    //060 020 {-0.380327, 0.005539, 0.329076}
-    //786 262 {-0.380327, 0.005539, 0.329076}
-    //792 264 {-0.380327, 0.005539, 0.329076}
-    //1713 571 {-0.380327, 0.005539, 0.329076}
-    //1719 573 {-0.380327, 0.005539, 0.329076}
-    //1728 576 {-0.380327, 0.005539, 0.329076}
-    //1737 579 {-0.380327, 0.005539, 0.329076}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 17;
-      mScratch128i[1] = 20;
-      mScratch128i[2] = 262;
-      mScratch128i[3] = 264;
-      mScratch128i[4] = 571;
-      mScratch128i[5] = 573;
-      mScratch128i[6] = 576;
-      mScratch128i[7] = 579;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<8; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //072 024 {0.043745, -0.109961, 0.457629}
-    //795 265 {0.043745, -0.109961, 0.457629}
-    //921 307 {0.001425, -1.110966, -0.355458}
-    //951 317 {0.001424, 1.129248, -0.355457}
-    //1062 354 {0.043745, -0.109961, 0.457629}
-    //1113 371 {0.001425, -1.110966, -0.355458}
-    //1128 376 {0.001424, 1.129248, -0.355457}
-    //1743 581 {0.043745, -0.109961, 0.457629}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 24;
-      mScratch128i[1] = 265;
-      mScratch128i[2] = 307;
-      mScratch128i[3] = 317;
-      mScratch128i[4] = 354;
-      mScratch128i[5] = 371;
-      mScratch128i[6] = 376;
-      mScratch128i[7] = 581;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<8; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //1074 358 {0.244100, -0.000007, 1.608033}
-    //1095 365 {0.244100, -0.000007, 1.608033}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 358;
-      mScratch128i[1] = 365;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<2; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //075 025 {0.373355, -0.307562, 0.437930}
-    //081 027 {0.373355, 0.307558, 0.437932}
-    //1530 510 {0.373355, 0.361653, -0.103625}
-    //1533 511 {0.373355, 0.428667, 0.134252}
-    //1539 513 {0.373355, 0.361653, -0.103625}
-    //1548 516 {0.373355, 0.428667, 0.134252}
-    //1551 517 {0.373355, 0.307558, 0.437932}
-    //1557 519 {0.373355, 0.307558, 0.437932}
-    //1566 522 {0.373355, 0.307558, 0.437932}
-    //1587 529 {0.373355, -0.307562, 0.437930}
-    //1602 534 {0.373355, -0.307562, 0.437930}
-    //1605 535 {0.373355, -0.428668, 0.134249}
-    //1611 537 {0.373355, -0.307562, 0.437930}
-    //1620 540 {0.373355, -0.428668, 0.134249}
-    //1623 541 {0.373355, -0.361653, -0.103627}
-    //1629 543 {0.373355, -0.361653, -0.103627}
-    //1638 546 {0.373355, -0.361653, -0.103627}
-    //1641 547 {0.373355, -0.000002, -0.274995}
-    //1647 549 {0.373355, -0.000002, -0.274995}
-    //1656 552 {0.373355, -0.000002, -0.274995}
-    //1659 553 {0.373355, 0.361653, -0.103625}
-    //1665 555 {0.373355, -0.000002, -0.274995}
-    //1680 560 {0.373355, 0.428667, 0.134252}
-    //1686 562 {0.373355, 0.428667, 0.134252}
-    //1689 563 {0.373355, 0.361653, -0.103625}
-    //1698 566 {0.373355, 0.428667, 0.134252}
-    //1704 568 {0.373355, 0.307558, 0.437932}
-    //1707 569 {0.373355, 0.428667, 0.134252}
-    //1716 572 {0.373355, 0.307558, 0.437932}
-    //1725 575 {0.373355, 0.307558, 0.437932}
-    //1734 578 {0.373355, -0.307562, 0.437930}
-    //1740 580 {0.373355, -0.307562, 0.437930}
-    //1752 584 {0.373355, -0.428668, 0.134249}
-    //1758 586 {0.373355, -0.428668, 0.134249}
-    //1761 587 {0.373355, -0.307562, 0.437930}
-    //1770 590 {0.373355, -0.428668, 0.134249}
-    //1776 592 {0.373355, -0.361653, -0.103627}
-    //1779 593 {0.373355, -0.428668, 0.134249}
-    //1788 596 {0.373355, -0.000002, -0.274995}
-    //1794 598 {0.373355, -0.000002, -0.274995}
-    //1797 599 {0.373355, -0.361653, -0.103627}
-    //1806 602 {0.373355, -0.000002, -0.274995}
-    //1812 604 {0.373355, 0.361653, -0.103625}
-    //1815 605 {0.373355, -0.000002, -0.274995}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 25;
-      mScratch128i[1] = 27;
-      mScratch128i[2] = 510;
-      mScratch128i[3] = 511;
-      mScratch128i[4] = 513;
-      mScratch128i[5] = 516;
-      mScratch128i[6] = 517;
-      mScratch128i[7] = 519;
-      mScratch128i[8] = 522;
-      mScratch128i[9] = 529;
-      mScratch128i[10] = 534;
-      mScratch128i[11] = 535;
-      mScratch128i[12] = 537;
-      mScratch128i[13] = 540;
-      mScratch128i[14] = 541;
-      mScratch128i[15] = 543;
-      mScratch128i[16] = 546;
-      mScratch128i[17] = 547;
-      mScratch128i[18] = 549;
-      mScratch128i[19] = 552;
-      mScratch128i[20] = 553;
-      mScratch128i[21] = 555;
-      mScratch128i[22] = 560;
-      mScratch128i[23] = 562;
-      mScratch128i[24] = 563;
-      mScratch128i[25] = 566;
-      mScratch128i[26] = 568;
-      mScratch128i[27] = 569;
-      mScratch128i[28] = 572;
-      mScratch128i[29] = 575;
-      mScratch128i[30] = 578;
-      mScratch128i[31] = 580;
-      mScratch128i[32] = 584;
-      mScratch128i[33] = 586;
-      mScratch128i[34] = 587;
-      mScratch128i[35] = 590;
-      mScratch128i[36] = 592;
-      mScratch128i[37] = 593;
-      mScratch128i[38] = 596;
-      mScratch128i[39] = 598;
-      mScratch128i[40] = 599;
-      mScratch128i[41] = 602;
-      mScratch128i[42] = 604;
-      mScratch128i[43] = 605;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<44; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //078 026 {0.518062, 0.010363, 0.580621}
-    //087 029 {0.518062, 0.010363, 0.580621}
-    //1065 355 {0.518062, 0.010363, 0.580621}
-    //1071 357 {0.518062, 0.010363, 0.580621}
-    //1080 360 {0.518062, 0.010363, 0.580621}
-    //1089 363 {0.518062, 0.010363, 0.580621}
-    //1569 523 {0.518062, 0.010363, 0.580621}
-    //1575 525 {0.518062, 0.010363, 0.580621}
-    //1584 528 {0.518062, 0.010363, 0.580621}
-    //1593 531 {0.518062, 0.010363, 0.580621}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 26;
-      mScratch128i[1] = 29;
-      mScratch128i[2] = 355;
-      mScratch128i[3] = 357;
-      mScratch128i[4] = 360;
-      mScratch128i[5] = 363;
-      mScratch128i[6] = 523;
-      mScratch128i[7] = 525;
-      mScratch128i[8] = 528;
-      mScratch128i[9] = 531;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<10; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //129 043 {1.212120, -0.326538, 0.280805}
-    //135 045 {1.212120, 0.326536, 0.280808}
-    //1425 475 {1.212120, 0.326536, 0.280808}
-    //1476 492 {1.212120, -0.326538, 0.280805}
-    //1536 512 {1.212120, 0.326536, 0.280808}
-    //1542 514 {1.212120, 0.326536, 0.280808}
-    //1554 518 {1.212120, 0.326536, 0.280808}
-    //1563 521 {1.212120, 0.326536, 0.280808}
-    //1608 536 {1.212120, -0.326538, 0.280805}
-    //1614 538 {1.212120, -0.326538, 0.280805}
-    //1626 542 {1.212120, -0.326538, 0.280805}
-    //1635 545 {1.212120, -0.326538, 0.280805}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 43;
-      mScratch128i[1] = 45;
-      mScratch128i[2] = 475;
-      mScratch128i[3] = 492;
-      mScratch128i[4] = 512;
-      mScratch128i[5] = 514;
-      mScratch128i[6] = 518;
-      mScratch128i[7] = 521;
-      mScratch128i[8] = 536;
-      mScratch128i[9] = 538;
-      mScratch128i[10] = 542;
-      mScratch128i[11] = 545;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<12; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //090 030 {1.390324, -0.000001, -0.000978}
-    //093 031 {1.386304, 0.199578, 0.049992}
-    //099 033 {1.386304, -0.199580, 0.049992}
-    //102 034 {1.390324, -0.000001, -0.000978}
-    //111 037 {1.335053, 0.247982, 0.103368}
-    //117 039 {1.335053, -0.247983, 0.103367}
-    //126 042 {1.317970, -0.221218, 0.523302}
-    //138 046 {1.317970, 0.221214, 0.523304}
-    //855 285 {1.386304, -0.199580, 0.049992}
-    //858 286 {1.335053, -0.247983, 0.103367}
-    //861 287 {1.390324, -0.000001, -0.000978}
-    //864 288 {1.335053, -0.247983, 0.103367}
-    //867 289 {1.386304, -0.199580, 0.049992}
-    //873 291 {1.386304, -0.199580, 0.049992}
-    //876 292 {1.335053, -0.247983, 0.103367}
-    //882 294 {1.335053, 0.247982, 0.103368}
-    //885 295 {1.386304, 0.199578, 0.049992}
-    //888 296 {1.390324, -0.000001, -0.000978}
-    //891 297 {1.386304, 0.199578, 0.049992}
-    //894 298 {1.335053, 0.247982, 0.103368}
-    //900 300 {1.386304, 0.199578, 0.049992}
-    //903 301 {1.335053, 0.247982, 0.103368}
-    //957 319 {1.335053, 0.247982, 0.103368}
-    //975 325 {1.335053, -0.247983, 0.103367}
-    //993 331 {1.386304, -0.199580, 0.049992}
-    //1011 337 {1.386304, 0.199578, 0.049992}
-    //1422 474 {1.335053, 0.247982, 0.103368}
-    //1431 477 {1.335053, 0.247982, 0.103368}
-    //1440 480 {1.317970, 0.221214, 0.523304}
-    //1443 481 {1.317970, -0.000002, 0.607203}
-    //1449 483 {1.317970, 0.221214, 0.523304}
-    //1458 486 {1.317970, -0.000002, 0.607203}
-    //1461 487 {1.317970, -0.221218, 0.523302}
-    //1467 489 {1.317970, -0.221218, 0.523302}
-    //1479 493 {1.335053, -0.247983, 0.103367}
-    //1485 495 {1.335053, -0.247983, 0.103367}
-    //1497 499 {1.390324, -0.000001, -0.000978}
-    //1512 504 {1.390324, -0.000001, -0.000978}
-    //1545 515 {1.335053, 0.247982, 0.103368}
-    //1560 520 {1.317970, 0.221214, 0.523304}
-    //1572 524 {1.317970, 0.221214, 0.523304}
-    //1578 526 {1.317970, -0.000002, 0.607203}
-    //1581 527 {1.317970, 0.221214, 0.523304}
-    //1590 530 {1.317970, -0.221218, 0.523302}
-    //1596 532 {1.317970, -0.221218, 0.523302}
-    //1599 533 {1.317970, -0.000002, 0.607203}
-    //1617 539 {1.317970, -0.221218, 0.523302}
-    //1632 544 {1.335053, -0.247983, 0.103367}
-    //1644 548 {1.335053, -0.247983, 0.103367}
-    //1650 550 {1.390324, -0.000001, -0.000978}
-    //1653 551 {1.335053, -0.247983, 0.103367}
-    //1662 554 {1.335053, 0.247982, 0.103368}
-    //1668 556 {1.335053, 0.247982, 0.103368}
-    //1671 557 {1.390324, -0.000001, -0.000978}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 30;
-      mScratch128i[1] = 31;
-      mScratch128i[2] = 33;
-      mScratch128i[3] = 34;
-      mScratch128i[4] = 37;
-      mScratch128i[5] = 39;
-      mScratch128i[6] = 42;
-      mScratch128i[7] = 46;
-      mScratch128i[8] = 285;
-      mScratch128i[9] = 286;
-      mScratch128i[10] = 287;
-      mScratch128i[11] = 288;
-      mScratch128i[12] = 289;
-      mScratch128i[13] = 291;
-      mScratch128i[14] = 292;
-      mScratch128i[15] = 294;
-      mScratch128i[16] = 295;
-      mScratch128i[17] = 296;
-      mScratch128i[18] = 297;
-      mScratch128i[19] = 298;
-      mScratch128i[20] = 300;
-      mScratch128i[21] = 301;
-      mScratch128i[22] = 319;
-      mScratch128i[23] = 325;
-      mScratch128i[24] = 331;
-      mScratch128i[25] = 337;
-      mScratch128i[26] = 474;
-      mScratch128i[27] = 477;
-      mScratch128i[28] = 480;
-      mScratch128i[29] = 481;
-      mScratch128i[30] = 483;
-      mScratch128i[31] = 486;
-      mScratch128i[32] = 487;
-      mScratch128i[33] = 489;
-      mScratch128i[34] = 493;
-      mScratch128i[35] = 495;
-      mScratch128i[36] = 499;
-      mScratch128i[37] = 504;
-      mScratch128i[38] = 515;
-      mScratch128i[39] = 520;
-      mScratch128i[40] = 524;
-      mScratch128i[41] = 526;
-      mScratch128i[42] = 527;
-      mScratch128i[43] = 530;
-      mScratch128i[44] = 532;
-      mScratch128i[45] = 533;
-      mScratch128i[46] = 539;
-      mScratch128i[47] = 544;
-      mScratch128i[48] = 548;
-      mScratch128i[49] = 550;
-      mScratch128i[50] = 551;
-      mScratch128i[51] = 554;
-      mScratch128i[52] = 556;
-      mScratch128i[53] = 557;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<54; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //879 293 {1.525407, -0.327476, 0.010248}
-    //906 302 {1.525407, 0.327474, 0.010248}
-    //954 318 {1.525407, 0.327474, 0.010248}
-    //963 321 {1.525407, 0.327474, 0.010248}
-    //972 324 {1.525407, -0.327476, 0.010248}
-    //981 327 {1.525407, -0.327476, 0.010248}
-    //996 332 {1.525407, -0.327476, 0.010248}
-    //1002 334 {1.525407, -0.327476, 0.010248}
-    //1014 338 {1.525407, 0.327474, 0.010248}
-    //1020 340 {1.525407, 0.327474, 0.010248}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 293;
-      mScratch128i[1] = 302;
-      mScratch128i[2] = 318;
-      mScratch128i[3] = 321;
-      mScratch128i[4] = 324;
-      mScratch128i[5] = 327;
-      mScratch128i[6] = 332;
-      mScratch128i[7] = 334;
-      mScratch128i[8] = 338;
-      mScratch128i[9] = 340;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<10; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //096 032 {1.601420, 0.174578, 0.112325}
-    //105 035 {1.601420, -0.174580, 0.112325}
-    //108 036 {1.601420, 0.174578, 0.112325}
-    //120 040 {1.601420, -0.174580, 0.112325}
-    //870 290 {1.601420, -0.174580, 0.112325}
-    //897 299 {1.601420, 0.174578, 0.112325}
-    //960 320 {1.601420, 0.174578, 0.112325}
-    //966 322 {1.601420, 0.174578, 0.112325}
-    //978 326 {1.601420, -0.174580, 0.112325}
-    //984 328 {1.601420, -0.174580, 0.112325}
-    //990 330 {1.601420, -0.174580, 0.112325}
-    //999 333 {1.601420, -0.174580, 0.112325}
-    //1008 336 {1.601420, 0.174578, 0.112325}
-    //1017 339 {1.601420, 0.174578, 0.112325}
-    //1494 498 {1.601420, -0.174580, 0.112325}
-    //1503 501 {1.601420, -0.174580, 0.112325}
-    //1515 505 {1.601420, 0.174578, 0.112325}
-    //1521 507 {1.601420, 0.174578, 0.112325}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 32;
-      mScratch128i[1] = 35;
-      mScratch128i[2] = 36;
-      mScratch128i[3] = 40;
-      mScratch128i[4] = 290;
-      mScratch128i[5] = 299;
-      mScratch128i[6] = 320;
-      mScratch128i[7] = 322;
-      mScratch128i[8] = 326;
-      mScratch128i[9] = 328;
-      mScratch128i[10] = 330;
-      mScratch128i[11] = 333;
-      mScratch128i[12] = 336;
-      mScratch128i[13] = 339;
-      mScratch128i[14] = 498;
-      mScratch128i[15] = 501;
-      mScratch128i[16] = 505;
-      mScratch128i[17] = 507;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<18; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //969 323 {1.718350, 0.370600, -0.008951}
-    //987 329 {1.718350, -0.370602, -0.008951}
-    //1005 335 {1.718350, -0.370602, -0.008951}
-    //1023 341 {1.718350, 0.370600, -0.008951}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 323;
-      mScratch128i[1] = 329;
-      mScratch128i[2] = 335;
-      mScratch128i[3] = 341;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<4; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //342 114 {2.348002, -0.000002, 0.633574}
-    //354 118 {2.348002, -0.000002, 0.633574}
-    //360 120 {2.348002, -0.000002, 0.633574}
-    //372 124 {2.348002, -0.000002, 0.633574}
-    //1026 342 {2.348002, -0.000002, 0.633574}
-    //1047 349 {2.348002, -0.000002, 0.633574}
-    //1446 482 {2.348002, -0.000002, 0.633574}
-    //1452 484 {2.348002, -0.000002, 0.633574}
-    //1464 488 {2.348002, -0.000002, 0.633574}
-    //1473 491 {2.348002, -0.000002, 0.633574}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 114;
-      mScratch128i[1] = 118;
-      mScratch128i[2] = 120;
-      mScratch128i[3] = 124;
-      mScratch128i[4] = 342;
-      mScratch128i[5] = 349;
-      mScratch128i[6] = 482;
-      mScratch128i[7] = 484;
-      mScratch128i[8] = 488;
-      mScratch128i[9] = 491;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<10; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //1032 344 {2.482447, -0.000003, 0.721645}
-    //1041 347 {2.482447, -0.000003, 0.721645}
-    //1050 350 {2.482447, -0.000003, 0.721645}
-    //1056 352 {2.482447, -0.000003, 0.721645}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 344;
-      mScratch128i[1] = 347;
-      mScratch128i[2] = 350;
-      mScratch128i[3] = 352;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<4; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //114 038 {2.583151, 0.080301, 0.304866}
-    //123 041 {2.583151, -0.080303, 0.304866}
-    //351 117 {2.543960, -0.024770, 0.613645}
-    //363 121 {2.543960, 0.024767, 0.613645}
-    //378 126 {2.583151, 0.080301, 0.304866}
-    //387 129 {2.570087, -0.000001, 0.247192}
-    //390 130 {2.583151, 0.080301, 0.304866}
-    //396 132 {2.583151, -0.080303, 0.304866}
-    //399 133 {2.570087, -0.000001, 0.247192}
-    //405 135 {2.583151, -0.080303, 0.304866}
-    //804 268 {2.543960, 0.024767, 0.613645}
-    //810 270 {2.543960, -0.024770, 0.613645}
-    //1029 343 {2.543960, -0.024770, 0.613645}
-    //1035 345 {2.543960, -0.024770, 0.613645}
-    //1044 348 {2.543960, 0.024767, 0.613645}
-    //1053 351 {2.543960, 0.024767, 0.613645}
-    //1437 479 {2.583151, 0.080301, 0.304866}
-    //1488 496 {2.583151, -0.080303, 0.304866}
-    //1500 500 {2.570087, -0.000001, 0.247192}
-    //1506 502 {2.570087, -0.000001, 0.247192}
-    //1509 503 {2.583151, -0.080303, 0.304866}
-    //1518 506 {2.570087, -0.000001, 0.247192}
-    //1524 508 {2.583151, 0.080301, 0.304866}
-    //1527 509 {2.570087, -0.000001, 0.247192}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 38;
-      mScratch128i[1] = 41;
-      mScratch128i[2] = 117;
-      mScratch128i[3] = 121;
-      mScratch128i[4] = 126;
-      mScratch128i[5] = 129;
-      mScratch128i[6] = 130;
-      mScratch128i[7] = 132;
-      mScratch128i[8] = 133;
-      mScratch128i[9] = 135;
-      mScratch128i[10] = 268;
-      mScratch128i[11] = 270;
-      mScratch128i[12] = 343;
-      mScratch128i[13] = 345;
-      mScratch128i[14] = 348;
-      mScratch128i[15] = 351;
-      mScratch128i[16] = 479;
-      mScratch128i[17] = 496;
-      mScratch128i[18] = 500;
-      mScratch128i[19] = 502;
-      mScratch128i[20] = 503;
-      mScratch128i[21] = 506;
-      mScratch128i[22] = 508;
-      mScratch128i[23] = 509;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<24; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //132 044 {2.658017, -0.100690, 0.465174}
-    //141 047 {2.658017, 0.100688, 0.465175}
-    //345 115 {2.658017, -0.100690, 0.465174}
-    //369 123 {2.658017, 0.100688, 0.465175}
-    //381 127 {2.658017, 0.100688, 0.465175}
-    //411 137 {2.658017, -0.100690, 0.465174}
-    //417 139 {2.658017, -0.100690, 0.465174}
-    //423 141 {2.658017, 0.100688, 0.465175}
-    //435 145 {2.658017, 0.100688, 0.465175}
-    //459 153 {2.658017, -0.100690, 0.465174}
-    //807 269 {2.623093, -0.000002, 0.748034}
-    //816 272 {2.623093, -0.000002, 0.748034}
-    //1038 346 {2.623093, -0.000002, 0.748034}
-    //1059 353 {2.623093, -0.000002, 0.748034}
-    //1296 432 {2.658017, 0.100688, 0.465175}
-    //1317 439 {2.658017, -0.100690, 0.465174}
-    //1428 476 {2.658017, 0.100688, 0.465175}
-    //1434 478 {2.658017, 0.100688, 0.465175}
-    //1455 485 {2.658017, 0.100688, 0.465175}
-    //1470 490 {2.658017, -0.100690, 0.465174}
-    //1482 494 {2.658017, -0.100690, 0.465174}
-    //1491 497 {2.658017, -0.100690, 0.465174}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 44;
-      mScratch128i[1] = 47;
-      mScratch128i[2] = 115;
-      mScratch128i[3] = 123;
-      mScratch128i[4] = 127;
-      mScratch128i[5] = 137;
-      mScratch128i[6] = 139;
-      mScratch128i[7] = 141;
-      mScratch128i[8] = 145;
-      mScratch128i[9] = 153;
-      mScratch128i[10] = 269;
-      mScratch128i[11] = 272;
-      mScratch128i[12] = 346;
-      mScratch128i[13] = 353;
-      mScratch128i[14] = 432;
-      mScratch128i[15] = 439;
-      mScratch128i[16] = 476;
-      mScratch128i[17] = 478;
-      mScratch128i[18] = 485;
-      mScratch128i[19] = 490;
-      mScratch128i[20] = 494;
-      mScratch128i[21] = 497;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<22; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //348 116 {2.752981, -0.000001, 0.571068}
-    //357 119 {2.752981, -0.000001, 0.571068}
-    //366 122 {2.752981, -0.000001, 0.571068}
-    //375 125 {2.752981, -0.000001, 0.571068}
-    //414 138 {2.752981, -0.000001, 0.571068}
-    //426 142 {2.752981, -0.000001, 0.571068}
-    //801 267 {2.752981, -0.000001, 0.571068}
-    //813 271 {2.752981, -0.000001, 0.571068}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 116;
-      mScratch128i[1] = 119;
-      mScratch128i[2] = 122;
-      mScratch128i[3] = 125;
-      mScratch128i[4] = 138;
-      mScratch128i[5] = 142;
-      mScratch128i[6] = 267;
-      mScratch128i[7] = 271;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<8; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //384 128 {3.026316, -0.000001, 0.355223}
-    //393 131 {3.026316, -0.000001, 0.355223}
-    //402 134 {3.026316, -0.000001, 0.355223}
-    //408 136 {3.026316, -0.000001, 0.355223}
-    //420 140 {3.026316, -0.000001, 0.534100}
-    //429 143 {3.026316, -0.000001, 0.534100}
-    //432 144 {3.026316, -0.000001, 0.355223}
-    //441 147 {3.026316, -0.000001, 0.355223}
-    //450 150 {3.026316, -0.000001, 0.355223}
-    //462 154 {3.026316, -0.000001, 0.355223}
-    //1299 433 {3.026316, -0.000001, 0.534100}
-    //1305 435 {3.026316, -0.000001, 0.534100}
-    //1314 438 {3.026316, -0.000001, 0.534100}
-    //1323 441 {3.026316, -0.000001, 0.534100}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 128;
-      mScratch128i[1] = 131;
-      mScratch128i[2] = 134;
-      mScratch128i[3] = 136;
-      mScratch128i[4] = 140;
-      mScratch128i[5] = 143;
-      mScratch128i[6] = 144;
-      mScratch128i[7] = 147;
-      mScratch128i[8] = 150;
-      mScratch128i[9] = 154;
-      mScratch128i[10] = 433;
-      mScratch128i[11] = 435;
-      mScratch128i[12] = 438;
-      mScratch128i[13] = 441;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<14; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //447 149 {3.235338, -0.000001, 0.305309}
-    //453 151 {3.235338, -0.000001, 0.305309}
-    //468 156 {3.235338, -0.000001, 0.305309}
-    //480 160 {3.235338, -0.000001, 0.305309}
-    //486 162 {3.235338, -0.000001, 0.587146}
-    //498 166 {3.235338, -0.000001, 0.587146}
-    //1308 436 {3.235338, -0.000001, 0.587146}
-    //1329 443 {3.235338, -0.000001, 0.587146}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 149;
-      mScratch128i[1] = 151;
-      mScratch128i[2] = 156;
-      mScratch128i[3] = 160;
-      mScratch128i[4] = 162;
-      mScratch128i[5] = 166;
-      mScratch128i[6] = 436;
-      mScratch128i[7] = 443;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<8; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //438 146 {3.464372, 0.010038, 0.484654}
-    //444 148 {3.464372, 0.010038, 0.484654}
-    //456 152 {3.464372, -0.010041, 0.484651}
-    //465 155 {3.464372, -0.010041, 0.484651}
-    //471 157 {3.464372, 0.010038, 0.484654}
-    //477 159 {3.464372, -0.010041, 0.484651}
-    //489 163 {3.464372, -0.010041, 0.484651}
-    //495 165 {3.464372, 0.010038, 0.484654}
-    //504 168 {3.464372, -0.010041, 0.484651}
-    //513 171 {3.464372, 0.010038, 0.484654}
-    //522 174 {3.464372, -0.010041, 0.484651}
-    //534 178 {3.464372, 0.010038, 0.484654}
-    //540 180 {3.464372, -0.010041, 0.484651}
-    //552 184 {3.464372, -0.010041, 0.484651}
-    //558 186 {3.464372, 0.010038, 0.484654}
-    //570 190 {3.464372, 0.010038, 0.484654}
-    //1260 420 {3.464372, -0.010041, 0.484651}
-    //1281 427 {3.464372, 0.010038, 0.484654}
-    //1302 434 {3.464372, 0.010038, 0.484654}
-    //1311 437 {3.464372, 0.010038, 0.484654}
-    //1320 440 {3.464372, -0.010041, 0.484651}
-    //1326 442 {3.464372, -0.010041, 0.484651}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 146;
-      mScratch128i[1] = 148;
-      mScratch128i[2] = 152;
-      mScratch128i[3] = 155;
-      mScratch128i[4] = 157;
-      mScratch128i[5] = 159;
-      mScratch128i[6] = 163;
-      mScratch128i[7] = 165;
-      mScratch128i[8] = 168;
-      mScratch128i[9] = 171;
-      mScratch128i[10] = 174;
-      mScratch128i[11] = 178;
-      mScratch128i[12] = 180;
-      mScratch128i[13] = 184;
-      mScratch128i[14] = 186;
-      mScratch128i[15] = 190;
-      mScratch128i[16] = 420;
-      mScratch128i[17] = 427;
-      mScratch128i[18] = 434;
-      mScratch128i[19] = 437;
-      mScratch128i[20] = 440;
-      mScratch128i[21] = 442;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<22; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //474 158 {3.516712, -0.000001, -0.245498}
-    //483 161 {3.516712, -0.000001, -0.245498}
-    //1263 421 {3.516712, -0.000001, -0.245498}
-    //1269 423 {3.516712, -0.000001, -0.245498}
-    //1278 426 {3.516712, -0.000001, -0.245498}
-    //1287 429 {3.516712, -0.000001, -0.245498}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 158;
-      mScratch128i[1] = 161;
-      mScratch128i[2] = 421;
-      mScratch128i[3] = 423;
-      mScratch128i[4] = 426;
-      mScratch128i[5] = 429;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<6; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //492 164 {3.777989, -0.000001, 0.946289}
-    //501 167 {3.777989, -0.000001, 0.946289}
-    //507 169 {3.765930, -0.000939, -0.126569}
-    //510 170 {3.745076, -0.001162, 0.326011}
-    //516 172 {3.745076, 0.001160, 0.326017}
-    //519 173 {3.765930, 0.000937, -0.126566}
-    //525 175 {3.745076, -0.001162, 0.326011}
-    //531 177 {3.745076, 0.001160, 0.326017}
-    //549 183 {3.777989, -0.000001, 0.946289}
-    //561 187 {3.777989, -0.000001, 0.946289}
-    //1266 422 {3.765930, -0.000939, -0.126569}
-    //1272 424 {3.765930, -0.000001, -0.444128}
-    //1275 425 {3.765930, -0.000939, -0.126569}
-    //1284 428 {3.765930, 0.000937, -0.126566}
-    //1290 430 {3.765930, 0.000937, -0.126566}
-    //1293 431 {3.765930, -0.000001, -0.444128}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 164;
-      mScratch128i[1] = 167;
-      mScratch128i[2] = 169;
-      mScratch128i[3] = 170;
-      mScratch128i[4] = 172;
-      mScratch128i[5] = 173;
-      mScratch128i[6] = 175;
-      mScratch128i[7] = 177;
-      mScratch128i[8] = 183;
-      mScratch128i[9] = 187;
-      mScratch128i[10] = 422;
-      mScratch128i[11] = 424;
-      mScratch128i[12] = 425;
-      mScratch128i[13] = 428;
-      mScratch128i[14] = 430;
-      mScratch128i[15] = 431;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<16; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //528 176 {4.256675, -0.001784, 0.764384}
-    //537 179 {4.256675, 0.001782, 0.764388}
-    //543 181 {4.256675, -0.001784, 0.764384}
-    //567 189 {4.256675, 0.001782, 0.764388}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 176;
-      mScratch128i[1] = 179;
-      mScratch128i[2] = 181;
-      mScratch128i[3] = 189;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<4; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
-    //546 182 {5.631042, -0.000001, 1.481069}
-    //555 185 {5.631042, -0.000001, 1.481069}
-    //564 188 {5.631042, -0.000001, 1.481069}
-    //573 191 {5.631042, -0.000001, 1.481069}
-    synchronized (mScratch128i) {
-      mScratch128i[0] = 182;
-      mScratch128i[1] = 185;
-      mScratch128i[2] = 188;
-      mScratch128i[3] = 191;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
-      int ii;
-      for (ii=0; ii<4; ii++) {
-        ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
-        if (ShumokuData.vertices[0+3*mScratch128i[ii]] > 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] - (width/3f);
-        } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
-          ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-        }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
-      }
-    }
     //312 104 {-2.398415, -0.560331, 0.007942}
     //321 107 {-2.398415, -0.560331, 0.007942}
     //330 110 {-2.398415, -0.560331, 0.007942}
@@ -1941,7 +306,7 @@ public class Shumoku implements Model {
       mScratch128i[5] = 197;
       mScratch128i[6] = 403;
       mScratch128i[7] = 408;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<8; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -1950,7 +315,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //318 106 {-2.253708, -0.463222, 0.012815}
@@ -1966,7 +330,7 @@ public class Shumoku implements Model {
       mScratch128i[3] = 449;
       mScratch128i[4] = 452;
       mScratch128i[5] = 454;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<6; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -1975,7 +339,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //240 080 {-2.149198, -0.630022, 0.012816}
@@ -2081,7 +444,7 @@ public class Shumoku implements Model {
       mScratch128i[48] = 419;
       mScratch128i[49] = 448;
       mScratch128i[50] = 455;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<51; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2090,7 +453,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //636 212 {-2.098644, -0.568532, -0.972742}
@@ -2120,7 +482,7 @@ public class Shumoku implements Model {
       mScratch128i[10] = 279;
       mScratch128i[11] = 407;
       mScratch128i[12] = 412;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<13; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2129,7 +491,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //267 089 {-1.979557, -0.436034, 0.538350}
@@ -2157,7 +518,7 @@ public class Shumoku implements Model {
       mScratch128i[9] = 461;
       mScratch128i[10] = 464;
       mScratch128i[11] = 466;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<12; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2166,7 +527,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //288 096 {-1.850063, -0.417212, 0.977750}
@@ -2236,7 +596,7 @@ public class Shumoku implements Model {
       mScratch128i[30] = 418;
       mScratch128i[31] = 460;
       mScratch128i[32] = 467;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<33; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2245,7 +605,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //045 015 {-1.679328, -0.213798, -0.008253}
@@ -2361,7 +720,7 @@ public class Shumoku implements Model {
       mScratch128i[53] = 470;
       mScratch128i[54] = 472;
       mScratch128i[55] = 473;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<56; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2370,7 +729,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //717 239 {-1.593937, -0.522068, -0.852975}
@@ -2394,7 +752,7 @@ public class Shumoku implements Model {
       mScratch128i[7] = 389;
       mScratch128i[8] = 395;
       mScratch128i[9] = 400;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<10; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2403,7 +761,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //000 000 {-1.029931, -0.487081, 0.329853}
@@ -2437,7 +794,7 @@ public class Shumoku implements Model {
       mScratch128i[12] = 372;
       mScratch128i[13] = 469;
       mScratch128i[14] = 471;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<15; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2446,7 +803,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //048 016 {-0.955028, -0.033702, 0.300949}
@@ -2474,7 +830,7 @@ public class Shumoku implements Model {
       mScratch128i[9] = 577;
       mScratch128i[10] = 582;
       mScratch128i[11] = 585;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<12; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2483,7 +839,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //006 002 {-0.833656, -0.250074, 0.423287}
@@ -2517,7 +872,7 @@ public class Shumoku implements Model {
       mScratch128i[12] = 564;
       mScratch128i[13] = 583;
       mScratch128i[14] = 588;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<15; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2526,7 +881,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //018 006 {-0.745447, -0.569023, 0.012816}
@@ -2546,7 +900,7 @@ public class Shumoku implements Model {
       mScratch128i[5] = 81;
       mScratch128i[6] = 595;
       mScratch128i[7] = 600;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<8; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2555,7 +909,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //003 001 {-0.671751, -0.341348, 0.414681}
@@ -2587,7 +940,7 @@ public class Shumoku implements Model {
       mScratch128i[11] = 305;
       mScratch128i[12] = 311;
       mScratch128i[13] = 313;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<14; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2596,7 +949,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //024 008 {-0.419080, -0.306335, -0.328394}
@@ -2662,7 +1014,7 @@ public class Shumoku implements Model {
       mScratch128i[28] = 597;
       mScratch128i[29] = 601;
       mScratch128i[30] = 603;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<31; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2671,7 +1023,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //051 017 {-0.380327, 0.296043, 0.007275}
@@ -2691,7 +1042,7 @@ public class Shumoku implements Model {
       mScratch128i[5] = 573;
       mScratch128i[6] = 576;
       mScratch128i[7] = 579;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<8; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2700,7 +1051,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //072 024 {0.043745, 0.424596, 0.122775}
@@ -2720,7 +1070,7 @@ public class Shumoku implements Model {
       mScratch128i[5] = 371;
       mScratch128i[6] = 376;
       mScratch128i[7] = 581;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<8; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2729,7 +1079,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //1074 358 {0.244100, 1.574999, 0.012821}
@@ -2737,7 +1086,7 @@ public class Shumoku implements Model {
     synchronized (mScratch128i) {
       mScratch128i[0] = 358;
       mScratch128i[1] = 365;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<2; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2746,7 +1095,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //075 025 {0.373355, 0.404897, 0.320376}
@@ -2838,7 +1186,7 @@ public class Shumoku implements Model {
       mScratch128i[41] = 602;
       mScratch128i[42] = 604;
       mScratch128i[43] = 605;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<44; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2847,7 +1195,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //078 026 {0.518062, 0.547588, 0.002451}
@@ -2871,7 +1218,7 @@ public class Shumoku implements Model {
       mScratch128i[7] = 525;
       mScratch128i[8] = 528;
       mScratch128i[9] = 531;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<10; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2880,7 +1227,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //129 043 {1.212120, 0.247772, 0.339352}
@@ -2908,7 +1254,7 @@ public class Shumoku implements Model {
       mScratch128i[9] = 538;
       mScratch128i[10] = 542;
       mScratch128i[11] = 545;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<12; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -2917,7 +1263,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //090 030 {1.390324, -0.034011, 0.012816}
@@ -3029,7 +1374,7 @@ public class Shumoku implements Model {
       mScratch128i[51] = 554;
       mScratch128i[52] = 556;
       mScratch128i[53] = 557;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<54; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3038,7 +1383,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //879 293 {1.525407, -0.022785, 0.340291}
@@ -3062,7 +1406,7 @@ public class Shumoku implements Model {
       mScratch128i[7] = 334;
       mScratch128i[8] = 338;
       mScratch128i[9] = 340;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<10; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3071,7 +1415,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //096 032 {1.601420, 0.079291, -0.161763}
@@ -3111,7 +1454,7 @@ public class Shumoku implements Model {
       mScratch128i[15] = 501;
       mScratch128i[16] = 505;
       mScratch128i[17] = 507;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<18; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3120,7 +1463,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //969 323 {1.718350, -0.041985, -0.357785}
@@ -3132,7 +1474,7 @@ public class Shumoku implements Model {
       mScratch128i[1] = 329;
       mScratch128i[2] = 335;
       mScratch128i[3] = 341;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<4; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3141,7 +1483,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //342 114 {2.348002, 0.600541, 0.012816}
@@ -3165,7 +1506,7 @@ public class Shumoku implements Model {
       mScratch128i[7] = 484;
       mScratch128i[8] = 488;
       mScratch128i[9] = 491;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<10; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3174,7 +1515,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //1032 344 {2.482447, 0.688611, 0.012818}
@@ -3186,7 +1526,7 @@ public class Shumoku implements Model {
       mScratch128i[1] = 347;
       mScratch128i[2] = 350;
       mScratch128i[3] = 352;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<4; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3195,7 +1535,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //114 038 {2.583151, 0.271833, -0.067486}
@@ -3247,7 +1586,7 @@ public class Shumoku implements Model {
       mScratch128i[21] = 506;
       mScratch128i[22] = 508;
       mScratch128i[23] = 509;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<24; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3256,7 +1595,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //132 044 {2.658017, 0.432141, 0.113505}
@@ -3304,7 +1642,7 @@ public class Shumoku implements Model {
       mScratch128i[19] = 490;
       mScratch128i[20] = 494;
       mScratch128i[21] = 497;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<22; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3313,7 +1651,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //348 116 {2.752981, 0.538035, 0.012816}
@@ -3333,7 +1670,7 @@ public class Shumoku implements Model {
       mScratch128i[5] = 142;
       mScratch128i[6] = 267;
       mScratch128i[7] = 271;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<8; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3342,7 +1679,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //384 128 {3.026316, 0.322189, 0.012816}
@@ -3374,7 +1710,7 @@ public class Shumoku implements Model {
       mScratch128i[11] = 435;
       mScratch128i[12] = 438;
       mScratch128i[13] = 441;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<14; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3383,7 +1719,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //447 149 {3.235338, 0.272275, 0.012816}
@@ -3403,7 +1738,7 @@ public class Shumoku implements Model {
       mScratch128i[5] = 166;
       mScratch128i[6] = 436;
       mScratch128i[7] = 443;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<8; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3412,7 +1747,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //438 146 {3.464372, 0.451621, 0.002777}
@@ -3460,7 +1794,7 @@ public class Shumoku implements Model {
       mScratch128i[19] = 437;
       mScratch128i[20] = 440;
       mScratch128i[21] = 442;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<22; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3469,7 +1803,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //474 158 {3.516712, -0.278531, 0.012816}
@@ -3485,7 +1818,7 @@ public class Shumoku implements Model {
       mScratch128i[3] = 423;
       mScratch128i[4] = 426;
       mScratch128i[5] = 429;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<6; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3494,7 +1827,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //492 164 {3.777989, 0.913256, 0.012816}
@@ -3530,7 +1862,7 @@ public class Shumoku implements Model {
       mScratch128i[13] = 428;
       mScratch128i[14] = 430;
       mScratch128i[15] = 431;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<16; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3539,7 +1871,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //528 176 {4.256675, 0.731350, 0.014599}
@@ -3551,7 +1882,7 @@ public class Shumoku implements Model {
       mScratch128i[1] = 179;
       mScratch128i[2] = 181;
       mScratch128i[3] = 189;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<4; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3560,7 +1891,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
     //546 182 {5.631042, 1.448036, 0.012816}
@@ -3572,7 +1902,7 @@ public class Shumoku implements Model {
       mScratch128i[1] = 185;
       mScratch128i[2] = 188;
       mScratch128i[3] = 191;
-      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * s;
+      float width = getMoveWidth(ShumokuData.vertices[0+3*mScratch128i[0]]) * (s + (animationGap * scale));
       int ii;
       for (ii=0; ii<4; ii++) {
         ShumokuData.vertices[2+3*mScratch128i[ii]] = ShumokuData.org_vertices[2+3*mScratch128i[ii]] + width;
@@ -3581,7 +1911,6 @@ public class Shumoku implements Model {
         } else if (ShumokuData.vertices[0+3*mScratch128i[ii]] < 0.0f) {
           ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
         }
-        ShumokuData.vertices[0+3*mScratch128i[ii]] = ShumokuData.org_vertices[0+3*mScratch128i[ii]] + (width/3f);
       }
     }
   }

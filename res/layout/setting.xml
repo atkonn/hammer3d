@@ -14,7 +14,7 @@
     android:id="@+id/ad"  
     android:layout_width="fill_parent"
     android:layout_height="70dip"
-    ads:adUnitId="a14e26b16708638"  
+    ads:adUnitId="a14e30083016128"
     ads:adSize="BANNER"  
     ads:loadAdOnCreate="true"
   />  

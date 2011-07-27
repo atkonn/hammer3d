@@ -191,7 +191,7 @@ public class Shumoku implements Model {
     this.rand = new java.util.Random(System.nanoTime() + (ii * 500));
     this.seed = (long)(this.rand.nextFloat() * 5000f);
     position[0] = this.rand.nextFloat() * 8f - 4f;
-    position[1] = 0f;
+    position[1] = this.rand.nextFloat() * 8f - 4f;
     position[2] = this.rand.nextFloat() * 4f - 2f;
 
     /*=======================================================================*/

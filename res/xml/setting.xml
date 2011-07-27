@@ -39,6 +39,13 @@
       android:dialogMessage="@string/dialog_message_shumoku_speed"
       android:dialogLayout="@layout/shumoku_speed_dialog"
     />
+    <CheckBoxPreference   
+      android:key="@string/key_preference_shumoku_boids"
+      android:title="@string/title_preference_shumoku_boids"
+      android:summaryOn="@string/summary_on_preference_shumoku_boids"  
+      android:summaryOff="@string/summary_off_preference_shumoku_boids"
+      android:defaultValue="true"
+    />
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/title_preference_other">
     <jp.co.qsdn.android.hammer3d.setting.ChangeCameraModeDialog

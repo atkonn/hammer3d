@@ -43,6 +43,9 @@ public class Prefs {
   public static final String KEY_IWASHI_BOIDS = "iwashi_boids";
   public static final boolean DEFAULT_IWASHI_BOIDS = true;
 
+  public static final String KEY_SHUMOKU_BOIDS = "shumoku_boids";
+  public static final boolean DEFAULT_SHUMOKU_BOIDS = true;
+
   public static final String KEY_CAMERA_MODE = "camera_mode";
   public static final int DEFAULT_CAMERA_MODE = R.id.radio3;
 
@@ -209,5 +212,17 @@ Log.d(TAG, ret + " = getCameraMode()");
       }
     }
     return shumokuCount;
+  }
+
+  public void setShumokuBoids(boolean enableShumokuBoids) {
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences(PACKAGE_NAME,Context.MODE_PRIVATE);  
+    sharedPreferences
+      .edit()
+      .putBoolean(KEY_SHUMOKU_BOIDS, enableShumokuBoids)
+      .commit();  
+  }
+  public boolean getShumokuBoids() {
+    SharedPreferences sharedPreferences = mContext.getSharedPreferences(PACKAGE_NAME, Context.MODE_PRIVATE);  
+    return  sharedPreferences.getBoolean(KEY_SHUMOKU_BOIDS, DEFAULT_SHUMOKU_BOIDS);
   }
 }

@@ -62,6 +62,7 @@ public class GLRenderer {
   private int iwashi_count = 1;
   private int shumoku_count = 1;
   private boolean enableIwashiBoids = true;
+  private boolean enableShumokuBoids = true;
   private float iwashi_speed = 0.03f;
   private float shumoku_speed = 0.03f;
   /** Position of Camera */
@@ -100,6 +101,7 @@ public class GLRenderer {
     iwashi_speed = ((float)Prefs.getInstance(context).getIwashiSpeed() / 50f) * Iwashi.DEFAULT_SPEED;
     shumoku_speed = ((float)Prefs.getInstance(context).getShumokuSpeed() / 50f) * Shumoku.DEFAULT_SPEED;
     enableIwashiBoids = Prefs.getInstance(context).getIwashiBoids();
+    enableShumokuBoids = Prefs.getInstance(context).getShumokuBoids();
     cameraDistance = (float)Prefs.getInstance(context).getCameraDistance();
     cameraMode = Prefs.getInstance(context).getCameraMode();
 
@@ -111,7 +113,7 @@ public class GLRenderer {
       ((Shumoku)shumoku[ii]).setBaitManager(baitManager);
       ((Shumoku)shumoku[ii]).setSpeed(shumoku_speed);
       ((Shumoku)shumoku[ii]).setSpecies(shumoku);
-      ((Shumoku)shumoku[ii]).setEnableBoids(enableIwashiBoids);
+      ((Shumoku)shumoku[ii]).setEnableBoids(enableShumokuBoids);
     }
     
 
@@ -384,6 +386,7 @@ if (false) {
     float _iwashi_speed = ((float)Prefs.getInstance(context).getIwashiSpeed() / 50f) * Iwashi.DEFAULT_SPEED;
     int _shumoku_count = Prefs.getInstance(context).getShumokuCount();
     float _shumoku_speed = ((float)Prefs.getInstance(context).getShumokuSpeed() / 50f) * Shumoku.DEFAULT_SPEED;
+    boolean _shumoku_boids = Prefs.getInstance(context).getShumokuBoids();
     boolean _iwashi_boids = Prefs.getInstance(context).getIwashiBoids();
     int _camera_mode = Prefs.getInstance(context).getCameraMode();
     float _camera_distance = (float)Prefs.getInstance(context).getCameraDistance();
@@ -395,7 +398,8 @@ if (false){
 /*DEBUG*/
     if (_debug) Log.d(TAG, "現在のスピード:[" + _iwashi_speed + "]");
 
-    if (_debug) Log.d(TAG,"現在のBOIDS:[" + _iwashi_boids + "]");
+    if (_debug) Log.d(TAG,"現在のBOIDS(Iwashi):[" + _iwashi_boids + "]");
+    if (_debug) Log.d(TAG,"現在のBOIDS(Shumoku):[" + _shumoku_boids + "]");
 
     if (_iwashi_count != iwashi_count) {
       synchronized (this) {
@@ -429,10 +433,15 @@ if (false){
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
           ((Iwashi)iwashi[ii]).setEnableBoids(_iwashi_boids);
         }
-        for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
-          ((Shumoku)shumoku[ii]).setEnableBoids(_iwashi_boids);
-        }
         enableIwashiBoids = _iwashi_boids;
+      }
+    }
+    if (_shumoku_boids != enableShumokuBoids) {
+      synchronized (this) {
+        for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
+          ((Shumoku)shumoku[ii]).setEnableBoids(_shumoku_boids);
+        }
+        enableShumokuBoids = _shumoku_boids;
       }
     }
     if (_shumoku_speed != shumoku_speed) {

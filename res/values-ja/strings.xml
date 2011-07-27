@@ -108,4 +108,9 @@ https://github.com/atkonn/shumoku3d
   <string name="dialog_title_change_camera_mode">視点変更</string>
   <string name="dialog_message_change_camera_mode">視点を選択してください。</string>
   <string name="ads_title">広告</string>
+
+  <string name="key_preference_shumoku_boids">shumoku_boids</string>
+  <string name="title_preference_shumoku_boids">群れ機能</string>
+  <string name="summary_on_preference_shumoku_boids">群れ機能を無効にします。(現在有効）</string>
+  <string name="summary_off_preference_shumoku_boids">群れ機能を有効にします。(現在無効）</string>
 </resources>

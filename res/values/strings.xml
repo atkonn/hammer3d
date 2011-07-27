@@ -27,9 +27,9 @@
   <string name="summary_setting">Please choose this so that you change the number of sardine or speed.</string>
 
   <string name="key_preference_iwashi_boids">iwashi_boids</string>
-  <string name="title_preference_iwashi_boids">"School of sardines" function</string>
-  <string name="summary_on_preference_iwashi_boids">Disable to "school of sardines" function.</string>
-  <string name="summary_off_preference_iwashi_boids">Enable to "school of sardines" function.</string>
+  <string name="title_preference_iwashi_boids">"BOIDS" function</string>
+  <string name="summary_on_preference_iwashi_boids">Disable to "BOIDS" function.</string>
+  <string name="summary_off_preference_iwashi_boids">Enable to "BOIDS" function.</string>
 
   <string name="key_about_us">about_us</string>
   <string name="text_about_us">about</string>
@@ -117,4 +117,9 @@ License:\n
   <string name="dialog_title_shumoku_count" >How many Hammerhead shark?</string>
   <string name="dialog_message_shumoku_count" >Please select the number of hammerhead shark that display it. </string>
   <string name="dialog_shumoku_count_label">Number of hammerhead shark:</string>
+
+  <string name="key_preference_shumoku_boids">shumoku_boids</string>
+  <string name="title_preference_shumoku_boids">"BOIDS" function</string>
+  <string name="summary_on_preference_shumoku_boids">Disable to "BOIDS" function.</string>
+  <string name="summary_off_preference_shumoku_boids">Enable to "BOIDS" function.</string>
 </resources>

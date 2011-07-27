@@ -80,6 +80,26 @@ public class SettingActivity extends PreferenceActivity {
       pref.setChecked(b);
     }
     {
+      boolean b = Prefs.getInstance(this).getShumokuBoids();
+  
+      Resources res = getResources();
+  
+      String key = res.getString(R.string.key_preference_shumoku_boids);
+      CheckBoxPreference pref = (CheckBoxPreference)findPreference(key);
+      final Prefs prefs = Prefs.getInstance(this);
+      pref.setOnPreferenceChangeListener(
+        new OnPreferenceChangeListener() {
+          @Override
+          public boolean onPreferenceChange(Preference preference, Object newValue) {
+            Boolean nv = (Boolean)newValue;
+            prefs.setShumokuBoids(nv);
+            ((CheckBoxPreference) preference).setChecked((Boolean)newValue);
+            return false;
+          }
+        });
+      pref.setChecked(b);
+    }
+    {
       final SettingActivity __this = this;
       Button button = (Button)findViewById(R.id.preference_button_ok);
       button.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +127,8 @@ public class SettingActivity extends PreferenceActivity {
     if (debug) Log.d(TAG, "start onDestroy");
     boolean b = getPreferenceManager().getSharedPreferences().getBoolean(Prefs.KEY_IWASHI_BOIDS, Prefs.DEFAULT_IWASHI_BOIDS);
     Prefs.getInstance(this).setIwashiBoids(b);
+    b = getPreferenceManager().getSharedPreferences().getBoolean(Prefs.KEY_SHUMOKU_BOIDS, Prefs.DEFAULT_SHUMOKU_BOIDS);
+    Prefs.getInstance(this).setShumokuBoids(b);
     super.onDestroy();
     if (debug) Log.d(TAG, "end onDestroy");
   }

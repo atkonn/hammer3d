@@ -1,5 +1,6 @@
-jinbei3d (1.0.0) stable; urgency=low
+hammer3d (1.0.0) stable; urgency=low
 
   * Initial release.
+    forked from jinbei3d.
 
- -- Atsushi Konno <konno@qsdn.co.jp>  Wed, 20 Jul 2011 22:41:23 +0900
+ -- konno <konno@qsdn.co.jp>  Thu, 28 Jul 2011 01:39:19 +0900

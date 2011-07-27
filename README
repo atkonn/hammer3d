@@ -1,22 +1,35 @@
+Explanation:
 This is 3D live Wallpaper simulating a school of sardines which used BOIDS algorithm.
-with Hammerhead-shark.
+with Hammerhead Shark.
+Sardines each determines the direction of movement according to BOIDS algorithm.
+When there is a Hammerhead Shark near, the sardine is going to be separated.
+Because Hammerhead Shark is an enemy for sardine.
 
 Features:
 1) This simulates "a school of sardines".
 2) You can increase the number of sardine to 100 of them.
 3) You can change the speed that the sardine swims.
-4) You can change the speed that the whale shark swims.
-5) Sardine comes there when you touched screen.
-6) You can enable "a school of sardine" function.
-You can disable "a school of sardine" function.
-7) You can change distance from a viewpoint to the center of the aquarium.
-8) There is a viewpoint mode of a sardine or a viewpoint mode of a whale shark. 
-You seem to have become a sardine or a whale shark.
+4) You can increase the number of hammerhead shark to 10 of them.
+5) You can change the speed that the hammerhead shark swims.
+6) Sardine comes there when you touched screen.
+7) You can enable "BOIDS" function.
+\tYou can disable "BOIDS" function.
+8) You can change distance from a viewpoint to the center of the aquarium.
+9) There is a viewpoint mode of a sardine or a viewpoint mode of a hammerhead shark. 
+You seem to have become a sardine or a hammerhead shark.
 
 Requirement:
 1) After Android2.1.
 2) OpenGL ES 1.0.
 3) Over 3MB Heep memory area.
+
+ChangeLog:
+hammer3d (1.0.0) stable; urgency=low
+
+  * Initial release.
+    forked from jinbei3d.
+
+ -- konno &lt;konno@qsdn.co.jp&gt;  Thu, 28 Jul 2011 01:39:19 +0900
 
 Copyright:
   * Copyright (c) 2011 QSDN,Inc. All right reserved.
@@ -25,4 +38,6 @@ Copyright:
 License:
   * Apache Software License 2.0.
     - see https://github.com/atkonn/hammer3d
-or https://girorious.org/hammer3d
+      or 
+      https://gitorious/hammer3d
+

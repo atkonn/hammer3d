@@ -64,11 +64,12 @@ Boidsアルゴリズムを使った鰯の群れをシミュレートする3Dラ�
 ※頂点データ・テクスチャをメモリ上に読み込むため、メモリを大量消費します。\n
 \n
 ★変更履歴:\n
-shumoku3d (1.0.0) stable; urgency=low\n
+hammer3d (1.0.0) stable; urgency=low\n
 \n
   * Initial release.\n
+\tforked from jinbei3d.\n
 \n
- -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Wed, 20 Jul 2011 22:41:23 +0900\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Thu, 28 Jul 2011 01:39:19 +0900\n
 \n
 ★著作権表示:\n
   * Copyright (c) 2011 株式会社QSDN All right reserved.\n
@@ -77,7 +78,9 @@ shumoku3d (1.0.0) stable; urgency=low\n
 ★ライセンス:\n
   * ソースコードはApache Software License 2.0に基づいて公開しています。\n
 \t詳細は
-https://github.com/atkonn/shumoku3d
+\thttps://github.com/atkonn/shumoku3d\n
+\tor\n
+\thttps://gitorious.org/shumoku3d\n
 を参照してください。\n
 \n
 </string>
@@ -92,7 +95,7 @@ https://github.com/atkonn/shumoku3d
 
   <string name="to_default_button">初期値に戻す</string>
 
-<!-- ここからJINBEI -->
+<!-- SHUMOKU -->
   <string name="title_preference_shumoku">シュモクザメ設定</string>
 
   <string name="key_preference_shumoku_speed">shumoku_speed</string>
@@ -117,4 +120,12 @@ https://github.com/atkonn/shumoku3d
   <string name="title_preference_shumoku_boids">群れ機能</string>
   <string name="summary_on_preference_shumoku_boids">群れ機能を無効にします。(現在有効）</string>
   <string name="summary_off_preference_shumoku_boids">群れ機能を有効にします。(現在無効）</string>
+
+  <string name="key_preference_shumoku_count">shumoku_count</string>
+  <string name="title_preference_shumoku_count">シュモクザメの数</string>
+  <string name="summary_preference_shumoku_count">表示するシュモクザメの数を設定します</string>
+  <string name="dialog_title_shumoku_count" >シュモクザメ何匹？</string>
+  <string name="dialog_message_shumoku_count" >表示するシュモクザメの数を選択してください。</string>
+  <string name="dialog_shumoku_count_label">シュモクザメの数：</string>
+
 </resources>

@@ -65,11 +65,12 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 ChangeLog:\n
-shumoku3d (1.0.0) stable; urgency=low\n
+hammer3d (1.0.0) stable; urgency=low\n
 \n
   * Initial release.\n
+\tforked from jinbei3d.\n
 \n
- -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Wed, 20 Jul 2011 22:41:23 +0900\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Thu, 28 Jul 2011 01:39:19 +0900\n
 \n
 Copyright:\n
   * Copyright (c) 2011 QSDN,Inc. All right reserved.\n

@@ -392,10 +392,7 @@ public class Iwashi implements Model {
     this.schoolDir[2] = 0f;
     for (int ii=0; ii<species.length; ii++) {
       float dist = 0f;
-      if (ii != species.length - 1 && iwashiCount <= ii) {
-        continue;
-      }
-      else if (ii < iwashiNo) {
+      if (ii < iwashiNo) {
         dist = species[ii].getDistances()[iwashiNo];
       }
       else if (ii == iwashiNo) {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="title">Hammerhead shark and sardines</string>
-  <string name="app_name">Hammerhead shark and sardines</string>
-  <string name="service_name">Hammerhead shark and sardines</string>
+  <string name="title">HammerheadShark and Sardines</string>
+  <string name="app_name">HammerheadShark and Sardines</string>
+  <string name="service_name">HammerheadShark and Sardines</string>
   <string name="description">3D live wallpaper that used BOIDS algorithm</string>
   <string name="author">QSDN,Inc.</string>
   <string name="version">version 1.0.0</string>
@@ -36,23 +36,27 @@
   <string name="key_preference_ok_button">ok_button</string>
   <string name="text_preference_ok_button">OK</string>
 
-  <string name="about_title">about School of sardines</string>
+  <string name="about_title">about HammerheadShark and Sardines</string>
   <string name="text_about_ok_button">OK</string>
 
   <string name="about_description">Explanation:\n
 This is 3D live Wallpaper simulating a school of sardines which used BOIDS algorithm.\n
-with Hammerhead shark.
+with Hammerhead Shark.\n
+Sardines each determines the direction of movement according to BOIDS algorithm.\n
+When there is a Hammerhead Shark near, the sardine is going to be separated.\n
+Because Hammerhead Shark is an enemy for sardine.\n
 \n
 Features:\n
 1) This simulates "a school of sardines".\n
 2) You can increase the number of sardine to 100 of them.\n
 3) You can change the speed that the sardine swims.\n
-4) You can change the speed that the hammerhead shark swims.\n
-5) Sardine comes there when you touched screen.\n
-6) You can enable "a school of sardine" function.\n
-You can disable "a school of sardine" function.\n
-7) You can change distance from a viewpoint to the center of the aquarium.\n
-8) There is a viewpoint mode of a sardine or a viewpoint mode of a hammerhead shark. \n
+4) You can increase the number of hammerhead shark to 10 of them.\n
+5) You can change the speed that the hammerhead shark swims.\n
+6) Sardine comes there when you touched screen.\n
+7) You can enable "BOIDS" function.\n
+\tYou can disable "BOIDS" function.\n
+8) You can change distance from a viewpoint to the center of the aquarium.\n
+9) There is a viewpoint mode of a sardine or a viewpoint mode of a hammerhead shark. \n
 You seem to have become a sardine or a hammerhead shark.\n
 \n
 Requirement:\n
@@ -74,6 +78,7 @@ Copyright:\n
 License:\n
   * Apache Software License 2.0.\n
 \t- see https://github.com/atkonn/hammer3d\n
+\tor https://gitorious/hammer3d\n
 \n
 </string>
   <string name="key_preference_camera_mode">camera_mode</string>
@@ -88,7 +93,7 @@ License:\n
   <string name="to_default_button">reset</string>
 
 
-<!-- JINBEI -->
+<!-- Hammerhead shark -->
   <string name="title_preference_shumoku">Settings of Hammerhead shark</string>
 
   <string name="key_preference_shumoku_speed">shumoku_speed</string>

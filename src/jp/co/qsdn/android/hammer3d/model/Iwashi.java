@@ -588,13 +588,11 @@ public class Iwashi implements Model {
     }
 
     /** Enemies come! */
-    for (int ii=0; ii<enemies.length; ii++) {
+    Model enemy = null;
+    for (int ii=0; ii<enemiesCount; ii++) {
       if (((Shumoku)enemies[ii]).crossTestSep(getX(), getY(), getZ())) {
-        if (doSeparation(enemies[ii])) {
-          setStatus(STATUS.ESCAPE);
-          update_speed();
-          return;
-        }
+        enemy = enemies[ii];
+        break;
       }
     }
 
@@ -614,6 +612,28 @@ public class Iwashi implements Model {
        */
       // separation
       Model[] target = getTarget();
+      if (enemy != null) {
+        if (schoolCount >= (iwashiCount / 4)) {
+          if (doSchoolCenter()) {
+            if (traceBOIDS && iwashiNo == 0) Log.d(TAG, "Cohesion(to School)");
+            update_speed();
+            enemy = null;
+            target[0] = null;
+            target[1] = null;
+            target[2] = null;
+            target[3] = null;
+            return;
+          }
+        }
+        doSeparation(enemy);
+        setStatus(STATUS.ESCAPE);
+        update_speed();
+        target[0] = null;
+        target[1] = null;
+        target[2] = null;
+        target[3] = null;
+        return;
+      }
       if (target[0] != null) {
         if (doSeparation(target[0])) {
           if (traceBOIDS && iwashiNo == 0) Log.d(TAG, "Separate");
@@ -675,7 +695,14 @@ public class Iwashi implements Model {
       target[2] = null;
       target[3] = null;
     }
-
+    else {
+      if (enemy != null) {
+        doSeparation(enemy);
+        setStatus(STATUS.ESCAPE);
+        update_speed();
+        return;
+      }
+    }
     if (this.rand.nextInt(10000) <= adjustTick(9500)) {
       if (traceBOIDS && iwashiNo == 0) Log.d(TAG, "Nop");
       // 変更なし

@@ -130,15 +130,6 @@ public class GLRenderer {
       ((Iwashi)iwashi[ii]).setIwashiCount(iwashi_count);
       ((Iwashi)iwashi[ii]).setBaitManager(baitManager);
     }
-/*DEBUG*/
-if (false) {
-    for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
-      ((Iwashi)iwashi[ii]).setX(0.0f);
-      ((Iwashi)iwashi[ii]).setY(0.0f);
-      ((Iwashi)iwashi[ii]).setZ(0.0f);
-    }
-}
-/*DEBUG*/
   }
   
   public static GLRenderer getInstance(Context context) {
@@ -200,9 +191,6 @@ if (false) {
     gl10.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     gl10.glClearDepthf(1.0f);
 
-    // ステンシルのクリア
-//    gl10.glClearStencil(0);
-
     if (_debug) Log.d(TAG, "end onSurfaceCreated()");
   }
 
@@ -226,7 +214,6 @@ if (false) {
       /*=======================================================================*/
       /* 環境光の色設定                                                        */
       /*=======================================================================*/
-//      float[] amb = { 1.0f, 1.0f, 1.0f, 1.0f };
       synchronized(mScratch4f) {
         mScratch4f[0] = 1.0f;
         mScratch4f[1] = 1.0f;
@@ -237,7 +224,6 @@ if (false) {
       /*=======================================================================*/
       /* 拡散反射光の色設定                                                    */
       /*=======================================================================*/
-//      float[] diff = { 1.0f, 1.0f, 1.0f, 1.0f };
       synchronized(mScratch4f) {
         mScratch4f[0] = 1.0f;
         mScratch4f[1] = 1.0f;
@@ -248,7 +234,6 @@ if (false) {
       /*=======================================================================*/
       /* 鏡面反射光の色設定                                                    */
       /*=======================================================================*/
-//      float[] spec = { 1.0f, 1.0f, 1.0f, 1.0f };
       synchronized(mScratch4f){
         mScratch4f[0] = 1.0f;
         mScratch4f[1] = 1.0f;
@@ -259,7 +244,6 @@ if (false) {
       /*=======================================================================*/
       /* そもそもの光の位置設定                                                */
       /*=======================================================================*/
-//      float[] pos1 = { 0.0f, 10.0f, 0.0f, 1.0f };
       synchronized(mScratch4f){
         mScratch4f[0] = 0.0f;
         mScratch4f[1] = 10.0f;
@@ -270,7 +254,6 @@ if (false) {
       /*=======================================================================*/
       /* そもそもの光の向き設定                                                */
       /*=======================================================================*/
-//      float[] dir = { 0.0f, -1.0f, 0.0f };
       synchronized(mScratch4f) {
         mScratch4f[0] = 0.0f;
         mScratch4f[1] = -1.0f;
@@ -291,7 +274,6 @@ if (false) {
       /*=======================================================================*/
       /* 環境光の色設定                                                        */
       /*=======================================================================*/
-      //float[] amb = { 0.019f, 0.9606f, 1.0f, 1.0f };
       synchronized(mScratch4f) {
         mScratch4f[0] = 0.019f * 0.6f;
         mScratch4f[1] = 0.9606f * 0.6f;
@@ -301,12 +283,10 @@ if (false) {
       /*=======================================================================*/
       /* 拡散反射光の色設定                                                    */
       /*=======================================================================*/
-        //float[] diff = { 0.019f, 0.9606f, 1.0f, 1.0f };
         gl10.glLightfv(GL10.GL_LIGHT1, GL10.GL_DIFFUSE, mScratch4f, 0);
       /*=======================================================================*/
       /* 鏡面反射光の色設定                                                    */
       /*=======================================================================*/
-        //float[] spec = { 0.019f, 0.9606f, 1.0f, 1.0f };
         mScratch4f[0] *= 0.5f;
         mScratch4f[1] *= 0.5f;
         mScratch4f[2] *= 0.5f;
@@ -315,7 +295,6 @@ if (false) {
       /*=======================================================================*/
       /* そもそもの光の位置設定                                                */
       /*=======================================================================*/
-      //float[] pos = { 0.0f, -10.0f, 0.0f, 1.0f };
       synchronized (mScratch4f) {
         mScratch4f[0] = 0.0f;
         mScratch4f[1] = -10.0f;
@@ -326,7 +305,6 @@ if (false) {
       /*=======================================================================*/
       /* そもそもの光の向き設定                                                */
       /*=======================================================================*/
-      //float[] dir = { 0.0f, 1.0f, 0.0f };
       synchronized (mScratch4f) {
         mScratch4f[0] = 0.0f;
         mScratch4f[1] = 1.0f;
@@ -390,12 +368,6 @@ if (false) {
     boolean _iwashi_boids = Prefs.getInstance(context).getIwashiBoids();
     int _camera_mode = Prefs.getInstance(context).getCameraMode();
     float _camera_distance = (float)Prefs.getInstance(context).getCameraDistance();
-/*DEBUG*/
-if (false){
-  _iwashi_count = 1;
-  _camera_distance = 1f;
-}
-/*DEBUG*/
     if (_debug) Log.d(TAG, "現在のスピード:[" + _iwashi_speed + "]");
 
     if (_debug) Log.d(TAG,"現在のBOIDS(Iwashi):[" + _iwashi_boids + "]");
@@ -413,17 +385,23 @@ if (false){
       synchronized (this) {
         shumoku_count = _shumoku_count;
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
-          ((Iwashi)iwashi[ii]).setEnemiesCount(shumoku_count);
+          if (iwashi[ii] != null) {
+            ((Iwashi)iwashi[ii]).setEnemiesCount(shumoku_count);
+          }
         }
         for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
-          ((Shumoku)shumoku[ii]).setShumokuCount(shumoku_count);
+          if (shumoku[ii] != null) {
+            ((Shumoku)shumoku[ii]).setShumokuCount(shumoku_count);
+          }
         }
       }
     }
     if (_iwashi_speed != iwashi_speed) {
       synchronized (this) {
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
-          ((Iwashi)iwashi[ii]).setSpeed(_iwashi_speed);
+          if (iwashi[ii] != null) {
+            ((Iwashi)iwashi[ii]).setSpeed(_iwashi_speed);
+          }
         }
         iwashi_speed = _iwashi_speed;
       }
@@ -431,7 +409,9 @@ if (false){
     if (_iwashi_boids != enableIwashiBoids) {
       synchronized (this) {
         for (int ii=0; ii<MAX_IWASHI_COUNT; ii++) {
-          ((Iwashi)iwashi[ii]).setEnableBoids(_iwashi_boids);
+          if (iwashi[ii] != null) {
+            ((Iwashi)iwashi[ii]).setEnableBoids(_iwashi_boids);
+          }
         }
         enableIwashiBoids = _iwashi_boids;
       }
@@ -439,7 +419,9 @@ if (false){
     if (_shumoku_boids != enableShumokuBoids) {
       synchronized (this) {
         for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
-          ((Shumoku)shumoku[ii]).setEnableBoids(_shumoku_boids);
+          if (shumoku[ii] != null) {
+            ((Shumoku)shumoku[ii]).setEnableBoids(_shumoku_boids);
+          }
         }
         enableShumokuBoids = _shumoku_boids;
       }
@@ -447,7 +429,9 @@ if (false){
     if (_shumoku_speed != shumoku_speed) {
       synchronized (this) {
         for (int ii=0; ii<MAX_SHUMOKU_COUNT; ii++) {
-          ((Shumoku)shumoku[ii]).setSpeed(_shumoku_speed);
+          if (shumoku[ii] != null) {
+            ((Shumoku)shumoku[ii]).setSpeed(_shumoku_speed);
+          }
         }
         shumoku_speed = _shumoku_speed;
       }
@@ -491,10 +475,6 @@ if (false){
     synchronized(this) {
       float xx = (float)xPixelOffset / 480f;
       baseAngle = xx * 180f + 90f;
-//      if (xOffset >= 0.0f && xOffset <= 1.0f) {
-//        float offset = xOffset - 0.5f;
-//        baseAngle = offset * (-180f);
-//      }
     }
     if (_debug) {
       Log.d(TAG, 
@@ -624,13 +604,11 @@ if (false){
     gl10.glPushMatrix(); 
 
     // 画面をクリアする
-    //gl10.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT | GL10.GL_STENCIL_BUFFER_BIT);
     gl10.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
     // モデルの位置を決める
     gl10.glMatrixMode(GL10.GL_MODELVIEW);
     gl10.glLoadIdentity();
-//    gl10.glDisable(GL10.GL_STENCIL_TEST);
 
 
     // カメラ
@@ -681,7 +659,6 @@ if (false){
     setupLighting2(gl10);
     setupLighting1(gl10);
 
-//    gl10.glDisable(GL10.GL_STENCIL_TEST);
     gl10.glDisable(GL10.GL_DEPTH_TEST);
 
     synchronized (this) {
@@ -699,47 +676,7 @@ if (false){
     wave.calc();
     
     // model
-    // リフレクションの描画
-//    synchronized (this) {
-      wave.draw(gl10);
-//      //ステンシルテストの有効化
-//      gl10.glColorMask(false,false,false,false);
-//      gl10.glDepthMask(false);
-//      gl10.glEnable(GL10.GL_STENCIL_TEST);
-//      gl10.glStencilOp(GL10.GL_REPLACE,GL10.GL_REPLACE,GL10.GL_REPLACE);
-//      gl10.glStencilFunc(GL10.GL_ALWAYS,1,~0);
-//      wave.draw(gl10);
-//      {
-//        gl10.glPushMatrix();
-//        gl10.glStencilOp(GL10.GL_KEEP, GL10.GL_KEEP, GL10.GL_INCR);
-//        gl10.glStencilFunc(GL10.GL_EQUAL, 1, ~0);
-//        gl10.glRotatef(-baseAngle, 0.0f, 1.0f, 0.0f);
-//        wave.drawForStencil(gl10);
-//        gl10.glPopMatrix();
-//      }
-//      gl10.glColorMask(true,true,true,true);
-//      gl10.glDepthMask(true);
-//      gl10.glStencilOp(GL10.GL_KEEP, GL10.GL_KEEP, GL10.GL_KEEP);
-//      gl10.glStencilFunc(GL10.GL_EQUAL, 2, ~0);
-//      gl10.glPushMatrix();
-//      gl10.glScalef(1.0f,-1.0f,1.0f);
-//      gl10.glTranslatef(0f,-Aquarium.max_y+Aquarium.min_y-0.5f,0f);
-//      gl10.glPushMatrix();
-//
-//      {
-//        setupFog2(gl10);
-//        for (int ii=0; ii<iwashi_count; ii++) {
-//          if (iwashi[ii].getY() >= Aquarium.max_y / 3.0f * 2.0f) {
-//            iwashi[ii].draw(gl10);
-//          }
-//        }
-//        setupFog(gl10);
-//      }
-//      gl10.glPopMatrix();
-//     gl10.glPopMatrix();
-//
-//      gl10.glDisable(GL10.GL_STENCIL_TEST);
-//    }
+    wave.draw(gl10);
     gl10.glEnable(GL10.GL_DEPTH_TEST);
     synchronized (this) {
       for (int ii=0; ii<iwashi_count; ii++) {
@@ -747,17 +684,23 @@ if (false){
           // 鰯視点モードのときは、自分は描画しない
         }
         else {
-          iwashi[ii].draw(gl10);
+          if (iwashi[ii] != null) {
+            iwashi[ii].draw(gl10);
+          }
         }
       }
     }
     synchronized (this) {
       for (int ii=0; ii<shumoku_count; ii++) {
         if (ii != 0) {
-          shumoku[ii].draw(gl10);
+          if (shumoku[ii] != null) {
+            shumoku[ii].draw(gl10);
+          }
         }
         else if (ii == 0 && cameraMode != R.id.radio2) {
-          shumoku[ii].draw(gl10);
+          if (shumoku[ii] != null) {
+            shumoku[ii].draw(gl10);
+          }
         }
       }
     }

@@ -79,6 +79,9 @@ public class AtlantisService extends WallpaperService {
     private Runnable drawCommand = null;
 
     private void doExecute(Runnable command) {
+      if (command == null) {
+        return;
+      }
       while(true) {
         try {
           getExecutor().execute(command);
@@ -168,6 +171,9 @@ public class AtlantisService extends WallpaperService {
       Runnable surfaceCreatedCommand = new Runnable() {
         @Override
         public void run() {
+          doSurfaceCreated();
+        }
+        private void doSurfaceCreated() {
           if (mInitialized) {
             if (_debug) Log.d(TAG, "already Initialized(surfaceCreatedCommand)");
             return;
@@ -330,6 +336,9 @@ public class AtlantisService extends WallpaperService {
             if (drawCommand == null) {
               drawCommand = new Runnable() {
                 public void run() {
+                  doDrawCommand();
+                }
+                protected void doDrawCommand() {
                   if (mInitialized && glRenderer != null && gl10 != null) {
                     synchronized (glRenderer) {
                       long nowTime = System.nanoTime();
@@ -365,6 +374,9 @@ public class AtlantisService extends WallpaperService {
       Runnable surfaceDestroyedCommand = new Runnable() {
         @Override
         public void run() {
+          doSurfaceDestroyedCommand();
+        }
+        private void doSurfaceDestroyedCommand() {
           synchronized (glRenderer) {
             glRenderer.onSurfaceDestroyed(gl10);
           }
@@ -392,7 +404,6 @@ public class AtlantisService extends WallpaperService {
         Thread.currentThread().interrupt();
       }
       drawCommand = null;
-      executor = null;
       super.onSurfaceDestroyed(holder);
       if (_debug) Log.d(TAG, "end onSurfaceDestroyed() [" + this + "]");
     }
@@ -405,6 +416,9 @@ public class AtlantisService extends WallpaperService {
       this.height = height;
       Runnable surfaceChangedCommand = new Runnable() {
         public void run() {
+          doSurfaceChanged();
+        }
+        private void doSurfaceChanged() {
           if (glRenderer != null && gl10 != null && mInitialized) {
             synchronized (glRenderer) {
               glRenderer.onSurfaceChanged(gl10, width, height);
@@ -445,6 +459,9 @@ public class AtlantisService extends WallpaperService {
       }
       Runnable offsetsChangedCommand = new Runnable() {
         public void run() {
+          doOffsetsChanged();
+        }
+        private void doOffsetsChanged() {
           if (mInitialized && glRenderer != null && gl10 != null) {
             synchronized (glRenderer) {
               glRenderer.onOffsetsChanged(gl10, xOffset, yOffset, xOffsetStep, yOffsetStep, xPixelOffset, yPixelOffset);
@@ -475,6 +492,9 @@ public class AtlantisService extends WallpaperService {
       if (action.equals("android.wallpaper.tap")) {
          Runnable onCommandCommand = new Runnable() {
            public void run() {
+             doCommandCommand();
+           }
+           private void doCommandCommand() {
              if (mInitialized && glRenderer != null && gl10 != null) {
                synchronized (glRenderer) {
                  glRenderer.onCommand(gl10, action, x, y, z, extras, resultRequested);
@@ -532,8 +552,7 @@ public class AtlantisService extends WallpaperService {
   public void waitNano() {
     if (_debug) Log.d(TAG, "start waitNano");
     try { 
-      //TimeUnit.NANOSECONDS.sleep(5000);
-      TimeUnit.SECONDS.sleep(5);
+      TimeUnit.SECONDS.sleep(1);
     } catch (InterruptedException e) {
     }
     if (_debug) Log.d(TAG, "end waitNano");

@@ -20,14 +20,32 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import java.util.concurrent.TimeUnit;
+
 public class IwashiData {
   private static int[] mScratch128i = new int[128];
-  public static final FloatBuffer[] mVertexBuffer = new FloatBuffer[40];
+  public static final FloatBuffer[] mVertexBuffer = new FloatBuffer[36];
   public static void init() {
     for (int ii=0; ii<mVertexBuffer.length; ii++) {
-      ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
-      vbb.order(ByteOrder.nativeOrder());
-      mVertexBuffer[ii] = vbb.asFloatBuffer();
+      int retry = 0;
+      while(true) {
+        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
+        if (vbb.capacity() != vertices.length * 4) {
+          // XXX: FIX ME. ByteBuffer.allocateDirect failed sometime.
+          if (++retry > 3) {
+            throw new RuntimeException("Memory Allocate Exception");
+          }
+          System.gc();
+          try {
+            TimeUnit.SECONDS.sleep(1);
+          } catch (InterruptedException e) {
+          }
+          continue;
+        }
+        vbb.order(ByteOrder.nativeOrder());
+        mVertexBuffer[ii] = vbb.asFloatBuffer();
+        break;
+      }
     }
     mVertexBuffer[0].position(0);
     mVertexBuffer[0].put(vertices);
@@ -88,7 +106,6 @@ public class IwashiData {
     //1293 431 {4.497553, 1.130905, 0.009254}
     //1299 433 {4.497553, 1.130905, 0.009254}
     synchronized (mScratch128i) {
-//      int idx[] = { 106,431,433,};
       mScratch128i[0] = 106;
       mScratch128i[1] = 431;
       mScratch128i[2] = 433;
@@ -129,7 +146,6 @@ public class IwashiData {
     // 282 094 {4.597796, 0.163766, -0.009247}
     // 327 109 {4.587202, 0.163779, 0.009247}
     synchronized (mScratch128i) {
-      //int idx[] = { 88,92,94,109,};
       mScratch128i[0] = 88;
       mScratch128i[1] = 92;
       mScratch128i[2] = 94;

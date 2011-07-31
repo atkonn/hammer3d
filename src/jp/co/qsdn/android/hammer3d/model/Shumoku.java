@@ -71,11 +71,11 @@ public class Shumoku implements Model {
    */
   private Model[] species;
 
-  public static final double separate_dist  = 10.0d * scale * (double)GL_SHUMOKU_SCALE;
+  public static final double separate_dist  = 5.0d * scale * (double)GL_SHUMOKU_SCALE;
   private static double[] separate_dist_xyz = { 
-                                    5.404d * scale * (double)GL_SHUMOKU_SCALE * 3d,
-                                    0.734d * scale * (double)GL_SHUMOKU_SCALE * 3d, 
-                                    0.347d * scale * (double)GL_SHUMOKU_SCALE * 3d,
+                                    5.404d * scale * (double)GL_SHUMOKU_SCALE,
+                                    0.734d * scale * (double)GL_SHUMOKU_SCALE, 
+                                    0.347d * scale * (double)GL_SHUMOKU_SCALE,
                                   };
   public static double[] aabb_org = {
     -separate_dist_xyz[0], -separate_dist_xyz[1], -separate_dist_xyz[2],
@@ -3214,7 +3214,10 @@ public class Shumoku implements Model {
     coordUtil.setMatrixRotateZ(x_angle);
     synchronized (mScratch4f_1) {
       synchronized (mScratch4f_2) {
-        coordUtil.affine((float)aabb_org[0],(float)aabb_org[1], (float)aabb_org[2], mScratch4f_1);
+        coordUtil.affine((float)aabb_org[0] - ((float)separate_dist / 2f), 
+                         (float)aabb_org[1] - (float)separate_dist, 
+                         (float)aabb_org[2] - (float)separate_dist, 
+                         mScratch4f_1);
         coordUtil.setMatrixRotateY(y_angle);
         coordUtil.affine(mScratch4f_1[0],mScratch4f_1[1], mScratch4f_1[2], mScratch4f_2);
         sep_aabb[0] = mScratch4f_2[0];
@@ -3225,7 +3228,10 @@ public class Shumoku implements Model {
     coordUtil.setMatrixRotateZ(x_angle);
     synchronized (mScratch4f_1) {
       synchronized (mScratch4f_2) {
-        coordUtil.affine((float)aabb_org[3],(float)aabb_org[4], (float)aabb_org[5], mScratch4f_1);
+        coordUtil.affine((float)aabb_org[3] + ((float)separate_dist / 2f),
+                         (float)aabb_org[4] + (float)separate_dist, 
+                         (float)aabb_org[5] + (float)separate_dist, 
+                         mScratch4f_1);
         coordUtil.setMatrixRotateY(y_angle);
         coordUtil.affine(mScratch4f_1[0],mScratch4f_1[1], mScratch4f_1[2], mScratch4f_2);
         sep_aabb[3] = mScratch4f_2[0];

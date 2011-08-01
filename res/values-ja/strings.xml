@@ -5,7 +5,7 @@
   <string name="service_name">撞木鮫と鰯</string>
   <string name="description">Boidsアルゴリズムを使った鰯の群れ3Dライブ壁紙(シュモクザメ付き)</string>
   <string name="author">株式会社QSDN</string>
-  <string name="version">version 1.0.1</string>
+  <string name="version">version 1.0.2</string>
   <string name="copyright">Copyright © 2011 QSDN,Inc. All rights reserved.</string>
 
   <string name="setting_title">設定</string>

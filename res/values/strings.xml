@@ -67,7 +67,7 @@ Requirement:\n
 Newly ChangeLog:\n
 hammer3d (1.0.2) stable; urgency=high\n
 \n
-* Fixed Bug.
+* Fixed Bug.\n
 \t- I did not make the place that I should run again.\n
 \tTherefore it crashes.\n
 \n

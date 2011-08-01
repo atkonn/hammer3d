@@ -65,6 +65,14 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 Newly ChangeLog:\n
+hammer3d (1.0.2) stable; urgency=high\n
+\n
+* Fixed Bug.
+\t- I did not make the place that I should run again.\n
+\tTherefore it crashes.\n
+\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Tue, 02 Aug 2011 02:44:52 +0900\n
+\n
 hammer3d (1.0.1) stable; urgency=low\n
 \n
 *Improved a part of the BOIDS algorithm\n

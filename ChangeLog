@@ -1,3 +1,11 @@
+hammer3d (1.0.2) stable; urgency=high
+
+  * Fixed Bug.
+    - I did not make the place that I should run again.
+      Therefore it crashes.
+
+ -- Atsushi Konno <konno@qsdn.co.jp>  Tue, 02 Aug 2011 02:44:52 +0900
+
 hammer3d (1.0.1) stable; urgency=low
 
   * Improved a part of the BOIDS algorithm

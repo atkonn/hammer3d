@@ -354,6 +354,9 @@ public class Iwashi implements Model {
     nextDirectionCount = 0;
     nextSpeed = 0f;
     nextSpeedCount = 0;
+    if (encounterEnemy()) {
+      return;
+    }
 
     if (getStatus() == STATUS.TO_BAIT || getStatus() == STATUS.ESCAPE) {
       /* reset speed */
@@ -376,6 +379,62 @@ public class Iwashi implements Model {
     update_speed();
   }
 
+  protected boolean encounterEnemy() {
+    /** Enemies come! */
+    boolean encounterEnemyFlag = false;
+    for (int ii=0; ii < enemiesCount && ii < enemies.length; ii++) {
+      if (enemies[ii] != null) {
+        if (((Shumoku)enemies[ii]).crossTestSep(getX(), getY(), getZ())) {
+          calcSeparation(enemies[ii], true);
+          encounterEnemyFlag = true;
+        }
+      }
+    }
+    if (false == encounterEnemyFlag) {
+      return false;
+    }
+    nextDirection[0] /= (float)nextDirectionCount;
+    nextDirection[1] /= (float)nextDirectionCount;
+    nextDirection[2] /= (float)nextDirectionCount;
+  
+    float angle_x = (float)coordUtil.convertDegreeXY((double)nextDirection[0], (double)nextDirection[1]);
+    float angle_y = (float)coordUtil.convertDegreeXZ((double)nextDirection[0] * -1d, (double)nextDirection[2]);
+
+    if (angle_x > 180f) {
+      angle_x = angle_x - 360f;
+    }
+    if ((angle_x < 0.0f && nextDirection[1] > 0.0f) || (angle_x > 0.0f && nextDirection[1] < 0.0f)) {
+      angle_x *= -1f;
+    }
+    if (angle_y < 0.0f) {
+      angle_y = 360f + angle_y;
+    }
+    angle_y = angle_y % 360f;
+
+    aimTargetDegree(angle_x, angle_y, true);
+    if (debug) {
+      Log.d(TAG, "now y_angle:[" + y_angle + "]");
+      Log.d(TAG, "now x_angle:[" + x_angle + "]");
+    }
+
+    coordUtil.setMatrixRotateZ(x_angle);
+    synchronized (mScratch4f_1) {
+      synchronized (mScratch4f_2) {
+        coordUtil.affine(-1.0f,0.0f, 0.0f, mScratch4f_1);
+        coordUtil.setMatrixRotateY(y_angle);
+        coordUtil.affine(mScratch4f_1[0],mScratch4f_1[1], mScratch4f_1[2], mScratch4f_2);
+        CoordUtil.normalize3fv(mScratch4f_2);
+        direction[0] = mScratch4f_2[0];
+        direction[1] = mScratch4f_2[1];
+        direction[2] = mScratch4f_2[2];
+      }
+    }
+
+    setStatus(STATUS.ESCAPE);
+    update_speed();
+    return true;
+  }
+
   protected boolean doBoids() {
     if (this.rand.nextInt(10000) <= 1000) {
       if (traceBOIDS && iwashiNo == 0) Log.d(TAG, "Nop");
@@ -394,14 +453,6 @@ public class Iwashi implements Model {
      * rule 3 Cohesion
      * and escape
      */
-    /** Enemies come! */
-    for (int ii=0; ii<enemiesCount; ii++) {
-      if (enemies[ii] != null) {
-        if (((Shumoku)enemies[ii]).crossTestSep(getX(), getY(), getZ())) {
-          calcSeparation(enemies[ii], true);
-        }
-      }
-    }
     schoolCenter[0] = schoolCenter[1] = schoolCenter[2] = 0f;
     schoolCount = 0;
     for (int ii=0; ii<species.length && ii<iwashiCount; ii++) {
@@ -688,23 +739,33 @@ public class Iwashi implements Model {
       }
     }
   }
+
   public void aimTargetDegree(float angle_x, float angle_y) {
+    aimTargetDegree(angle_x, angle_y, false);
+  }
+
+  public void aimTargetDegree(float angle_x, float angle_y, boolean forceTurn) {
     float newAngle = this.rand.nextFloat() * 22.5f;
     float xx = angle_x - x_angle;
-    if (xx < 0.0f) {
-      if (xx > -22.5f) {
-        x_angle += xx;
-      }
-      else {
-        x_angle += -newAngle;
-      }
+    if (forceTurn) {
+      x_angle += xx;
     }
     else {
-      if (xx < 22.5f) {
-        x_angle += xx;
+      if (xx < 0.0f) {
+        if (xx > -22.5f) {
+          x_angle += xx;
+        }
+        else {
+          x_angle += -newAngle;
+        }
       }
       else {
-        x_angle += newAngle;
+        if (xx < 22.5f) {
+          x_angle += xx;
+        }
+        else {
+          x_angle += newAngle;
+        }
       }
     }
     if (x_angle > 45.0f) {
@@ -722,20 +783,25 @@ public class Iwashi implements Model {
       yy = 360f - yy;
     }
 
-    if (yy < 0.0f) {
-      if (yy > -22.5f) {
-        y_angle += yy;
-      }
-      else {
-        y_angle += -newAngle;
-      }
+    if (forceTurn) {
+      y_angle += yy;
     }
     else {
-      if (yy < 22.5f) {
-        y_angle += yy;
+      if (yy < 0.0f) {
+        if (yy > -22.5f) {
+          y_angle += yy;
+        }
+        else {
+          y_angle += -newAngle;
+        }
       }
       else {
-        y_angle += newAngle;
+        if (yy < 22.5f) {
+          y_angle += yy;
+        }
+        else {
+          y_angle += newAngle;
+        }
       }
     }
     y_angle = y_angle % 360f;
@@ -743,6 +809,7 @@ public class Iwashi implements Model {
       y_angle = 360f + y_angle;
     }
   }
+
   public void aimTargetSpeed(float t_speed) {
     if (t_speed <= speed) {
       update_speed();

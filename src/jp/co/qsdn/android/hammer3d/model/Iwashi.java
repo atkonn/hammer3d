@@ -142,7 +142,7 @@ public class Iwashi implements Model {
   private float speed_unit = DEFAULT_SPEED / 5f * 0.5f;
   private float speed_max = DEFAULT_SPEED * 3f * 0.5f;
   private float speed_min = speed_unit;
-  private float cohesion_speed = speed * 5f * 0.5f;
+  private float cohesion_speed = speed * 5f;
   private float sv_speed = speed;
 
   private int iwashiNo = 0;

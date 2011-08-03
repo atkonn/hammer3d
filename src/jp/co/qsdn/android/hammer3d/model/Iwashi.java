@@ -74,7 +74,7 @@ public class Iwashi implements Model {
    */
   private double separate_dist  = 7.0d * scale * (double)GL_IWASHI_SCALE;
   private double alignment_dist = 30.0d * scale * (double)GL_IWASHI_SCALE;
-  private double cohesion_dist  = 50.0d * scale * (double)GL_IWASHI_SCALE;
+  private double cohesion_dist  = 110.0d * scale * (double)GL_IWASHI_SCALE;
 
   private float[] schoolCenter = {0f,0f,0f};
   private float[] schoolDir = {0f,0f,0f};

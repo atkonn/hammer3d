@@ -48,7 +48,8 @@ Because Hammerhead Shark is an enemy for sardine.\n
 \n
 Features:\n
 1) This simulates "a school of sardines".\n
-2) You can increase the number of sardine to 100 of them.\n
+2) You can increase the number of sardine to 150 of them.\n
+\tIf your device become slow or choppy, please adjust speed and the number of sardine.\n
 3) You can change the speed that the sardine swims.\n
 4) You can increase the number of hammerhead shark to 10 of them.\n
 5) You can change the speed that the hammerhead shark swims.\n
@@ -65,6 +66,18 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 Newly ChangeLog:\n
+jinbei3d (1.0.3) stable; urgency=low\n
+\n
+\t* Adjusted parameter of BOIDS\n
+\t* Changed Max number of Sardines to 150\n
+\t\t- if your device become slow or choppy, please adjust\n
+\t\tspeed and number of sardines.\n
+\t* Separated "process of escape from enemy" from "process of BOIDS".\n
+\t\tBecause I want sardines to escape more intelligibly.\n
+\t* Speed up when sardine escape from enemy.\n
+\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Wed, 03 Aug 2011 22:56:10 +0900\n
+\n
 hammer3d (1.0.2) stable; urgency=high\n
 \n
 * Fixed Bug.\n

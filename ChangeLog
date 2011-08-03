@@ -1,3 +1,15 @@
+jinbei3d (1.0.3) stable; urgency=low
+
+  * Adjusted parameter of BOIDS
+  * Changed Max number of Sardines to 150
+    - if your device become slow or choppy, please adjust
+      speed and number of sardines.
+  * Separated "process of escape from enemy" from "process of BOIDS".
+    Because I want sardines to escape more intelligibly.
+  * Speed up when sardine escape from enemy.
+
+ -- Atsushi Konno <konno@qsdn.co.jp>  Wed, 03 Aug 2011 22:56:10 +0900
+
 hammer3d (1.0.2) stable; urgency=high
 
   * Fixed Bug.

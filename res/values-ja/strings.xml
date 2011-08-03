@@ -43,12 +43,11 @@
 Boidsアルゴリズムを使った鰯の群れをシミュレートする3Dライブ壁紙です。 \n
 (シュモクザメ付き)\n
 それぞれの鰯はそれぞれがBOIDSアルゴリズムに従い、進む方向を決定します。\n
-もし近くにシュモクザメがいる場合には、鰯は近くの群れに逃げようとします。\n
-近くに群れが無ければシュモクザメから離れようとします。\n
+もし近くにシュモクザメがいる場合には、鰯はシュモクザメから離れようとします。\n
 \n
 ★特徴:\n
 1) 「群れ」をシミュレートします。\n
-2) イワシの数は最大100匹まで設定可能です。\n
+2) イワシの数は最大150匹まで設定可能です。\n
 3) シュモクザメの数は最大10匹まで設定可能です。\n
 4) イワシの泳ぐスピードを変更できます。\n
 5) シュモクザメの泳ぐスピードを変更できます。\n
@@ -64,6 +63,18 @@ Boidsアルゴリズムを使った鰯の群れをシミュレートする3Dラ�
 ※頂点データ・テクスチャをメモリ上に読み込むため、メモリを大量消費します。\n
 \n
 ★最新の変更履歴:\n
+jinbei3d (1.0.3) stable; urgency=low\n
+\n
+\t* Adjusted parameter of BOIDS\n
+\t* Changed Max number of Sardines to 150\n
+\t\t- if your device become slow or choppy, please adjust\n
+\t\tspeed and number of sardines.\n
+\t* Separated "process of escape from enemy" from "process of BOIDS".\n
+\t\tBecause I want sardines to escape more intelligibly.\n
+\t* Speed up when sardine escape from enemy.\n
+\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Wed, 03 Aug 2011 22:56:10 +0900\n
+\n
 hammer3d (1.0.2) stable; urgency=high\n
 \n
 * Fixed Bug.\n

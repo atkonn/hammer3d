@@ -51,7 +51,7 @@ public class GLRenderer {
   private static final boolean _debug = false;
   private static final String TAG = GLRenderer.class.getName();
   /** IWASHI is sardine. it is japanese. */
-  public static final int MAX_IWASHI_COUNT = 100;
+  public static final int MAX_IWASHI_COUNT = 150;
   /** SHUMOKU ZAME is hammerhead shark. it is japanese. */
   public static final int MAX_SHUMOKU_COUNT = 10;
   private final Background background = new Background();

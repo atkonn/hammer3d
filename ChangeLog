@@ -1,6 +1,6 @@
 hammer3d (1.0.4) stable; urgency=low
 
-  * Changed color of setting activities.
+  * Enable DITHER
 
  -- Atsushi Konno <konno@qsdn.co.jp>  Sat, 06 Aug 2011 18:22:33 +0900
 

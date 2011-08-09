@@ -66,7 +66,14 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 Newly ChangeLog:\n
-jinbei3d (1.0.3) stable; urgency=low\n
+hammer3d (1.0.4) stable; urgency=low\n
+\n
+\t* Enable DITHER\n
+\t* Deleted extra processing.\n
+\n
+ -- Atsushi Konno &gt;konno@qsdn.co.jp&gt;  Wed, 10 Aug 2011 01:53:19 +0900\n
+\n
+hammer3d (1.0.3) stable; urgency=low\n
 \n
 \t* Adjusted parameter of BOIDS\n
 \t* Changed Max number of Sardines to 150\n

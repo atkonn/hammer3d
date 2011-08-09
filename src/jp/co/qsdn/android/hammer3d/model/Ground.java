@@ -148,7 +148,7 @@ public class Ground {
 
     /* mBitmapがnullの場合がある・・・ */
     if (BitmapContext.instance().getBitmap() != null) {
-      Bitmap bmp = BitmapContext.instance().getBitmap().copy(Bitmap.Config.ARGB_8888,true);
+      Bitmap bmp = BitmapContext.instance().getBitmap().copy(Bitmap.Config.RGB_565,true);
       if (bmp != null) {
         Canvas canvas = new Canvas(bmp);
         

@@ -5,7 +5,7 @@
   <string name="service_name">HammerheadShark and Sardines</string>
   <string name="description">3D live wallpaper that used BOIDS algorithm</string>
   <string name="author">QSDN,Inc.</string>
-  <string name="version">version 1.0.4</string>
+  <string name="version">version 1.0.5</string>
   <string name="copyright">Copyright (c) 2011 QSDN,Inc. All rights reserved.</string>
 
   <string name="setting_title">Settings</string>
@@ -66,12 +66,19 @@ Requirement:\n
 3) Over 3MB Heep memory area.\n
 \n
 Newly ChangeLog:\n
+hammer3d (1.0.5) stable; urgency=high\n
+\n
+\t* Fixed Bug\n
+\t\t- Crashed on Galaxy NEXUS(Android 4.0)\n
+\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Tue, 28 Feb 2012 09:47:55 +0900\n
+\n
 hammer3d (1.0.4) stable; urgency=low\n
 \n
 \t* Enable DITHER\n
 \t* Deleted extra processing.\n
 \n
- -- Atsushi Konno &gt;konno@qsdn.co.jp&gt;  Wed, 10 Aug 2011 01:53:19 +0900\n
+ -- Atsushi Konno &lt;konno@qsdn.co.jp&gt;  Wed, 10 Aug 2011 01:53:19 +0900\n
 \n
 hammer3d (1.0.3) stable; urgency=low\n
 \n

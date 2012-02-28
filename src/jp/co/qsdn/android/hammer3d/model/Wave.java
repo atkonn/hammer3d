@@ -191,6 +191,10 @@ public class Wave {
     gl10.glTexCoordPointer(2, GL10.GL_FLOAT, 0, mTextureBuffer);
 
 
+    gl10.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+    gl10.glDisableClientState(GL10.GL_NORMAL_ARRAY);
+    gl10.glDisableClientState(GL10.GL_COLOR_ARRAY);
+    gl10.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
     /*-----------------------------------------------------------------------*/
     /* 頂点描画                                                              */
     /*-----------------------------------------------------------------------*/

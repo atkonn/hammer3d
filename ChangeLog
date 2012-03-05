@@ -1,3 +1,13 @@
+hammer3d (1.0.6) stable; urgency=low
+
+  * Fixed BUG
+    Texture failure.
+    1) Sony Ericsson Xperia SO-01B(maybe P-02D)
+    2) Samsung Galaxy NEXUS SC-04D
+    3) Samsung Galaxy S SC-02B
+
+ -- Atsushi Konno <konno@qsdn.co.jp>  Tue, 06 Mar 2012 02:35:28 +0900
+
 hammer3d (1.0.4) stable; urgency=low
 
   * Enable DITHER

@@ -135,10 +135,10 @@ public class AtlantisService extends WallpaperService {
 
     int[][] configSpec = {
       {  
-        // RGB8888 color 
-        EGL10.EGL_RED_SIZE,     8,
-        EGL10.EGL_GREEN_SIZE,   8, 
-        EGL10.EGL_BLUE_SIZE,    8, 
+        // RGB565 color 
+        EGL10.EGL_RED_SIZE,     5,
+        EGL10.EGL_GREEN_SIZE,   6, 
+        EGL10.EGL_BLUE_SIZE,    5, 
         EGL10.EGL_ALPHA_SIZE,   EGL10.EGL_DONT_CARE, 
         EGL10.EGL_DEPTH_SIZE,   24,
         EGL10.EGL_STENCIL_SIZE, EGL10.EGL_DONT_CARE,

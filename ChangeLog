@@ -1,3 +1,10 @@
+hammer3d (1.0.7) stable; urgency=low
+
+  * Fixed BUG.
+    - Crash on HTC Desire(X06HT).
+
+ -- konno <konno@qsdn.co.jp>  Sun, 06 May 2012 00:00:16 +0900
+
 hammer3d (1.0.6) stable; urgency=low
 
   * Fixed BUG
